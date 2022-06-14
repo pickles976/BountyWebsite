@@ -1,14 +1,5 @@
 from django.db import models
 
-# Image used for any kind of thing
-# TODO: switch to legitimate image usage in django
-class Image(models.Model):
-
-    def __str__(self):
-        return f"{self.url}"
-    
-    url = models.CharField(max_length=200)
-
 # User
 # TODO: override with Django auth user model
 class User(models.Model):
@@ -19,7 +10,6 @@ class User(models.Model):
     name = models.CharField(max_length=100)
     password = models.CharField(max_length=32,blank=True,null=True)
     payment_info = models.CharField(max_length=35,blank=True,null=True)
-    image = models.ForeignKey(Image,on_delete=models.CASCADE)
     time_created = models.DateTimeField(auto_now=True)
 
 
@@ -30,13 +20,20 @@ class Bounty(models.Model):
         return f"{self.description}"
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    images = models.ManyToManyField(Image)
+    description = models.CharField(max_length=200,default="",blank=True)
+    price = models.DecimalField(default=0,decimal_places=10,max_digits=20,blank=True)
+    num_accepted = models.IntegerField(default=0,blank=True)
+    time_created = models.DateTimeField(auto_now=True,blank=True)
+    is_completed = models.BooleanField(default=False,blank=True)
 
-    description = models.CharField(max_length=200,default="",blank=True,null=True)
-    price = models.DecimalField(max_length=200,default=0,decimal_places=5,max_digits=20)
-    num_accepted = models.IntegerField(default=0)
-    time_created = models.DateTimeField(auto_now=True)
-    is_completed = models.BooleanField(default=False)
+# Image used for any kind of thing
+class BountyImage(models.Model):
+
+    def __str__(self):
+        return f"{self.bounty}"
+    
+    bounty = models.ForeignKey(Bounty,default=None,on_delete=models.CASCADE,blank=True)
+    image = models.ImageField(verbose_name="BountyImage")
 
 # A completion of a Bounty
 class Completion(models.Model):
@@ -51,7 +48,6 @@ class Completion(models.Model):
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE)
-    images = models.ManyToManyField(Image)
 
     coordinates = models.CharField(max_length=200)
     description = models.CharField(max_length=400)

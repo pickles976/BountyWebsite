@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader
+from django.forms import modelformset_factory
 from .forms import UserForm, BountyForm, CompletionForm
-from .models import User, Bounty, Completion
+from .models import User, Bounty, Completion, BountyImage
 
 
 def index(request):
@@ -26,11 +27,23 @@ def user(request,unique_id):
 
 # BOUNTY
 def create_bounty(request):
+
     context = {}
     form = BountyForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
+
+        # create bounty
         new_bounty = form.save()
+
+        # create and link images
+        files = request.POST.getlist("files")
+        for f in files:
+            img = BountyImage.objects.create(bounty=new_bounty,image=f)
+            img.save()
+
+
+        print(request.POST)
         return HttpResponseRedirect(f"/polls/bounty/{new_bounty.pk}/")
 
     context["form"] = form
