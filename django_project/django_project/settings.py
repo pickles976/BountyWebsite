@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "blog.apps.BlogConfig",
     "users.apps.UsersConfig",
+    "bounty.apps.BountyConfig",
     "crispy_forms",
 ]
 
@@ -129,5 +130,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-LOGIN_REDIRECT_URL = "blog-home"
+LOGIN_REDIRECT_URL = "bounty-home"
 LOGIN_URL = "login"
