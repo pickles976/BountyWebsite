@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Bounty
+from .models import Bounty, Completion
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -9,6 +9,9 @@ def home(request):
         "bounties" : Bounty.objects.all()
     }
     return render(request,"bounty/home.html",context)
+
+def about(request):
+    return render(request,"bounty/about.html",{"title": "About"})
 
 class BountyListView(ListView):
     model = Bounty
@@ -62,5 +65,12 @@ class BountyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-def about(request):
-    return render(request,"bounty/about.html",{"title": "About"})
+class CompletionCreateView(LoginRequiredMixin, CreateView):
+
+    model = Completion
+    fields = ["title", "description", "image"]
+
+    def form_valid(self,form):
+        form.instance.author = self.request.user
+        form.instance.bounty = Bounty.objects.get(pk=self.kwargs["bounty"])
+        return super().form_valid(form)

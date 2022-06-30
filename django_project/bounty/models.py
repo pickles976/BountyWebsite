@@ -25,3 +25,23 @@ class Bounty(models.Model):
     # resolves: No URL to redirect to.  Either provide a url or define a get_absolute_url method on the Model.
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.pk})
+
+class Completion(models.Model):
+
+    bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE)
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
+    #coordinates
+    title = models.CharField(max_length=128)
+    description = models.TextField()
+    image = models.ImageField(default="default.jpg",upload_to="bounty_images")
+
+    class Options(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        ACCEPTED = "ACCEPTED", "Accepted"
+        REJECTED = "REJECTED", "Rejected"
+
+    is_completed = models.CharField(max_length=8,choices=Options.choices,default=Options.PENDING)
+
+    def get_absolute_url(self):
+        return reverse("bounty-detail",kwargs={"pk": self.bounty.id})
+

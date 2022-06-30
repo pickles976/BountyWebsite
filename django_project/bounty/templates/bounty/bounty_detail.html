@@ -17,6 +17,7 @@
         <p class="article-content">{{ object.description }}</p>
         <img class="rounded-circle account-img" src="{{ object.image.url }}">
         <h3 class="article-metadata">{{ object.price }}</h3>
+        <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
         </div>
     </article>
 {% endblock content %}
