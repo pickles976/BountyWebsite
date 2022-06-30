@@ -41,6 +41,11 @@ class BountyCreateView(LoginRequiredMixin, CreateView):
 class BountyDetailView(DetailView):
     model = Bounty
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['completions'] = Completion.objects.filter(bounty=self.object)
+        return context
+
 class BountyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Bounty
     fields = ["title", "description", "image"]
@@ -74,3 +79,16 @@ class CompletionCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         form.instance.bounty = Bounty.objects.get(pk=self.kwargs["bounty"])
         return super().form_valid(form)
+
+class CompletionDetailView(DetailView):
+    model = Completion
+
+class CompletionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Completion
+    success_url = "completion"
+
+    def test_func(self):
+        completion = self.get_object()
+        if self.request.user == completion.author:
+            return True
+        return False
