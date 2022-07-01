@@ -1,5 +1,7 @@
 {% extends "bounty/base.html" %}
 {% block content %}
+    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' %}">Open Bounties</a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-completed' %}">Closed Bounties</a>
     {% for bounty in bounties %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ bounty.image.url }}" />
@@ -11,10 +13,10 @@
             <h2>
                 <a class="article-title" href="{% url 'bounty-detail' bounty.id %}">{{ bounty.title }}</a>
             </h2>
-            <p class="article-content">{{ bounty.description }}</p>
-            <p class="article-metadata">{{ bounty.price }} BTC</p>
-            <p class="article-metadata">Number of Accepted: {{ bounty.num_accepted }}</p>
-            <p class="article-metadata">Number of Completions: {{ bounty.num_submissions }}</p>
+                <p class="article-content">{{ bounty.description }}</p>
+                <p class="article-metadata">{{ bounty.price }} BTC</p>
+                <p class="article-metadata">Number of Accepted: {{ bounty.num_accepted }}</p>
+                <p class="article-metadata">Number of Completions: {{ bounty.num_submissions }}</p>
             </div>
         </article>
     {% endfor %}

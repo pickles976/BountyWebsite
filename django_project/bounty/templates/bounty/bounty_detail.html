@@ -17,8 +17,11 @@
         <p class="article-content">{{ object.description }}</p>
         <img class="rounded-circle account-img" src="{{ object.image.url }}">
         <h3 class="article-metadata">{{ object.price }}</h3>
-        <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
 
+        {% if object.author != user %}
+            <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
+        {% endif %}
+        
         {% for completion in completions %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ completion.image.url }}" />
@@ -31,7 +34,7 @@
                 <a class="article-title" href="{% url 'completion-detail' completion.id %}">{{ completion.title }}</a>
             </h2>
             <p class="article-content">{{ completion.description }}</p>
-            <a class="article-metadata">{{ bounty.status }}</a>
+            <p class="article-metadata">{{ completion.is_completed }}</p>
             </div>
         </article>
         {% endfor %}
