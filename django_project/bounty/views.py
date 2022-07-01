@@ -44,7 +44,7 @@ class UserBountyListView(ListView):
 # View for bounty creation
 class BountyCreateView(LoginRequiredMixin, CreateView):
     model = Bounty
-    fields = ["title", "description", "price", "image"]
+    fields = ["title", "description", "image"]
 
     def form_valid(self,form):
         form.instance.author = self.request.user

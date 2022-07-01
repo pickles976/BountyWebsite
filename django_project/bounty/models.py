@@ -34,6 +34,7 @@ class Completion(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField()
     image = models.ImageField(default="default.jpg",upload_to="bounty_images")
+    date_posted = models.DateTimeField(default=timezone.now)
 
     class Options(models.TextChoices):
         PENDING = "PENDING", "Pending"
