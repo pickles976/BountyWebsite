@@ -12,7 +12,9 @@
                 <a class="article-title" href="{% url 'bounty-detail' bounty.id %}">{{ bounty.title }}</a>
             </h2>
             <p class="article-content">{{ bounty.description }}</p>
-            <a class="article-metadata">{{ bounty.price }} BTC</a>
+            <p class="article-metadata">{{ bounty.price }} BTC</p>
+            <p class="article-metadata">Number of Accepted: {{ bounty.num_accepted }}</p>
+            <p class="article-metadata">Number of Completions: {{ bounty.num_submissions }}</p>
             </div>
         </article>
     {% endfor %}

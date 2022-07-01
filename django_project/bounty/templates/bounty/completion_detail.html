@@ -15,7 +15,7 @@
         <h2 class="article-title" >{{ object.title }}</h2>
         <p class="article-content">{{ object.description }}</p>
         <img class="rounded-circle account-img" src="{{ object.image.url }}">
-        <h3 class="article-metadata">{{ object.status }}</h3>
+        <h3 class="article-metadata">{{ object.is_completed }}</h3>
         </div>
     </article>
 {% endblock content %}
