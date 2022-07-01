@@ -25,5 +25,4 @@ urlpatterns = [
     path("completion/<int:pk>/", CompletionDetailView.as_view(),name="completion-detail"),
     path("completion/<int:pk>/delete/", CompletionDeleteView.as_view(),name="completion-delete"),
     path("completion/<int:pk>/<str:status>/", views.completionAcceptView,name="completion-accept"),
-    # path("completion/<int:pk>/reject/", views.CompletionRejectView,name="completion-reject"),
 ]

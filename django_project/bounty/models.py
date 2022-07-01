@@ -9,8 +9,7 @@ class Bounty(models.Model):
 
     title = models.CharField(max_length=128)
     description = models.TextField()
-    price = models.DecimalField(max_digits=20,decimal_places=10)
-    num_accepted = models.IntegerField(default=0)
+    price = models.DecimalField(max_digits=20,decimal_places=10,null=True,blank=True)
     num_submissions = models.IntegerField(default=0)
     date_posted = models.DateTimeField(default=timezone.now)
     is_completed = models.BooleanField(default=False)

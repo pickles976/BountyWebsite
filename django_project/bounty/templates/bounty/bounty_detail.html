@@ -1,5 +1,6 @@
 {% extends "bounty/base.html" %}
 {% block content %}
+    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'bounty-home' %}">Back</a>
     <article class="media content-section">
         <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" />
         <div class="media-body">
@@ -22,6 +23,7 @@
             <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
         {% endif %}
         
+        <h2>Completions:</h2>
         {% for completion in completions %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ completion.image.url }}" />
@@ -30,9 +32,9 @@
                 <a class="mr-2" href="{% url 'user-bounties' bounty.author.username %}">{{ completion.author }}</a>
                 <small class="text-muted">{{ completion.date_posted|date:"F d, Y" }}</small>
             </div>
-            <h2>
+            <h3>
                 <a class="article-title" href="{% url 'completion-detail' completion.id %}">{{ completion.title }}</a>
-            </h2>
+            </h3>
             <p class="article-content">{{ completion.description }}</p>
             <p class="article-metadata">{{ completion.is_completed }}</p>
             </div>
