@@ -45,6 +45,7 @@
             <h3>
                 <a class="article-title" href="{% url 'completion-detail' completion.id %}">{{ completion.title }}</a>
             </h3>
+            <p class="article-content">{{ completion.latitude }}° N {{ completion.longitude }}° E</p>
             {% for image in completion.images_set.all %}
                 <img class="article-img" src="{{ image.image.url }}" />
             {% endfor %}
