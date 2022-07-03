@@ -19,6 +19,7 @@
             {% endif %}
         </div>
         <h2 class="article-title" >{{ object.title }}</h2>
+        <p class="article-title" >Lat: {{ object.latitude }} Lon: {{ object.longitude }}</p>
         <p class="article-content">{{ object.description }}</p>
         {% for image in object.images_set.all %}
             <img class="detail-img" src="{{ image.image.url }}" />

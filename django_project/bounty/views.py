@@ -195,7 +195,9 @@ def completionAcceptView(request,pk,status):
             comp.is_completed = "REJECTED"
             comp.save()
 
-    completion.is_completed = status
-    completion.save()
+        completion.is_completed = status
+        completion.save()
 
-    return redirect("bounty-detail",completion.bounty.pk)
+        return redirect("bounty-detail",completion.bounty.pk)
+
+    return redirect("rejection-reason",completion.pk)

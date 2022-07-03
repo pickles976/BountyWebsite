@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from PIL import Image
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Bounty(models.Model):
@@ -26,7 +27,8 @@ class Completion(models.Model):
 
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
-    #coordinates
+    latitude = models.DecimalField(max_digits=8,decimal_places=6)
+    longitude = models.DecimalField(max_digits=9,decimal_places=6)
     title = models.CharField(max_length=128)
     description = models.TextField()
     image = models.ImageField(default="default.jpg",upload_to="bounty_images")
@@ -41,6 +43,15 @@ class Completion(models.Model):
 
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.bounty.id})
+
+    def clean(self):
+        if self.latitude > 90 or self.latitude < -90:
+            raise ValidationError(
+                {'latitude': "Latitude must be between -90 and 90!"})
+
+        if self.longitude > 180 or self.longitude < -180:
+            raise ValidationError(
+                {'longitude': "Longitude must be between -180 and 180!"})
 
 class Images(models.Model):
 
