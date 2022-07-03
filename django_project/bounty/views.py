@@ -22,19 +22,13 @@ class BountyListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        # return Bounty.objects.filter(is_completed=False).order_by("-date_posted")
-        return Bounty.objects.filter(is_completed=False).prefetch_related("images_set").order_by("-date_posted")
 
-# List view of Bounties
-class BountyListViewCompleted(ListView):
-    model = Bounty
-    template_name = "bounty/home.html" # <app>/<model>_<viewtype>.html
-    context_object_name = "bounties"
-    ordering = ["-date_posted"]
-    paginate_by = 10
+        status = self.kwargs.get("status")
 
-    def get_queryset(self):
-        return Bounty.objects.filter(is_completed=True).order_by("-date_posted")
+        if status == "open":
+            return Bounty.objects.filter(is_completed=False).prefetch_related("images_set").order_by("-date_posted")
+        else:
+            return Bounty.objects.filter(is_completed=True).prefetch_related("images_set").order_by("-date_posted")
 
 # List view of bounties for currently authenticated user
 class UserBountyListView(ListView):

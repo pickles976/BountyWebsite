@@ -9,7 +9,9 @@
             <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
             {% if object.author == user %}
                 <div>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bounty-update' object.id %}">Update</a>
+                    {% if object.is_completed != True %}
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'bounty-update' object.id %}">Update</a>
+                    {% endif %}
                     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'bounty-delete' object.id %}">Delete</a>
                 </div>
             {% endif %}
@@ -21,7 +23,7 @@
         <p class="article-content">{{ object.description }}</p>
         <!-- <h3 class="article-metadata">{{ object.price }}</h3> -->
 
-        {% if object.author != user %}
+        {% if object.author != user and object.is_completed == False %}
             <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
         {% endif %}
         

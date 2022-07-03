@@ -1,7 +1,7 @@
 {% extends "bounty/base.html" %}
 {% block content %}
-    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' %}">Open Bounties</a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-completed' %}">Closed Bounties</a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' 'open' %}">Open Bounties</a>
+    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' 'closed' %}">Closed Bounties</a>
     {% for bounty in bounties %}
         <article class="media content-section">
             <img class="rounded-circle article-thumb" src="{{ bounty.author.profile.image.url }}" />

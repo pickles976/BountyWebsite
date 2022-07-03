@@ -12,10 +12,12 @@
                     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'completion-delete' object.id %}">Delete</a>
                 </div>
             {% elif object.bounty.author == user %}
-                <div>
-                    <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'completion-accept' object.id 'ACCEPTED' %}">Accept</a>
-                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'completion-accept' object.id 'REJECTED' %}">Reject</a>
-                </div>
+                {% if object.is_completed == "PENDING" %}
+                    <div>
+                        <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'completion-accept' object.id 'ACCEPTED' %}">Accept</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'completion-accept' object.id 'REJECTED' %}">Reject</a>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
         <h2 class="article-title" >{{ object.title }}</h2>
