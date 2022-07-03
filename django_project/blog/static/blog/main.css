@@ -50,9 +50,25 @@ body {
   }
   
   .article-img {
-    height: 65px;
-    width: 65px;
-    margin-right: 16px;
+    max-width: 200px;
+    max-height: 150px;
+    min-width: 200px;
+    min-height: 150px;
+    margin-right: 8px;
+  }
+
+  .detail-img {
+    max-width: 400px;
+    max-height: 300px;
+    min-width: 400px;
+    min-height: 300px;
+    margin-right: 8px;
+  }
+
+  .article-thumb {
+    max-height: 65px;
+    max-width: 65px;
+    margin-right: 8px;
   }
   
   .article-metadata {

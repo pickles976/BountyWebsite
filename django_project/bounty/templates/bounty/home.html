@@ -4,7 +4,7 @@
     <a class="btn btn-outline-info mb-4" href="{% url 'bounty-completed' %}">Closed Bounties</a>
     {% for bounty in bounties %}
         <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ bounty.image.url }}" />
+            <img class="rounded-circle article-thumb" src="{{ bounty.author.profile.image.url }}" />
             <div class="media-body">
             <div class="article-metadata">
                 <a class="mr-2" href="{% url 'user-bounties' bounty.author.username %}">{{ bounty.author }}</a>
@@ -14,6 +14,9 @@
                 <a class="article-title" href="{% url 'bounty-detail' bounty.id %}">{{ bounty.title }}</a>
             </h2>
                 <p class="article-content">{{ bounty.description }}</p>
+                {% for image in bounty.images_set.all %}
+                    <img class="article-img" src="{{ image.image.url }}" />
+                {% endfor %}
                 <!-- <p class="article-metadata">{{ bounty.price }} BTC</p> -->
                 <p class="article-metadata">Number of Completions: {{ bounty.num_submissions }}</p>
             </div>

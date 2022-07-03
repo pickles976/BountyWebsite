@@ -13,10 +13,7 @@ class Bounty(models.Model):
     num_submissions = models.IntegerField(default=0)
     date_posted = models.DateTimeField(default=timezone.now)
     is_completed = models.BooleanField(default=False)
-
-    author = models.ForeignKey(User,on_delete=models.CASCADE)
-
-    image = models.ImageField(default="default.jpg",upload_to="bounty_images")
+    author = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return self.title
@@ -44,4 +41,9 @@ class Completion(models.Model):
 
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.bounty.id})
+
+class Images(models.Model):
+
+    bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="bounty_images")
 

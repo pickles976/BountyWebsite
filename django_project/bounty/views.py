@@ -1,9 +1,14 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Bounty, Completion
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Bounty, Completion, Images
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
+from django.forms import modelformset_factory
+from django.contrib import messages
+from django.http import HttpResponseRedirect
+from .forms import ImageForm, BountyForm
+from django.db.models import Subquery, OuterRef
 
 def about(request):
     return render(request,"bounty/about.html",{"title": "About"})
@@ -17,7 +22,8 @@ class BountyListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Bounty.objects.filter(is_completed=False).order_by("-date_posted")
+        # return Bounty.objects.filter(is_completed=False).order_by("-date_posted")
+        return Bounty.objects.filter(is_completed=False).prefetch_related("images_set").order_by("-date_posted")
 
 # List view of Bounties
 class BountyListViewCompleted(ListView):
@@ -41,14 +47,42 @@ class UserBountyListView(ListView):
         user = get_object_or_404(User,username=self.kwargs.get("username"))
         return Bounty.objects.filter(author=user).order_by("-date_posted")
 
-# View for bounty creation
-class BountyCreateView(LoginRequiredMixin, CreateView):
-    model = Bounty
-    fields = ["title", "description", "image"]
+# view for creating bounties
+@login_required
+def postBountyView(request):
+ 
+    ImageFormSet = modelformset_factory(Images,
+                                        form=ImageForm, extra=3)
+    #'extra' means the number of photos that you can upload   ^
+    if request.method == 'POST':
+    
+        bountyForm = BountyForm(request.POST)
+        formset = ImageFormSet(request.POST, request.FILES,
+                               queryset=Images.objects.none())
+    
+    
+        if bountyForm.is_valid() and formset.is_valid():
+            post_form = bountyForm.save(commit=False)
+            post_form.author = request.user
+            post_form.save()
+    
+            for form in formset.cleaned_data:
+                #this helps to not crash if the user   
+                #do not upload all the photos
+                if form:
+                    image = form['image']
+                    photo = Images(bounty=post_form, image=image)
+                    photo.save()
 
-    def form_valid(self,form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+            # use django messages framework
+            messages.success(request,"Bounty created successfully")
+            return redirect("bounty-detail",post_form.pk)
+        else:
+            print(bountyForm.errors, formset.errors)
+    else:
+        bountyForm = BountyForm()
+        formset = ImageFormSet(queryset=Images.objects.none())
+    return render(request, 'bounty/post_bounty_form.html',{'bountyForm': bountyForm, 'formset': formset})
 
 # View for looking at a Bounty
 class BountyDetailView(DetailView):
@@ -76,7 +110,7 @@ class BountyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class BountyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Bounty
-    success_url = "/bounty/"
+    success_url = "/"
 
     def test_func(self):
         bounty = self.get_object()
