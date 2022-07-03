@@ -31,6 +31,7 @@ class Completion(models.Model):
     longitude = models.DecimalField(max_digits=9,decimal_places=6)
     title = models.CharField(max_length=128)
     description = models.TextField()
+    rejection_reason = models.TextField(null=True)
     image = models.ImageField(default="default.jpg",upload_to="bounty_images")
     date_posted = models.DateTimeField(default=timezone.now)
 

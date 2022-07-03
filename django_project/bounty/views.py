@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from .forms import ImageForm, BountyForm, CompletionForm
+from .forms import ImageForm, BountyForm, CompletionForm, TextForm
 from django.db.models import Subquery, OuterRef
 
 def about(request):
@@ -118,17 +118,6 @@ class BountyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-# # View for creating a completion
-# class CompletionCreateView(LoginRequiredMixin, CreateView):
-
-#     model = Completion
-#     fields = ["title", "description", "image"]
-
-#     def form_valid(self,form):
-#         form.instance.author = self.request.user
-#         form.instance.bounty = Bounty.objects.get(pk=self.kwargs["bounty"])
-#         return super().form_valid(form)
-
 # view for creating completions
 @login_required
 def postCompletionView(request,bounty):
@@ -201,3 +190,19 @@ def completionAcceptView(request,pk,status):
         return redirect("bounty-detail",completion.bounty.pk)
 
     return redirect("rejection-reason",completion.pk)
+
+def rejectionReasonView(request,pk):
+
+    completion = Completion.objects.get(pk=pk)
+
+    if request.method == "POST":
+
+        form = TextForm(request.POST)
+        if form.is_valid():
+            completion.rejection_reason = form.cleaned_data.get("text")
+            completion.save()
+
+        return redirect("bounty-detail",completion.bounty.pk)
+
+    form = TextForm()
+    return render(request, 'bounty/rejection_reason.html',{'form': form})

@@ -25,6 +25,7 @@
             <img class="detail-img" src="{{ image.image.url }}" />
         {% endfor %}
         <h3 class="article-metadata">{{ object.is_completed }}</h3>
+        <p>Reason: {{ object.rejection_reason }}</p>
         </div>
     </article>
 {% endblock content %}

@@ -9,7 +9,8 @@ from .views import ( BountyListView,
                         CompletionDetailView,
                         CompletionDeleteView,
                         postBountyView,
-                        postCompletionView )
+                        postCompletionView,
+                        rejectionReasonView )
 from . import views
 
 urlpatterns = [
@@ -27,4 +28,5 @@ urlpatterns = [
     path("completion/<int:pk>/", CompletionDetailView.as_view(),name="completion-detail"),
     path("completion/<int:pk>/delete/", CompletionDeleteView.as_view(),name="completion-delete"),
     path("completion/<int:pk>/<str:status>/", views.completionAcceptView,name="completion-accept"),
+    path("reject/<int:pk>/", views.rejectionReasonView,name="rejection-reason"),
 ]

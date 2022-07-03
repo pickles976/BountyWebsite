@@ -24,3 +24,9 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Images
         fields = ('image', )
+
+class TextForm(forms.Form):
+    text = forms.CharField()
+
+    class Meta:
+        fields = ["text"]
