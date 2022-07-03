@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from .forms import ImageForm, BountyForm
+from .forms import ImageForm, BountyForm, CompletionForm
 from django.db.models import Subquery, OuterRef
 
 def about(request):
@@ -52,7 +52,7 @@ class UserBountyListView(ListView):
 def postBountyView(request):
  
     ImageFormSet = modelformset_factory(Images,
-                                        form=ImageForm, extra=3)
+                                        form=ImageForm, extra=4)
     #'extra' means the number of photos that you can upload   ^
     if request.method == 'POST':
     
@@ -118,16 +118,55 @@ class BountyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-# View for creating a completion
-class CompletionCreateView(LoginRequiredMixin, CreateView):
+# # View for creating a completion
+# class CompletionCreateView(LoginRequiredMixin, CreateView):
 
-    model = Completion
-    fields = ["title", "description", "image"]
+#     model = Completion
+#     fields = ["title", "description", "image"]
 
-    def form_valid(self,form):
-        form.instance.author = self.request.user
-        form.instance.bounty = Bounty.objects.get(pk=self.kwargs["bounty"])
-        return super().form_valid(form)
+#     def form_valid(self,form):
+#         form.instance.author = self.request.user
+#         form.instance.bounty = Bounty.objects.get(pk=self.kwargs["bounty"])
+#         return super().form_valid(form)
+
+# view for creating completions
+@login_required
+def postCompletionView(request,bounty):
+ 
+    ImageFormSet = modelformset_factory(Images,
+                                        form=ImageForm, extra=4)
+    #'extra' means the number of photos that you can upload   ^
+    if request.method == 'POST':
+    
+        completionForm = CompletionForm(request.POST)
+        formset = ImageFormSet(request.POST, request.FILES,
+                               queryset=Images.objects.none())
+    
+    
+        if completionForm.is_valid() and formset.is_valid():
+            post_form = completionForm.save(commit=False)
+            post_form.author = request.user
+            post_form.bounty = Bounty.objects.get(pk=bounty)
+            post_form.save()
+    
+            for form in formset.cleaned_data:
+                #this helps to not crash if the user   
+                #do not upload all the photos
+                if form:
+                    image = form['image']
+                    photo = Images(completion=post_form, image=image)
+                    photo.save()
+
+            # use django messages framework
+            messages.success(request,"Completion created successfully")
+            return redirect("completion-detail",post_form.pk)
+        else:
+            print(completionForm.errors, formset.errors)
+    else:
+        completionForm = CompletionForm()
+        formset = ImageFormSet(queryset=Images.objects.none())
+    return render(request, 'bounty/post_completion_form.html',{'completionForm': completionForm, 'formset': formset})
+
 
 class CompletionDetailView(DetailView):
     model = Completion

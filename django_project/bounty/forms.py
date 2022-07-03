@@ -1,5 +1,5 @@
 from django import forms
-from .models import Bounty, Images
+from .models import Bounty, Images, Completion
 
 class BountyForm(forms.ModelForm):
 
@@ -9,8 +9,16 @@ class BountyForm(forms.ModelForm):
     class Meta:
         model = Bounty
         fields = ['title', 'description', ]
+
+class CompletionForm(forms.ModelForm):
+
+    title = forms.CharField(max_length=128)
+    description = forms.CharField(max_length=1024, label="Description")
  
- 
+    class Meta:
+        model = Completion
+        fields = ['title', 'description', ]
+
 class ImageForm(forms.ModelForm):
     image = forms.ImageField(label='Image')    
     class Meta:

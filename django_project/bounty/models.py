@@ -24,7 +24,7 @@ class Bounty(models.Model):
 
 class Completion(models.Model):
 
-    bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE)
+    bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     #coordinates
     title = models.CharField(max_length=128)
@@ -44,6 +44,7 @@ class Completion(models.Model):
 
 class Images(models.Model):
 
-    bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE)
+    bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
+    completion = models.ForeignKey(Completion,on_delete=models.CASCADE,null=True)
     image = models.ImageField(upload_to="bounty_images")
 

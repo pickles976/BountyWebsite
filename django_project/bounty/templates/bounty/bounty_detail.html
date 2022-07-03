@@ -28,7 +28,7 @@
         <h2>Completions:</h2>
         {% for completion in completions %}
         <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ completion.image.url }}" />
+            <img class="rounded-circle article-thumb" src="{{ completion.image.url }}" />
             <div class="media-body">
             <div class="article-metadata">
                 <a class="mr-2" href="{% url 'user-bounties' bounty.author.username %}">{{ completion.author }}</a>
@@ -37,6 +37,9 @@
             <h3>
                 <a class="article-title" href="{% url 'completion-detail' completion.id %}">{{ completion.title }}</a>
             </h3>
+            {% for image in completion.images_set.all %}
+                <img class="article-img" src="{{ image.image.url }}" />
+            {% endfor %}
             <p class="article-content">{{ completion.description }}</p>
             <p class="article-metadata">{{ completion.is_completed }}</p>
             </div>

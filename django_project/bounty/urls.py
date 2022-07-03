@@ -6,10 +6,10 @@ from .views import ( BountyListView,
                         UserBountyListView, 
                         BountyUpdateView, 
                         BountyDeleteView, 
-                        CompletionCreateView, 
                         CompletionDetailView,
                         CompletionDeleteView,
-                        postBountyView )
+                        postBountyView,
+                        postCompletionView )
 from . import views
 
 urlpatterns = [
@@ -22,7 +22,8 @@ urlpatterns = [
     path("bounty/<int:pk>/", BountyDetailView.as_view(),name="bounty-detail"),
     path("bounty/<int:pk>/update/", BountyUpdateView.as_view(),name="bounty-update"),
     path("bounty/<int:pk>/delete/", BountyDeleteView.as_view(),name="bounty-delete"),
-    path("completion/new/<int:bounty>/", CompletionCreateView.as_view(),name="completion-create"),
+    # path("completion/new/<int:bounty>/", CompletionCreateView.as_view(),name="completion-create"),
+    path("completion/new/<int:bounty>/", postCompletionView,name="completion-create"),
     path("completion/<int:pk>/", CompletionDetailView.as_view(),name="completion-detail"),
     path("completion/<int:pk>/delete/", CompletionDeleteView.as_view(),name="completion-delete"),
     path("completion/<int:pk>/<str:status>/", views.completionAcceptView,name="completion-accept"),
