@@ -11,9 +11,14 @@
                 <small class="text-muted">{{ bounty.date_posted|date:"F d, Y" }}</small>
             </div>
             <h2>
-                <a class="article-title" href="{% url 'bounty-detail' bounty.id %}">{{ bounty.title }}</a>
+                <a class="article-title" href="{% url 'bounty-detail' bounty.id %}">{{ bounty.title }}
+                        {% if bounty.is_completed %}
+                            (CLOSED)
+                        {% else %}
+                            (OPEN)
+                        {% endif %}
+                </a>
             </h2>
-                <!-- <p class="article-content">{{ bounty.description }}</p> -->
                 {% for image in bounty.images_set.all %}
                     <img class="article-img" src="{{ image.image.url }}" />
                 {% endfor %}

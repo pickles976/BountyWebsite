@@ -27,8 +27,10 @@ class BountyListView(ListView):
 
         if status == "open":
             return Bounty.objects.filter(is_completed=False).prefetch_related("images_set").order_by("-date_posted")
-        else:
+        elif status == "closed":
             return Bounty.objects.filter(is_completed=True).prefetch_related("images_set").order_by("-date_posted")
+        else:
+            return Bounty.objects.all().prefetch_related("images_set").order_by("-date_posted")
 
 # List view of bounties for currently authenticated user
 class UserBountyListView(ListView):
@@ -120,6 +122,10 @@ def postCompletionView(request,bounty):
                                         form=ImageForm, extra=4)
     #'extra' means the number of photos that you can upload   ^
     if request.method == 'POST':
+
+        if len(Completion.objects.filter(author=request.user,bounty=bounty)) > 0:
+            messages.error(request,"You have already created a completion for this bounty!")
+            return redirect("bounty-detail",bounty)
     
         completionForm = CompletionForm(request.POST)
         formset = ImageFormSet(request.POST, request.FILES,
@@ -156,7 +162,7 @@ class CompletionDetailView(DetailView):
 
 class CompletionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Completion
-    success_url = "completion"
+    success_url = "/"
 
     def test_func(self):
         completion = self.get_object()

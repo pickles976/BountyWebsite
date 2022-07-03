@@ -16,7 +16,13 @@
                 </div>
             {% endif %}
         </div>
-        <h2 class="article-title" >{{ object.title }}</h2>
+        <h2 class="article-title" >{{ object.title }}
+                {% if bounty.is_completed %}
+                    (CLOSED)
+                {% else %}
+                    (OPEN)
+                {% endif %}
+        </h2>
         {% for image in object.images_set.all %}
             <img class="detail-img" src="{{ image.image.url }}" />
         {% endfor %}

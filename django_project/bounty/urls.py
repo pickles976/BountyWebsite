@@ -23,7 +23,7 @@ urlpatterns = [
     path("bounty/<int:pk>/delete/", BountyDeleteView.as_view(),name="bounty-delete"),
     path("completion/new/<int:bounty>/", postCompletionView,name="completion-create"),
     path("completion/<int:pk>/", CompletionDetailView.as_view(),name="completion-detail"),
-    path("completion/<int:pk>/delete/", CompletionDeleteView.as_view(),name="completion-delete"),
+    path("delete/completion/<int:pk>", CompletionDeleteView.as_view(),name="completion-delete"),
     path("completion/<int:pk>/<str:status>/", views.completionAcceptView,name="completion-accept"),
     path("reject/<int:pk>/", views.rejectionReasonView,name="rejection-reason"),
 ]
