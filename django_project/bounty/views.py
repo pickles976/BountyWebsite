@@ -34,14 +34,18 @@ class BountyListView(ListView):
 
 # List view of bounties for currently authenticated user
 class UserBountyListView(ListView):
-    model = Bounty
+    # model = Bounty
     template_name = "bounty/user_bounties.html" # <app>/<model>_<viewtype>.html
     context_object_name = "bounties"
     paginate_by = 10
 
     def get_queryset(self):
         user = get_object_or_404(User,username=self.kwargs.get("username"))
-        return Bounty.objects.filter(author=user).order_by("-date_posted")
+        bounties = Bounty.objects.filter(author=user)
+        completions = Completion.objects.filter(author=user)
+        combined = list(bounties) + list(completions)
+        combined = sorted(combined,key=lambda x: x.date_posted)
+        return combined
 
 # view for creating bounties
 @login_required
