@@ -34,24 +34,9 @@
         {% endif %}
         
         <h2>Completions:</h2>
-        {% for completion in completions %}
+        {% for object in completions %}
         <article class="media content-section">
-            <img class="rounded-circle article-thumb" src="{{ completion.image.url }}" />
-            <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="{% url 'user-bounties' bounty.author.username %}">{{ completion.author }}</a>
-                <small class="text-muted">{{ completion.date_posted|date:"F d, Y" }}</small>
-            </div>
-            <h3>
-                <a class="article-title" href="{% url 'completion-detail' completion.id %}">{{ completion.title }}</a>
-            </h3>
-            <p class="article-content">{{ completion.latitude }}° N {{ completion.longitude }}° E</p>
-            {% for image in completion.images_set.all %}
-                <img class="article-img" src="{{ image.image.url }}" />
-            {% endfor %}
-            <p class="article-content">{{ completion.description }}</p>
-            <p class="article-metadata">{{ completion.is_completed }}</p>
-            </div>
+            {% include 'bounty/completion_item.html' %}
         </article>
         {% endfor %}
         </div>

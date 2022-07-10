@@ -2,29 +2,9 @@
 {% block content %}
     <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' 'open' %}">Open Bounties</a>
     <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' 'closed' %}">Closed Bounties</a>
-    {% for bounty in bounties %}
+    {% for object in bounties %}
         <article class="media content-section">
-            <img class="rounded-circle article-thumb" src="{{ bounty.author.profile.image.url }}" />
-            <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="{% url 'user-bounties' bounty.author.username %}">{{ bounty.author }}</a>
-                <small class="text-muted">{{ bounty.date_posted|date:"F d, Y" }}</small>
-            </div>
-            <h2>
-                <a class="article-title" href="{% url 'bounty-detail' bounty.id %}">{{ bounty.title }}
-                        {% if bounty.is_completed %}
-                            (CLOSED)
-                        {% else %}
-                            (OPEN)
-                        {% endif %}
-                </a>
-            </h2>
-                {% for image in bounty.images_set.all %}
-                    <img class="article-img" src="{{ image.image.url }}" />
-                {% endfor %}
-                <!-- <p class="article-metadata">{{ bounty.price }} BTC</p> -->
-                <p class="article-metadata">Number of Completions: {{ bounty.num_submissions }}</p>
-            </div>
+            {% include 'bounty/bounty_item.html' %}
         </article>
     {% endfor %}
     {% if is_paginated %}

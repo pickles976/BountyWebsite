@@ -1,0 +1,16 @@
+<img class="rounded-circle article-thumb" src="{{ object.author.profile.image.url }}" />
+<div class="media-body">
+    <div class="article-metadata">
+        <a class="mr-2" href="{% url 'user-bounties' object.bounty.author.username %}">{{ object.author }}</a>
+        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+    </div>
+    <h3>
+        <a class="article-title" href="{% url 'completion-detail' object.id %}">{{ object.title }}</a>
+    </h3>
+    <p class="article-content">{{ object.latitude }}° N {{ object.longitude }}° E</p>
+    {% for image in object.images_set.all %}
+        <img class="article-img" src="{{ image.image.url }}" />
+    {% endfor %}
+    <p class="article-content">{{ object.description }}</p>
+    <p class="article-metadata">{{ object.is_completed }}</p>
+</div>
