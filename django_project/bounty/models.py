@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from PIL import Image
 from django.core.exceptions import ValidationError
+from os import path
 
 # Create your models here.
 class Bounty(models.Model):
@@ -59,4 +60,40 @@ class Images(models.Model):
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
     completion = models.ForeignKey(Completion,on_delete=models.CASCADE,null=True)
     image = models.ImageField(upload_to="bounty_images")
+
+    # def save(self,**kwargs):
+
+    #     max_w,max_h = 400,400
+
+    #     super().save() #save the parent class
+
+    #     pathname = self.image.path
+    #     spl = pathname.split(".")
+    #     fullpath = spl[0] + "_full." + spl[1]
+
+    #     img = Image.open(pathname)
+    #     img.save(fullpath)
+
+    #     if img.height > max_h or img.width > max_w:
+    #         output_size = (max_w,max_h)
+    #         img.thumbnail(output_size)
+    #         img.save(pathname)
+
+    def save(self,**kwargs):
+        max_w,max_h = 2048,2048
+
+        super().save() #save the parent class
+
+        pathname = self.image.path
+        img = Image.open(pathname)
+
+        if img.height > max_h or img.width > max_w:
+            output_size = (max_w,max_h)
+            img.thumbnail(output_size)
+            img.save(pathname)
+
+    def delete(self,*args,**kwargs):
+        storage, path = self.image.storage, self.image.path
+        storage.delete(path)
+    
 

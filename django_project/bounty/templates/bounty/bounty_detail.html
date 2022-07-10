@@ -24,10 +24,9 @@
                 {% endif %}
         </h2>
         {% for image in object.images_set.all %}
-            <img class="detail-img" src="{{ image.image.url }}" />
+            <img class="detail-img" src="{{ image.image.url }}"/>
         {% endfor %}
         <p class="article-content">{{ object.description }}</p>
-        <!-- <h3 class="article-metadata">{{ object.price }}</h3> -->
 
         {% if object.author != user and object.is_completed == False %}
             <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>

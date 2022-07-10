@@ -76,6 +76,11 @@ body {
     margin-bottom: 4px;
     border-bottom: 1px solid #e3e3e3
   }
+
+  .article-info {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+  }
   
   .article-metadata a:hover {
     color: #333;
@@ -97,4 +102,12 @@ body {
   
   .account-heading {
     font-size: 2.5rem;
+  }
+
+  .mapouter {
+    position:relative;
+    text-align:center;
+    height:100%;
+    width: 100%;
+    width:max-content;
   }

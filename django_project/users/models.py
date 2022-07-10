@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
+from os import path, remove
 
 # Create your models here.
 class Profile(models.Model):
@@ -11,12 +12,14 @@ class Profile(models.Model):
         return f"{self.user.username} Profile"
 
     def save(self,**kwargs):
+        max_w,max_h = 2048,2048
+
         super().save() #save the parent class
 
-        img = Image.open(self.image.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300,300)
+        pathname = self.image.path
+        img = Image.open(pathname)
+
+        if img.height > max_h or img.width > max_w:
+            output_size = (max_w,max_h)
             img.thumbnail(output_size)
-            img.save(self.image.path)
-            # TODO:
-            # delete old image
+            img.save(pathname)

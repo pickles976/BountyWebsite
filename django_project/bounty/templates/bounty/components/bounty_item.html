@@ -16,5 +16,5 @@
     {% for image in object.images_set.all %}
         <img class="article-img" src="{{ image.image.url }}" />
     {% endfor %}
-    <p class="article-metadata">Number of Completions: {{ object.num_submissions }}</p>
+    <p class="article-info">Number of Completions: {{ object.num_submissions }}</p>
 </div>
