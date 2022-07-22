@@ -15,7 +15,47 @@ body {
   .bg-steel {
     background-color: #5f788a;
   }
+
+  .bg-berry {
+    background-color: #9B5094;
+  }
+
+  .bg-bell {
+    background-color: #9a94bc;
+  }
   
+  .bg-aero {
+    background-color: #8fb8d3;
+  }
+
+  .bg-light-cyan {
+    background-color: #cdf7f6;
+  }
+
+  .bg-granite {
+    background-color: #6a605c;
+  }
+
+  .bg-eerie {
+    background-color: #131515;
+  }
+
+  .bg-jet {
+    background-color: #2b2c28;
+  }
+
+  .bg-persian {
+    background-color: #339989;
+  }
+
+  .bg-mid-blue {
+    background-color: #7de2d1;
+  }
+
+  .bg-snow {
+    background-color: #fffafb;
+  }
+
   .site-header .navbar-nav .nav-link {
     color: #cbd5db;
   }
