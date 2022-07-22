@@ -96,7 +96,7 @@ class BountyDetailView(DetailView):
 #
 class BountyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Bounty
-    fields = ["title", "description", "image"]
+    fields = ["title", "description"]
 
     def form_valid(self,form):
         form.instance.author = self.request.user

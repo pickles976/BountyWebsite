@@ -23,21 +23,51 @@
                     (OPEN)
                 {% endif %}
         </h2>
-        {% for image in object.images_set.all %}
-            <img class="detail-img" src="{{ image.image.url }}"/>
-        {% endfor %}
+        <div class="image-grid">
+            {% for image in object.images_set.all %}
+                <div class="mySlides">
+                    <img class="detail-img" src="{{ image.image.url }}"/>
+                </div>
+            {% endfor %}
+
+            <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
+            <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
+        </div>
         <p class="article-content">{{ object.description }}</p>
 
         {% if object.author != user and object.is_completed == False %}
             <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
         {% endif %}
         
-        <h2>Completions:</h2>
-        {% for object in completions %}
-        <article class="media content-section">
-            {% include 'bounty/components/completion_item.html' %}
-        </article>
-        {% endfor %}
+        <div class="completions-list">
+            <h2 class="snow">Completions:</h2>
+            {% for object in completions %}
+            <article class="media content-section">
+                {% include 'bounty/components/completion_item.html' %}
+            </article>
+            {% endfor %}
+            </div>
         </div>
+
+        <script>
+            var slideIndex = 1;
+            showDivs(slideIndex);
+            
+            function plusDivs(n) {
+              showDivs(slideIndex += n);
+            }
+            
+            function showDivs(n) {
+              var i;
+              var x = document.getElementsByClassName("mySlides");
+              if (n > x.length) {slideIndex = 1}
+              if (n < 1) {slideIndex = x.length}
+              for (i = 0; i < x.length; i++) {
+                 x[i].style.display = "none";  
+              }
+              x[slideIndex-1].style.display = "block";  
+            }
+        </script>
+
     </article>
 {% endblock content %}

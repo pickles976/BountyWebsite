@@ -16,44 +16,22 @@ body {
     background-color: #5f788a;
   }
 
-  .bg-berry {
-    background-color: #9B5094;
+  .bg-gunmetal {
+    background-color: #253237;
+    color: #fffafb;
   }
 
-  .bg-bell {
-    background-color: #9a94bc;
-  }
-  
-  .bg-aero {
-    background-color: #8fb8d3;
+  .bg-metalgun {
+    background-color: #182125;
+    color: #fffafb;
   }
 
-  .bg-light-cyan {
-    background-color: #cdf7f6;
+  .bg-magnolia {
+    background-color: #f3eff5;
   }
 
-  .bg-granite {
-    background-color: #6a605c;
-  }
-
-  .bg-eerie {
-    background-color: #131515;
-  }
-
-  .bg-jet {
-    background-color: #2b2c28;
-  }
-
-  .bg-persian {
-    background-color: #339989;
-  }
-
-  .bg-mid-blue {
-    background-color: #7de2d1;
-  }
-
-  .bg-snow {
-    background-color: #fffafb;
+  .bg-carolina {
+    background-color: #1b98e0;
   }
 
   .site-header .navbar-nav .nav-link {
@@ -69,40 +47,52 @@ body {
   }
   
   .content-section {
-    background: #ffffff;
+    background: #253237;
     padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
+    border-radius: 20px;
     margin-bottom: 20px;
   }
   
   .article-title {
-    color: #444444;
+    color: #fffafb;
   }
   
   a.article-title:hover {
-    color: #428bca;
+    color: #1b98e0;
     text-decoration: none;
   }
   
   .article-content {
     white-space: pre-line;
+    color: #fffafb;
   }
 
   .detail-img {
-    min-height: 200px;
-    min-width: 200px;
-    max-height: 400px;
-    max-width: 400px;
     margin-right: 16px;
+    border-radius: 16px;
+    width: 90%;
+    max-height: 600px;
+    object-fit: cover;
+  }
+
+  .detail-img:hover {
+    color-adjust: #ffffff;
+  }
+
+  .snow {
+    color: #fffafb;
   }
   
   .article-img {
-    min-height: 64px;
+    /* min-height: 64px;
     min-width: 64px;
     max-height: 128px;
-    max-width: 128px;
+    max-width: 128px; */
+    height: 128px;
+    width: 128px;
     margin-right: 4px;
+    border-radius: 10px;
+    object-fit: cover;
   }
 
   .article-thumb {
@@ -114,12 +104,14 @@ body {
   .article-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;
-    border-bottom: 1px solid #e3e3e3
+    border-bottom: 1px solid #618594;
+    color: #618594;
   }
 
   .article-info {
     padding-bottom: 1px;
     margin-bottom: 4px;
+
   }
   
   .article-metadata a:hover {
@@ -142,6 +134,7 @@ body {
   
   .account-heading {
     font-size: 2.5rem;
+    color: #fffafb
   }
 
   .mapouter {
@@ -150,4 +143,17 @@ body {
     height:100%;
     width: 100%;
     width:max-content;
+  }
+
+  .image-grid {
+    display: flexbox;
+    text-align: center;
+  }
+
+  .mySlides {
+    display:none;
+  }
+
+  .completions-list {
+    margin-top: 5%;
   }
