@@ -157,3 +157,16 @@ body {
   .completions-list {
     margin-top: 5%;
   }
+
+  .leaflet-map {
+    margin: auto;
+    width: 90%;
+    /* max-height: 600px; */
+    height: 400px;
+    object-fit: cover;
+  }
+
+  .align-center {
+    align-content: center;
+    text-align: center;
+  }

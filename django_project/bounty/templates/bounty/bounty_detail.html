@@ -35,6 +35,10 @@
         </div>
         <p class="article-content">{{ object.description }}</p>
 
+        <div id="map" class="leaflet-map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"></div>
+        {% load static %}
+        <script src="{% static 'js/leaflet_script.js' %}"></script>
+
         {% if object.author != user and object.is_completed == False %}
             <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
         {% endif %}
