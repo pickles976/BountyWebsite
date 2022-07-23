@@ -6,44 +6,48 @@
 
 # FIX THESE OFFSETS
 
+from cmath import sqrt
+from hashlib import new
+
+
 region_mappings = {
-    "BASIN" : [-18.28,128],
-    "SPEAKING" : [-36.56,94.72], 
-    "HOWL" : [-36.56,161],
-    "REACHING" : [-54.84,128],
-    "CALLUMS" : [-54.84,61.56],
-    "CLANSHEAD" : [-54.84,194.2],
-    "NEVISH" : [-73.12,28.4],
-    "MOORS" : [-73.12,94.72],
-    "VIPER" : [-73.12,161],
-    "MORGENS" : [-73.12,227.3],
-    "CALLAHANS" : [-91.4,128], 
-    "STONECRADLE": [-91.4,61.56], 
-    "WEATHERED": [-91.4,194.2], 
-    "OARBREAKER": [-109.68,28.4],
-    "LINN": [-109.68,94.72],
-    "MARBAN": [-109.68,161],
-    "GODCROFTS": [-109.68,227.3],
-    "DEADLANDS" : [-127.96,128],
-    "FARRANAC": [-127.96,61.56], 
-    "ENDLESS": [-127.96,194.2], 
-    "FISHERMANS": [-146.24,28.4], 
-    "LOCH": [-146.24,94.72], 
-    "DROWNED": [-146.24,161], 
-    "TEMPEST": [-146.24,227.3],
-    "UMBRAL" : [-164.52,128],
-    "WESTGATE": [-164.52,61.56], 
-    "ALLODS": [-164.52,194.2], 
-    "ORIGIN": [-182.8,28.4], 
-    "HEARTLANDS": [-182.8,94.72], 
-    "SHACKLED": [-182.8,161], 
-    "FINGERS": [-182.8,227.3],
-    "GREATMARCH" : [-201.08,128],
-    "ASHFIELDS": [-201.08,61.56], 
-    "TERMINUS": [-201.08,194.2],
-    "REDRIVER": [-219.36,94.72], 
-    "ACRITHIA": [-219.36,161],
-    "KALOKAI": [-237.64,128],
+    "BASIN" : [0,3],
+    "SPEAKING" : [-0.75,2.5], 
+    "HOWL" : [0.75,2.5],
+    "REACHING" : [-0,2],
+    "CALLUMS" : [-1.5,2],
+    "CLANSHEAD" : [1.5,2],
+    "NEVISH" : [-2.25,1.5],
+    "MOORS" : [-0.75,1.5],
+    "VIPER" : [0.75,1.5],
+    "MORGENS" : [2.25,1.5],
+    "CALLAHANS" : [0,1], 
+    "STONECRADLE": [-1.5,1], 
+    "WEATHERED": [1.5,1], 
+    "OARBREAKER": [-2.25,0.5],
+    "LINN": [-0.75,0.5],
+    "MARBAN": [0.75,0.5],
+    "GODCROFTS": [2.25,0.5],
+    "DEADLANDS" : [0,0],
+    "FARRANAC": [-1.5,0], 
+    "ENDLESS": [1.5,0], 
+    "FISHERMANS": [-2.25,-0.5], 
+    "LOCH": [-0.75,-0.5], 
+    "DROWNED": [0.75,-0.5], 
+    "TEMPEST": [2.25,-0.5],
+    "UMBRAL" : [0,-1],
+    "WESTGATE": [-1.5,-1], 
+    "ALLODS": [1.5,-1], 
+    "ORIGIN": [-2.25,-1.5], 
+    "HEARTLANDS": [-0.75,-1.5], 
+    "SHACKLED": [0.75,-1.5], 
+    "FINGERS": [2.25,-1.5],
+    "GREATMARCH" : [0,-2],
+    "ASHFIELDS": [-1.5,-2], 
+    "TERMINUS": [1.5,-2],
+    "REDRIVER": [-0.75,-2.5], 
+    "ACRITHIA": [0.75,-2.5],
+    "KALOKAI": [0,-3],
 }
 
 region_names = {
@@ -89,11 +93,41 @@ region_names = {
 def get_names_with_coords():
 
     new_dict = {}
+    transformed = get_region_mappings()
 
-    for k in region_mappings:
+    for k in transformed:
         name = region_names[k]
-        coords = region_mappings[k] 
+        coords = transformed[k] 
 
         new_dict[name] = coords
 
     return new_dict
+
+# Transform the region offsets into coordinates
+def get_region_mappings():
+
+    offset = [128,-128]
+
+    k = 36.57
+    w = k * 2 / (3**0.5)
+
+    new_dict = {}
+
+    for key in region_mappings:
+        x = offset[0] + region_mappings[key][0] * w 
+        y = offset[1] + region_mappings[key][1] * k
+        new_dict[key] = [y,x]
+
+    return new_dict
+
+def grid_to_coords(s):
+
+    k = 36.57
+    w = k * 2 / (3**0.5)
+    k2 = k/2
+    w2 = w/2
+
+    x = k2 - (ord(s[0].upper()) - 65) * (k/17)
+    y = -w2 + int(s[1:]) * (w/15)
+
+    return [x,y]

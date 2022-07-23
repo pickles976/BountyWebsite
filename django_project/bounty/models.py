@@ -8,7 +8,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
 from django.core.exceptions import ValidationError
 from os import path
-from bounty.utils import region_mappings, get_names_with_coords
+from bounty.utils import get_region_mappings, get_names_with_coords, grid_to_coords
 from users.models import User
 import json
 
@@ -99,13 +99,14 @@ class Bounty(models.Model):
     # TODO: FIX THIS OFFSET
     def get_coordinates(self):
 
-        base_coords = region_mappings[self.region]
+        base_coords = get_region_mappings()[self.region]
 
         if self.coordinates and int(self.coordinates[1:]) < 16:
-            x = base_coords[0] + 16.58 - (ord(self.coordinates[0].upper()) - 65) * 1.95
-            y = base_coords[1] - 22.28 + int(self.coordinates[1:]) * 2.437
+            offset = grid_to_coords(self.coordinates)
+            base_coords[0] += offset[0]
+            base_coords[1] += offset[1]
 
-        return json.dumps([x,y])
+        return json.dumps(base_coords)
 
     def get_names(self):
         return json.dumps(get_names_with_coords())

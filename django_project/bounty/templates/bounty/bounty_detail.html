@@ -57,7 +57,7 @@
 
                 let height = bounds[1][0]-bounds[0][0];
                 let width = bounds[1][1]-bounds[0][1];
-                let w = width/6
+                let w = width/5.5
                 let k = w*Math.sqrt(3)/2
 
                 Object.keys(towns).map((key) => {
@@ -78,12 +78,14 @@
                         [item[0]-k/2,item[1]+w/4],
                         [item[0]-k/2,item[1]-w/4],
                     ],{
-                        color: 'blue',
-                        opacity: 1,
+                        color: 'grey',
+                        opacity: 0.3,
                         fillColor: 'blue',
                         fillOpacity: 0,
                     }).addTo(map);
                 })
+
+                map.setView(coordinate,4);
             </script>
             
         {% endif %}

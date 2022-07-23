@@ -5,7 +5,6 @@ var L
 const bounds =[[-256,11.87],[0,244.25]]
 
 let o={y:-128,x:128}
-console.log('hi');
 
         var map = L.map('map',{    
             crs: L.CRS.Simple,
@@ -23,13 +22,13 @@ console.log('hi');
   var imageUrl = 'https://cdn.glitch.com/dd3f06b2-b7d4-4ccc-8675-05897efc4bb5%2Fjjjjjj4.jpg?v=1560614235480',
   imageBounds = [[-256, -100], [0, 356]];
 
-var popup = L.popup();
-function onMapClick(e) {
-    var currentZoom = map.getZoom();
-    popup
-        .setLatLng(e.latlng)
-        .setContent('Zoom is '+currentZoom.toString()+', '+e.latlng.toString())
-        .openOn(map);
-}
+// var popup = L.popup();
+// function onMapClick(e) {
+//     var currentZoom = map.getZoom();
+//     popup
+//         .setLatLng(e.latlng)
+//         .setContent('Zoom is '+currentZoom.toString()+', '+e.latlng.toString())
+//         .openOn(map);
+// }
 
-map.on('click', onMapClick);
+// map.on('click', onMapClick);
