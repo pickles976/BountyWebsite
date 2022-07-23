@@ -1,4 +1,5 @@
 from io import StringIO
+from secrets import choice
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -71,6 +72,16 @@ class Bounty(models.Model):
     region = models.CharField(max_length=32,choices=Regions.choices,default=Regions.ASHFIELDS)
 
     coordinates = models.CharField(max_length=2,null=True,blank=True)
+
+    class JobType(models.TextChoices):
+        LOGI = "LOGI", "Logistics"
+        DEMO = "DEMO", "Demolition"
+        PARTISAN = "PARTISAN", "Partisan"
+        CONSTRUCTION = "CONSTRUCTION", "Construction"
+        COMBAT = "COMBAT", "Combat"
+        OTHER = "OTHER", "Other"
+
+    job_type = models.CharField(max_length=12,choices=JobType.choices,default=JobType.OTHER)
 
     def __str__(self):
         return self.title

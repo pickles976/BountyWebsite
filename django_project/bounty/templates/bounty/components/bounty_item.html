@@ -20,5 +20,8 @@
             <img class="article-img" src="{{ image.image.url }}" />
         {% endif %}
     {% endfor %}
+    <h4 class="article-title">
+        {{ object.get_region_display }}
+    </h4>
     <p class="article-info">Number of Completions: {{ object.num_submissions }}</p>
 </div>

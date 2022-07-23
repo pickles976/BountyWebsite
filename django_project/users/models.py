@@ -11,6 +11,8 @@ class Profile(models.Model):
 
     team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
 
+    verified = models.BooleanField(null=False,default=False)
+
     def __str__(self):
         return f"{self.user.username} Profile"
 
