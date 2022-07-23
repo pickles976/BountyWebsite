@@ -1,12 +1,16 @@
 var L
-const bounds =[[-228,0],[-28,256]]
+// const bounds =[[-228,0],[-28,256]]
+
+// MAPINFO
+const bounds =[[-256,0],[11.82,288]]
+
 let o={y:-128,x:128}
 console.log('hi');
 
         var map = L.map('map',{    
             crs: L.CRS.Simple,
           maxBounds: [[-278,-50],[22,306]], 
-        }).setView([o.y, o.x], 0);
+        }).setView([o.y, o.x], 3);
 
         L.tileLayer('https://raw.githubusercontent.com/Kastow/Foxhole-Map-Tiles/master/Tiles/{z}/{z}_{x}_{y}.png', {
             maxZoom: 5,

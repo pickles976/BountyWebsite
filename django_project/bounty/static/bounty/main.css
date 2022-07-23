@@ -176,3 +176,15 @@ body {
     align-content: center;
     text-align: center;
   }
+
+  .map-labels {
+    font-size: 1.4em;
+    font-weight: 300;
+    color: black;
+    white-space: nowrap;
+    display: inline-block;
+    text-align: center;
+    height: 400px;
+    width: 400px;
+    /* Use color, background, set margins for offset, etc */
+}

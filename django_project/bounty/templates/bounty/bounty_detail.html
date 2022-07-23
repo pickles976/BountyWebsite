@@ -48,9 +48,40 @@
 
             <!-- CONTROLS THE MARKER AND MAP LOCATION -->
             <input type="hidden" id="coordinate" name="variable" value="{{ object.get_coordinates }}">
+            <input type="hidden" id="towns" name="variable" value="{{ object.get_names }}">
             <script type="text/javascript">
                 var coordinate = JSON.parse(document.getElementById("coordinate").value);
-                var marker = L.marker([coordinate[0],coordinate[1]]).addTo(map);
+                var towns = JSON.parse(document.getElementById("towns").value);
+                var marker = L.marker(coordinate).addTo(map);
+
+                let height = bounds[1][0]-bounds[0][0];
+                let width = bounds[1][1]-bounds[0][1];
+                let w = width/6
+                let k = w*Math.sqrt(3)/2
+
+                Object.keys(towns).map((key) => {
+                    L.marker(towns[key], {
+                        icon: L.divIcon({
+                            className: 'map-labels',   // Set class for CSS styling
+                            html: key
+                        }),
+                        zIndexOffset: 1000
+                    }).addTo(map);
+
+                    let item = towns[key]
+                    L.polygon([
+                        [item[0],item[1]-w/2],
+                        [item[0]+k/2,item[1]-w/4],
+                        [item[0]+k/2,item[1]+w/4],
+                        [item[0],item[1]+w/2],
+                        [item[0]-k/2,item[1]+w/4],
+                        [item[0]-k/2,item[1]-w/4],
+                    ],{
+                        color: 'blue',
+                        fillColor: 'blue',
+                        fillOpacity: 0,
+                    }).addTo(map);
+                })
             </script>
             
         {% endif %}

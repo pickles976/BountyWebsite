@@ -8,8 +8,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
 from django.core.exceptions import ValidationError
 from os import path
-from bounty.utils import region_mappings
+from bounty.utils import region_mappings, get_names_with_coords
 from users.models import User
+import json
 
 class Team(models.Model):
 
@@ -102,7 +103,10 @@ class Bounty(models.Model):
         #     base_coords[0] -= 16.58 + (ord(self.coordinates[0].upper()) - 65) * 1.95
         #     base_coords[1] += 18.28 + int(self.coordinates[1]) * 2.437
 
-        return region_mappings[self.region]
+        return json.dumps(region_mappings[self.region])
+
+    def get_names(self):
+        return json.dumps(get_names_with_coords())
 
 # Acceptance object tying a user to a bounty
 class Acceptance(models.Model):

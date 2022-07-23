@@ -43,3 +43,55 @@ region_mappings = {
     "ACRITHIA": [-219.36,161],
     "KALOKAI": [-237.64,128],
 }
+
+region_names = {
+    "BASIN" : "Basin Sionnach",
+    "SPEAKING" : "Speaking Woods", 
+    "HOWL" : "Howl County",
+    "REACHING" : "Reaching Trail",
+    "CALLUMS" : "Callums Cape",
+    "CLANSHEAD" : "Clanshead Valley",
+    "NEVISH" : "Nevish Line",
+    "MOORS" : "The Moors",
+    "VIPER" : "Viper Pit",
+    "MORGENS" : "Morgens Crossing",
+    "CALLAHANS" : "Callahans Passage", 
+    "STONECRADLE": "Stonecradle", 
+    "WEATHERED": "Weathered Expanse", 
+    "OARBREAKER": "The Oarbreaker Isles",
+    "LINN": "The Linn of Mercy",
+    "MARBAN": "Marban Hollow",
+    "GODCROFTS": "Godcrofts",
+    "DEADLANDS" : "Deadlands",
+    "FARRANAC": "Farranac Coast", 
+    "ENDLESS": "Endless Shore", 
+    "FISHERMANS": "Fishermans Row", 
+    "LOCH": "Loch Mor", 
+    "DROWNED": "The Drowned Vale", 
+    "TEMPEST": "Tempest Island",
+    "UMBRAL" : "Umbral Wildwood",
+    "WESTGATE": "Westgate", 
+    "ALLODS": "Allods Bight", 
+    "ORIGIN": "Origin", 
+    "HEARTLANDS": "The Heartlands", 
+    "SHACKLED": "Schackled Chasm", 
+    "FINGERS": "The Fingers",
+    "GREATMARCH" : "Great March",
+    "ASHFIELDS": "Ash Fields", 
+    "TERMINUS": "Terminus",
+    "REDRIVER": "Red River", 
+    "ACRITHIA": "Acrithia",
+    "KALOKAI": "Kalokai",
+}
+
+def get_names_with_coords():
+
+    new_dict = {}
+
+    for k in region_mappings:
+        name = region_names[k]
+        coords = region_mappings[k] 
+
+        new_dict[name] = coords
+
+    return new_dict
