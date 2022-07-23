@@ -1,8 +1,8 @@
 var L
 // const bounds =[[-228,0],[-28,256]]
 
-// MAPINFO
-const bounds =[[-256,0],[11.82,288]]
+// MAPINFO [BOTTOM, LEFT], [TOP,RIGHT]
+const bounds =[[-256,11.87],[0,244.25]]
 
 let o={y:-128,x:128}
 console.log('hi');
