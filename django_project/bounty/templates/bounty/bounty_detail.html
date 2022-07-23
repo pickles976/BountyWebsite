@@ -63,6 +63,7 @@
                 Object.keys(towns).map((key) => {
                     L.marker(towns[key], {
                         icon: L.divIcon({
+                            iconAnchor: [48,16],
                             className: 'map-labels',   // Set class for CSS styling
                             html: key
                         }),

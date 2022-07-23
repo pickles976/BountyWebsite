@@ -194,4 +194,15 @@ class Images(models.Model):
         storage, path = self.image.storage, self.image.path
         storage.delete(path)
     
+class War(models.Model):
+
+    # warId = models.CharField(max_length=32)
+    warNumber = models.IntegerField()
+    
+    # class Factions(models.TextChoices):
+    #     COLONIAL = "COLONIAL", "Colonial"
+    #     WARDEN = "WARDEN", "Warden"
+    #     NONE = "NONE", "None"
+
+    # winner = models.CharField(max_length=8,choices=Factions.choices,default=Factions.NONE)
 
