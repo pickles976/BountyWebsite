@@ -77,7 +77,7 @@ class Bounty(models.Model):
 
     region = models.CharField(max_length=32,choices=Regions.choices,default=Regions.ASHFIELDS)
 
-    coordinates = models.CharField(max_length=2,null=True,blank=True)
+    coordinates = models.CharField(max_length=3,null=True,blank=True)
 
     class JobType(models.TextChoices):
         LOGI = "LOGI", "Logistics"
@@ -96,14 +96,16 @@ class Bounty(models.Model):
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.pk})
 
+    # TODO: FIX THIS OFFSET
     def get_coordinates(self):
+
         base_coords = region_mappings[self.region]
 
-        # if self.coordinates:
-        #     base_coords[0] -= 16.58 + (ord(self.coordinates[0].upper()) - 65) * 1.95
-        #     base_coords[1] += 18.28 + int(self.coordinates[1]) * 2.437
+        if self.coordinates and int(self.coordinates[1:]) < 16:
+            x = base_coords[0] + 16.58 - (ord(self.coordinates[0].upper()) - 65) * 1.95
+            y = base_coords[1] - 22.28 + int(self.coordinates[1:]) * 2.437
 
-        return json.dumps(region_mappings[self.region])
+        return json.dumps([x,y])
 
     def get_names(self):
         return json.dumps(get_names_with_coords())

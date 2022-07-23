@@ -50,8 +50,9 @@
             <input type="hidden" id="coordinate" name="variable" value="{{ object.get_coordinates }}">
             <input type="hidden" id="towns" name="variable" value="{{ object.get_names }}">
             <script type="text/javascript">
-                var coordinate = JSON.parse(document.getElementById("coordinate").value);
-                var towns = JSON.parse(document.getElementById("towns").value);
+
+                var coordinate = JSON.parse(document.getElementById("coordinate").value); // Coordinate for marker
+                var towns = JSON.parse(document.getElementById("towns").value); // coordaintes for all towns
                 var marker = L.marker(coordinate).addTo(map);
 
                 let height = bounds[1][0]-bounds[0][0];

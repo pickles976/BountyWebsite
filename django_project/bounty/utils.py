@@ -4,6 +4,8 @@
 # TODO: Find a better way of calculating all this than by hand :/
 # just use offsets and height/width
 
+# FIX THESE OFFSETS
+
 region_mappings = {
     "BASIN" : [-18.28,128],
     "SPEAKING" : [-36.56,94.72], 
