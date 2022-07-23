@@ -8,6 +8,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
 from django.core.exceptions import ValidationError
 from os import path
+from bounty.utils import region_mappings
 
 class Team(models.Model):
 
@@ -89,6 +90,15 @@ class Bounty(models.Model):
     # resolves: No URL to redirect to.  Either provide a url or define a get_absolute_url method on the Model.
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.pk})
+
+    def get_coordinates(self):
+        base_coords = region_mappings[self.region]
+
+        # if self.coordinates:
+        #     base_coords[0] -= 16.58 + (ord(self.coordinates[0].upper()) - 65) * 1.95
+        #     base_coords[1] += 18.28 + int(self.coordinates[1]) * 2.437
+
+        return region_mappings[self.region]
 
 class Completion(models.Model):
 
