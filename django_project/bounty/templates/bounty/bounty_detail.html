@@ -35,17 +35,21 @@
         </div>
         <p class="article-content">{{ object.description }}</p>
 
-        <!-- LEAFLET MAP HERE -->
-        <div id="map" class="leaflet-map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"></div>
-        {% load static %}
-        <script src="{% static 'js/leaflet_script.js' %}"></script>
+        {% if object.coordinates %}
 
-        <!-- CONTROLS THE MARKER AND MAP LOCATION -->
-        <input type="hidden" id="coordinate" name="variable" value="{{ object.get_coordinates }}">
-        <script type="text/javascript">
-            var coordinate = JSON.parse(document.getElementById("coordinate").value);
-            var marker = L.marker([coordinate[0],coordinate[1]]).addTo(map);
-        </script>
+            <!-- LEAFLET MAP HERE -->
+            <div id="map" class="leaflet-map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"></div>
+            {% load static %}
+            <script src="{% static 'js/leaflet_script.js' %}"></script>
+
+            <!-- CONTROLS THE MARKER AND MAP LOCATION -->
+            <input type="hidden" id="coordinate" name="variable" value="{{ object.get_coordinates }}">
+            <script type="text/javascript">
+                var coordinate = JSON.parse(document.getElementById("coordinate").value);
+                var marker = L.marker([coordinate[0],coordinate[1]]).addTo(map);
+            </script>
+            
+        {% endif %}
 
         {% if object.author != user and object.is_completed == False %}
             <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
