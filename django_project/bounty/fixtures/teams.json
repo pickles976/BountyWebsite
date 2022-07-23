@@ -1,0 +1,16 @@
+[
+    {
+      "model": "bounty.Team",
+      "pk": 1,
+      "fields": {
+        "team": "COLONIAL"
+      }
+    },
+    {
+      "model": "bounty.Team",
+      "pk": 2,
+      "fields": {
+        "team": "WARDEN"
+      }
+    }
+  ]

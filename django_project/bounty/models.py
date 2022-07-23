@@ -8,7 +8,13 @@ from PIL import Image
 from django.core.exceptions import ValidationError
 from os import path
 
+class Team(models.Model):
 
+    class Factions(models.TextChoices):
+        COLONIAL = "COLONIAL", "Colonial"
+        WARDEN = "WARDEN", "Warden"
+
+    team = models.CharField(max_length=8,choices=Factions.choices,default=Factions.COLONIAL)
 
 # Create your models here.
 class Bounty(models.Model):
@@ -20,6 +26,51 @@ class Bounty(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     is_completed = models.BooleanField(default=False)
     author = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+
+    team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
+
+    class Regions(models.TextChoices):
+        ACRITHIA = "ACRITHIA", "Acrithia"
+        ALLODS = "ALLODS", "Allod's Bight"
+        ASHFIELDS = "ASHFIELDS", "Ash Fields"
+        BASIN = "BASIN", "Basin Sionnach"  
+        CALLAHAN = "CALLAHAN", "Callahan's Passage"
+        CALLUMS = "CALLUMS", "Callum's Cape"
+        CLANSHEAD = "CLANSHEAD", "Clanshead Valley"
+        ENDLESS = "ENDLESS", "Endless Shore"  
+        FARRANAC = "FARRANAC", "Farranac Coast"
+        FISHERMANS = "FISHERMANS", "Fisherman's Row"  
+        GODCROFTS = "GODCROFTS", "Godcrofts"
+        GREATMARCH = "GREATMARCH", "Great March"
+        HOWL = "HOWL", "Howl County"
+        KALOKAI = "KALOKAI", "Kalokai"
+        LOCH = "LOCH", "Loch Mór"
+        MARBAN = "MARBAN", "Marban Hollow"
+        MORGENS = "MORGENS", "Morgen's Crossing"
+        NEVISH = "NEVISH", "Nevish Line"
+        ORIGIN = "ORIGIN", "Origin"
+        REACHING = "REACHING", "Reaching Trail"
+        REDRIVER = "REDRIVER", "Red River"
+        SHACKLED = "SHACKLED", "Shackled Chasm"
+        SPEAKING = "SPEAKING", "Speaking Woods"
+        STONECRADLE = "STONECRADLE", "Stonecradle"
+        TEMPEST = "TEMPEST", "Tempest Island"
+        TERMINUS = "TERMINUS", "Terminus"
+        DEADLANDS = "DEADLANDS", "The Deadlands"
+        DROWNED = "DROWNED", "The Drowned Vale"
+        FINGERS = "FINGERS", "The Fingers"
+        HEARTLANDS = "HEARTLANDS", "The Heartlands"
+        LINN = "LINN", "The Linn of Mercy"
+        MOORS = "MOORS", "The Moors"
+        OARBREAKER = "OARBREAKER", "The Oarbreaker Isles"
+        UBMRAL = "UMBRAL", "Umbral Wildwood"
+        VIPER = "VIPER", "Viper Pit"
+        WEATHERED = "WEATHERED", "Weathered Expanse"
+        WESTGATE = "WESTGATE", "Westgate"
+
+    region = models.CharField(max_length=32,choices=Regions.choices,default=Regions.ASHFIELDS)
+
+    coordinates = models.CharField(max_length=2,null=True,blank=True)
 
     def __str__(self):
         return self.title
@@ -39,6 +90,8 @@ class Completion(models.Model):
     rejection_reason = models.TextField(null=True)
     image = models.ImageField(default="default.jpg",upload_to="bounty_images")
     date_posted = models.DateTimeField(default=timezone.now)
+
+    team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
 
     class Options(models.TextChoices):
         PENDING = "PENDING", "Pending"
