@@ -33,8 +33,12 @@
             <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
             <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
         </div>
+
+        <p></p>
+
         <p class="article-content">{{ object.description }}</p>
 
+        <!-- Draw map if coordinates exist-->
         {% if object.coordinates %}
 
             <!-- LEAFLET MAP HERE -->
@@ -51,12 +55,31 @@
             
         {% endif %}
 
-        {% if object.author != user and object.is_completed == False %}
-            <a class="btn btn-secondary" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
-        {% endif %}
-        
+        <!-- List of players who have accepted -->
         <div class="completions-list">
-            <h2 class="snow">Completions:</h2>
+            <h2 class="snow">
+                Accepted:
+                
+                {% if object.author != user and object.is_completed == False %}
+                    <a class="btn btn-secondary" style="margin-left:68%;;" href="{% url 'bounty-accept' object.id %}">Accept Bounty</a>
+                {% endif %}
+            </h2>
+            {% for accepted in object.acceptance_set.all %}
+                <h4>
+                    <img class="rounded-circle accepted-thumb" src="{{ accepted.user.profile.image.url }}" />
+                    <a href="{% url 'user-bounties' accepted.user.username %}">{{ accepted.user.username }}</a>
+                </h4>
+            {% endfor %}
+        </div>
+
+        <!-- List of Completions -->
+        <div class="completions-list">
+            <h2 class="snow">
+                Completions:
+                {% if object.author != user and object.is_completed == False %}
+                    <a class="btn btn-secondary" style="margin-left:60%;" href="{% url 'completion-create' bounty=object.id %}">Submit Completion</a>
+                {% endif %}
+            </h2>
             {% for object in completions %}
             <article class="media content-section">
                 {% include 'bounty/components/completion_item.html' %}
@@ -65,6 +88,7 @@
             </div>
         </div>
 
+        <!-- Slideshow script -->
         <script>
             var slideIndex = 1;
             showDivs(slideIndex);

@@ -23,5 +23,6 @@
     <h4 class="article-title">
         {{ object.get_region_display }}
     </h4>
+    <p class="article-info">Number of Accepted: {{ object.acceptance_set.all.count }}</p>
     <p class="article-info">Number of Completions: {{ object.num_submissions }}</p>
 </div>

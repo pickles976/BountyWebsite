@@ -1,5 +1,6 @@
+from urllib import request
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Bounty, Completion, Images
+from .models import Bounty, Completion, Images, Acceptance
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -25,12 +26,16 @@ class BountyListView(ListView):
 
         status = self.kwargs.get("status")
 
+        if not self.request.user.profile.verified:
+            messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
+            return []
+
         if status == "open":
-            return Bounty.objects.filter(is_completed=False).prefetch_related("images_set").order_by("-date_posted")
+            return Bounty.objects.filter(is_completed=False,team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
         elif status == "closed":
-            return Bounty.objects.filter(is_completed=True).prefetch_related("images_set").order_by("-date_posted")
+            return Bounty.objects.filter(is_completed=True,team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
         else:
-            return Bounty.objects.all().prefetch_related("images_set").order_by("-date_posted")
+            return Bounty.objects.filter(team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
 
 # List view of bounties for currently authenticated user
 class UserBountyListView(ListView):
@@ -175,6 +180,7 @@ class CompletionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 # View for accepting/rejecting a completion
+@login_required
 def completionAcceptView(request,pk,status):
     
     completion = Completion.objects.get(pk=pk)
@@ -195,6 +201,7 @@ def completionAcceptView(request,pk,status):
 
     return redirect("rejection-reason",completion.pk)
 
+@login_required
 def rejectionReasonView(request,pk):
 
     completion = Completion.objects.get(pk=pk)
@@ -210,3 +217,18 @@ def rejectionReasonView(request,pk):
 
     form = TextForm()
     return render(request, 'bounty/rejection_reason.html',{'form': form})
+
+@login_required
+def bountyAcceptView(request,pk):
+
+    if len(Acceptance.objects.filter(user=request.user,bounty=pk)) > 0:
+            messages.error(request,"You have already accepted this bounty!")
+            return redirect("bounty-detail",pk)
+
+    bounty = Bounty.objects.get(pk=pk)
+    user = request.user
+
+    acceptance = Acceptance(bounty=bounty,user=user)
+    acceptance.save()
+
+    return redirect("bounty-detail",pk)

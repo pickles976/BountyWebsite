@@ -9,6 +9,7 @@ from PIL import Image
 from django.core.exceptions import ValidationError
 from os import path
 from bounty.utils import region_mappings
+from users.models import User
 
 class Team(models.Model):
 
@@ -17,6 +18,9 @@ class Team(models.Model):
         WARDEN = "WARDEN", "Warden"
 
     team = models.CharField(max_length=8,choices=Factions.choices,default=Factions.COLONIAL)
+
+    def __str__(self):
+        return self.team
 
 # Create your models here.
 class Bounty(models.Model):
@@ -99,6 +103,12 @@ class Bounty(models.Model):
         #     base_coords[1] += 18.28 + int(self.coordinates[1]) * 2.437
 
         return region_mappings[self.region]
+
+# Acceptance object tying a user to a bounty
+class Acceptance(models.Model):
+
+    bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Completion(models.Model):
 
