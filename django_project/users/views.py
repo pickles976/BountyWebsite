@@ -35,6 +35,7 @@ def discord_register_redirect(request):
 
     profile = Profile.objects.get(user=request.user)
     profile.discordname = user["username"] + "#" + user["discriminator"]
+    profile.verified = False
     profile.save()
     
     # return JsonResponse({"stuff": user})

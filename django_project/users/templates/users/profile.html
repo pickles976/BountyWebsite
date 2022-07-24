@@ -15,9 +15,11 @@
         </div>
       </div>
       <div style="margin-bottom:24px;">
-        <a href="{% url 'discord_register' %}">
-          <button class="btn btn-primary">Link Discord</button>
-        </a>
+        {% if not user.profile.discordname %}
+          <a href="{% url 'discord_register' %}">
+            <button class="btn btn-primary">Link Discord</button>
+          </a>
+        {% endif %}
         <!-- TODO ADD VERIFICATION -->
         <button class="btn btn-secondary" type="submit">Verify</button>
       </div>
