@@ -1,0 +1,9 @@
+[
+    {
+      "model": "bounty.War",
+      "pk": 1,
+      "fields": {
+        "warNumber": 92
+      }
+    }
+]
