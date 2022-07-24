@@ -78,6 +78,10 @@ region_names = {
     "KALOKAI": "Kalokai",
 }
 
+k = 36.57
+w = k * 2 / (3**0.5)
+offset = [128,-128]
+
 # returns Hex Names + coords for rendering on leaflet
 def get_names_with_coords():
 
@@ -95,11 +99,6 @@ def get_names_with_coords():
 # Transform the region offsets into coordinates
 def get_region_mappings():
 
-    offset = [128,-128]
-
-    k = 36.57
-    w = k * 2 / (3**0.5)
-
     new_dict = {}
 
     for key in region_mappings:
@@ -112,8 +111,6 @@ def get_region_mappings():
 # grid square to coordinate offset
 def grid_to_coords(s):
 
-    k = 36.57
-    w = k * 2 / (3**0.5)
     k2 = k/2
     w2 = w/2
 
