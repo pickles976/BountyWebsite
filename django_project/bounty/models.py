@@ -35,8 +35,6 @@ class Bounty(models.Model):
 
     title = models.CharField(max_length=128)
     description = models.TextField()
-    price = models.DecimalField(max_digits=20,decimal_places=10,null=True,blank=True)
-    num_submissions = models.IntegerField(default=0)
     date_posted = models.DateTimeField(default=timezone.now)
     is_completed = models.BooleanField(default=False)
     author = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
@@ -130,8 +128,6 @@ class Completion(models.Model):
 
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
-    latitude = models.DecimalField(max_digits=8,decimal_places=6)
-    longitude = models.DecimalField(max_digits=9,decimal_places=6)
     title = models.CharField(max_length=128)
     description = models.TextField()
     rejection_reason = models.TextField(null=True)
@@ -149,15 +145,6 @@ class Completion(models.Model):
 
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.bounty.id})
-
-    def clean(self):
-        if self.latitude > 90 or self.latitude < -90:
-            raise ValidationError(
-                {'latitude': "Latitude must be between -90 and 90!"})
-
-        if self.longitude > 180 or self.longitude < -180:
-            raise ValidationError(
-                {'longitude': "Longitude must be between -180 and 180!"})
 
 class Images(models.Model):
 

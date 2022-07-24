@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "users.apps.UsersConfig",
     "bounty.apps.BountyConfig",
     "crispy_forms",
+    "django_filters",
 ]
 
 MIDDLEWARE = [

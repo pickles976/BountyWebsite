@@ -20,9 +20,6 @@
                 {% endif %}
             {% endif %}
         </div>
-        <h2 class="article-title" >{{ object.title }}</h2>
-        <p class="article-title" >{{ object.latitude }}° N {{ object.longitude }}° E</p>
-        <p class="article-content">{{ object.description }}</p>
 
         <div class="image-grid">
             {% for image in object.images_set.all %}
@@ -35,11 +32,10 @@
             <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
         </div>
 
-        <div class="mapouter">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d528.0078727268688!2d{{object.longitude}}!3d{{object.latitude}}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sus!4v1656880270930!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
+        <h2 class="article-title" >{{ object.title }}</h2>
+        <p class="article-content">{{ object.description }}</p>
 
-        <h3 class="article-metadata">{{ object.is_completed }}</h3>
+        <h3 style="color: gray;">{{ object.is_completed }}</h3>
         {% if object.is_completed == "REJECTED" %}
             <p>Reason: {{ object.rejection_reason }}</p>
         {% endif %}

@@ -7,7 +7,6 @@
     <h3>
         <a class="article-title" href="{% url 'completion-detail' object.id %}">{{ object.title }}</a>
     </h3>
-    <p class="article-content">{{ object.latitude }}° N {{ object.longitude }}° E</p>
     {% for image in object.images_set.all %}
         {% if image.thumb %}
             <img class="article-img" src="{{ image.thumb.url }}" />

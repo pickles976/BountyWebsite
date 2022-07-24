@@ -20,12 +20,10 @@ class BountyForm(forms.ModelForm):
 class CompletionForm(forms.ModelForm):
 
     title = forms.CharField(max_length=128)
-    latitude = forms.DecimalField()
-    longitude = forms.DecimalField()
  
     class Meta:
         model = Completion
-        fields = ['title', "latitude", "longitude", 'description', ]
+        fields = ['title', 'description', ]
 
 class ImageForm(forms.ModelForm):
     image = forms.ImageField(label='Image')    
