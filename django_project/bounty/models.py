@@ -196,7 +196,6 @@ class Images(models.Model):
     
 class War(models.Model):
 
-    # warId = models.CharField(max_length=32)
     warNumber = models.IntegerField()
     
     # class Factions(models.TextChoices):
