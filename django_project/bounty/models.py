@@ -23,6 +23,13 @@ class Team(models.Model):
     def __str__(self):
         return self.team
 
+class War(models.Model):
+
+    warNumber = models.IntegerField()
+    winner = models.CharField(max_length=32,null=True)
+    startTime = models.IntegerField(null=True,blank=True)
+    endTime = models.IntegerField(null=True,blank=True)
+
 # Create your models here.
 class Bounty(models.Model):
 
@@ -88,6 +95,8 @@ class Bounty(models.Model):
         OTHER = "OTHER", "Other"
 
     job_type = models.CharField(max_length=12,choices=JobType.choices,default=JobType.OTHER)
+
+    war = models.ForeignKey(War,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return self.title
@@ -179,15 +188,4 @@ class Images(models.Model):
     def delete(self,*args,**kwargs):
         storage, path = self.image.storage, self.image.path
         storage.delete(path)
-    
-class War(models.Model):
-
-    warNumber = models.IntegerField()
-    
-    # class Factions(models.TextChoices):
-    #     COLONIAL = "COLONIAL", "Colonial"
-    #     WARDEN = "WARDEN", "Warden"
-    #     NONE = "NONE", "None"
-
-    # winner = models.CharField(max_length=8,choices=Factions.choices,default=Factions.NONE)
 
