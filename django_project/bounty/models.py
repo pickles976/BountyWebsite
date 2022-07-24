@@ -92,11 +92,10 @@ class Bounty(models.Model):
     def __str__(self):
         return self.title
 
-    # resolves: No URL to redirect to.  Either provide a url or define a get_absolute_url method on the Model.
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.pk})
 
-    # TODO: FIX THIS OFFSET
+    # Get the coordinates from the grid square
     def get_coordinates(self):
 
         base_coords = get_region_mappings()[self.region]
@@ -108,6 +107,7 @@ class Bounty(models.Model):
 
         return json.dumps(base_coords)
 
+    # return a dictionary of hex names with coordinates
     def get_names(self):
         return json.dumps(get_names_with_coords())
 
@@ -175,20 +175,6 @@ class Images(models.Model):
             img.save(fullpath)
             self.thumb.name = fullpath
             super().save()
-
-
-    # def save(self,**kwargs):
-    #     max_w,max_h = 2048,2048
-
-    #     super().save() #save the parent class
-
-    #     pathname = self.image.path
-    #     img = Image.open(pathname)
-
-    #     if img.height > max_h or img.width > max_w:
-    #         output_size = (max_w,max_h)
-    #         img.thumbnail(output_size)
-    #         img.save(pathname)
 
     def delete(self,*args,**kwargs):
         storage, path = self.image.storage, self.image.path

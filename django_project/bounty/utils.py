@@ -1,15 +1,3 @@
-# TOP-CENTER of BASIN is 0, 128
-# hexes are 33.16 WIDTH, 36.56 HEIGHT
-
-# TODO: Find a better way of calculating all this than by hand :/
-# just use offsets and height/width
-
-# FIX THESE OFFSETS
-
-from cmath import sqrt
-from hashlib import new
-
-
 region_mappings = {
     "BASIN" : [0,3],
     "SPEAKING" : [-0.75,2.5], 
@@ -90,6 +78,7 @@ region_names = {
     "KALOKAI": "Kalokai",
 }
 
+# returns Hex Names + coords for rendering on leaflet
 def get_names_with_coords():
 
     new_dict = {}
@@ -120,6 +109,7 @@ def get_region_mappings():
 
     return new_dict
 
+# grid square to coordinate offset
 def grid_to_coords(s):
 
     k = 36.57
