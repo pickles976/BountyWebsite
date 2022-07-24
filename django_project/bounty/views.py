@@ -22,11 +22,13 @@ class BountyListView(ListView):
 
     def get_queryset(self):
 
-        status = self.kwargs.get("status")
+        if self.request.user.is_anonymous:
+            messages.error(self.request,"You are not logged in! Please log in to view bounties")
+            return Bounty.objects.none()
 
         if not self.request.user.profile.verified:
             messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
-            return []
+            return Bounty.objects.none()
 
         # filter bounties by user team
         return Bounty.objects.filter(team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
@@ -47,9 +49,13 @@ class UserBountyListView(ListView):
 
     def get_queryset(self):
 
+        if self.request.user.is_anonymous:
+            messages.error(self.request,"You are not logged in! Please log in to view bounties")
+            return Bounty.objects.none()
+
         if not self.request.user.profile.verified:
             messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
-            return []
+            return Bounty.objects.none()
 
         user = get_object_or_404(User,username=self.kwargs.get("username"))
         bounties = Bounty.objects.filter(author=user)
@@ -81,6 +87,7 @@ def postBountyView(request):
             post_form = bountyForm.save(commit=False)
             post_form.author = request.user
             post_form.team = request.user.profile.team
+            post_form.war = War.objects.all().latest("pk")
             post_form.save()
     
             for form in formset.cleaned_data:

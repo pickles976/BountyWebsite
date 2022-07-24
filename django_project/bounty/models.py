@@ -180,5 +180,5 @@ class Images(models.Model):
 
 class Message(models.Model):
 
-    user = models.ForeignKey(User,on_delete=CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
     text = models.CharField(max_length=128)

@@ -6,11 +6,13 @@ from bounty.models import Team
 
 # Create your models here.
 class Profile(models.Model):
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default="default.jpg",upload_to="profile_pics")
 
     team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
 
+    discordname = models.CharField(max_length=40,null=True,blank=True)
     verified = models.BooleanField(null=False,default=False)
 
     def __str__(self):

@@ -2,12 +2,24 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
-      <div class="media">
+      <div class="media" style="margin-bottom:24px;">
         <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
         <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
+          {% if user.profile.discordname %}
+            <h2 class="account-heading">{{ user.profile.discordname }}</h2>
+            <p class="text-secondary">{{ user.username }}</p>
+          {% else %}
+            <h2 class="account-heading">{{ user.username }}</h2>
+          {% endif %}
           <p class="text-secondary">{{ user.email }}</p>
         </div>
+      </div>
+      <div style="margin-bottom:24px;">
+        <a href="{% url 'discord_register' %}">
+          <button class="btn btn-primary">Link Discord</button>
+        </a>
+        <!-- TODO ADD VERIFICATION -->
+        <button class="btn btn-secondary" type="submit">Verify</button>
       </div>
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
