@@ -55,6 +55,7 @@ body {
   
   .article-title {
     color: #fffafb;
+    margin-bottom: 24px;
   }
   
   a.article-title:hover {

@@ -1,15 +1,13 @@
-from urllib import request
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Bounty, Completion, Images, Acceptance
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelformset_factory
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from .forms import ImageForm, BountyForm, CompletionForm, TextForm
-from django.db.models import Subquery, OuterRef
+from .filters import BountyFilter
 
 def about(request):
     return render(request,"bounty/about.html",{"title": "About"})
@@ -30,21 +28,29 @@ class BountyListView(ListView):
             messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
             return []
 
-        if status == "open":
-            return Bounty.objects.filter(is_completed=False,team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
-        elif status == "closed":
-            return Bounty.objects.filter(is_completed=True,team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
-        else:
-            return Bounty.objects.filter(team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
+        # filter bounties by user team
+        return Bounty.objects.filter(team=self.request.user.profile.team).prefetch_related("images_set").order_by("-date_posted")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter"] = BountyFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
 
 # List view of bounties for currently authenticated user
 class UserBountyListView(ListView):
+
     # model = Bounty
     template_name = "bounty/user_bounties.html" # <app>/<model>_<viewtype>.html
     context_object_name = "bounties"
     paginate_by = 10
 
     def get_queryset(self):
+
+        if not self.request.user.profile.verified:
+            messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
+            return []
+
         user = get_object_or_404(User,username=self.kwargs.get("username"))
         bounties = Bounty.objects.filter(author=user)
         completions = Completion.objects.filter(author=user)
@@ -55,6 +61,10 @@ class UserBountyListView(ListView):
 # view for creating bounties
 @login_required
 def postBountyView(request):
+
+    if not request.user.profile.verified:
+        messages.error(request,"You are unverified! Please verify to access the Bounty board!")
+        return redirect("bounty-about")
  
     ImageFormSet = modelformset_factory(Images,
                                         form=ImageForm, extra=4)
@@ -96,6 +106,11 @@ class BountyDetailView(DetailView):
     model = Bounty
 
     def get_context_data(self, **kwargs):
+
+        if not self.request.user.profile.verified:
+            messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
+            return redirect("bounty-about")
+
         context = super().get_context_data(**kwargs)
         context['completions'] = Completion.objects.filter(bounty=self.object)
         return context
@@ -103,9 +118,14 @@ class BountyDetailView(DetailView):
 #
 class BountyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Bounty
-    fields = ["title", "description"]
+    fields = ["title", "description","region","coordinates","jobtype"]
 
     def form_valid(self,form):
+
+        if not self.request.user.profile.verified:
+            messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
+            return redirect("bounty-about")
+
         form.instance.author = self.request.user
         return super().form_valid(form)
 
@@ -120,6 +140,11 @@ class BountyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = "/"
 
     def test_func(self):
+
+        if not self.request.user.profile.verified:
+            messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
+            return redirect("bounty-home")
+
         bounty = self.get_object()
         if self.request.user == bounty.author:
             return True
@@ -128,6 +153,10 @@ class BountyDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 # view for creating completions
 @login_required
 def postCompletionView(request,bounty):
+
+    if not request.user.profile.verified:
+        messages.error(request,"You are unverified! Please verify to access the Bounty board!")
+        return redirect("bounty-about")
  
     ImageFormSet = modelformset_factory(Images,
                                         form=ImageForm, extra=4)
@@ -176,6 +205,11 @@ class CompletionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = "/"
 
     def test_func(self):
+
+        if not self.request.user.profile.verified:
+            messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
+            return redirect("bounty-home")
+
         completion = self.get_object()
         if self.request.user == completion.author:
             return True
@@ -184,6 +218,10 @@ class CompletionDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 # View for accepting/rejecting a completion
 @login_required
 def completionAcceptView(request,pk,status):
+
+    if not request.user.profile.verified:
+        messages.error(request,"You are unverified! Please verify to access the Bounty board!")
+        return redirect("bounty-about")
     
     completion = Completion.objects.get(pk=pk)
 
@@ -206,6 +244,10 @@ def completionAcceptView(request,pk,status):
 @login_required
 def rejectionReasonView(request,pk):
 
+    if not request.user.profile.verified:
+        messages.error(request,"You are unverified! Please verify to access the Bounty board!")
+        return redirect("bounty-about")
+
     completion = Completion.objects.get(pk=pk)
 
     if request.method == "POST":
@@ -222,6 +264,10 @@ def rejectionReasonView(request,pk):
 
 @login_required
 def bountyAcceptView(request,pk):
+
+    if not request.user.profile.verified:
+        messages.error(request,"You are unverified! Please verify to access the Bounty board!")
+        return redirect("bounty-about")
 
     if len(Acceptance.objects.filter(user=request.user,bounty=pk)) > 0:
             messages.error(request,"You have already accepted this bounty!")

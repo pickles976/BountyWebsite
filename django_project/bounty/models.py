@@ -92,7 +92,7 @@ class Bounty(models.Model):
         COMBAT = "COMBAT", "Combat"
         OTHER = "OTHER", "Other"
 
-    job_type = models.CharField(max_length=12,choices=JobType.choices,default=JobType.OTHER)
+    jobtype = models.CharField(max_length=12,choices=JobType.choices,default=JobType.OTHER)
 
     war = models.ForeignKey(War,on_delete=models.CASCADE,null=True)
 

@@ -55,7 +55,18 @@
         </nav>
     </header>
 
+    {% if request.path == "/" %}
+        <div class="col-md-2" style="margin-bottom: -15%; margin-left: 2%;">
+            {% load bootstrap %}
+            <form method="GET">
+            {{ filter.form|bootstrap }}
+            <button type="submit" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+    {% endif %}
+
     <main role="main" class="container">
+
         <div class="row">
             <div class="col-md-12">
                 {% if messages %}
@@ -68,8 +79,11 @@
             {% block content %}
             {% endblock %}
             </div>
+
         </div>
+
     </main>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

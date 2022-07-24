@@ -1,8 +1,7 @@
 {% extends "bounty/base.html" %}
 {% block content %}
-    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' 'open' %}">Open Bounties</a>
-    <a class="btn btn-outline-info mb-4" href="{% url 'bounty-home' 'closed' %}">Closed Bounties</a>
-    {% for object in bounties %}
+
+    {% for object in filter.qs %}
         <article class="media content-section">
             {% include 'bounty/components/bounty_item.html' %}
         </article>

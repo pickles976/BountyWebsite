@@ -13,16 +13,21 @@
                 {% endif %}
         </a>
     </h2>
-    {% for image in object.images_set.all %}
-        {% if image.thumb %}
-            <img class="article-img" src="{{ image.thumb.url }}" />
-        {% else %}
-            <img class="article-img" src="{{ image.image.url }}" />
-        {% endif %}
-    {% endfor %}
-    <h4 class="article-title">
-        {{ object.get_region_display }}
-    </h4>
-    <p class="article-info">Number of Accepted: {{ object.acceptance_set.all.count }}</p>
-    <p class="article-info">Number of Completions: {{ object.completion_set.all.count }}</p>
+    <div class="row" style="width:100%;">
+        <div clas="col-md-8" style="margin-bottom:16px">
+            {% for image in object.images_set.all %}
+                {% if image.thumb %}
+                    <img class="article-img" src="{{ image.thumb.url }}" />
+                {% else %}
+                    <img class="article-img" src="{{ image.image.url }}" />
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-md-4" style="margin-top:4px;">
+            <p class="article-info">Region: {{ object.get_region_display }}</p>
+            <p class="article-info">Job Type: {{ object.get_jobtype_display }}</p>
+            <p class="article-info">Number of Accepted: {{ object.acceptance_set.all.count }}</p>
+            <p class="article-info">Number of Completions: {{ object.completion_set.all.count }}</p>
+        </div>
+    </div>
 </div>

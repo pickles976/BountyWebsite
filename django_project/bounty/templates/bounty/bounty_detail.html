@@ -40,56 +40,14 @@
 
         <!-- Draw map if coordinates exist-->
         {% if object.coordinates %}
-
             <!-- LEAFLET MAP HERE -->
-            <div id="map" class="leaflet-map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"></div>
-            {% load static %}
-            <script src="{% static 'js/leaflet_script.js' %}"></script>
-
-            <!-- CONTROLS THE MARKER AND MAP LOCATION -->
-            <input type="hidden" id="coordinate" name="variable" value="{{ object.get_coordinates }}">
-            <input type="hidden" id="towns" name="variable" value="{{ object.get_names }}">
-            <script type="text/javascript">
-
-                var coordinate = JSON.parse(document.getElementById("coordinate").value); // Coordinate for marker
-                var towns = JSON.parse(document.getElementById("towns").value); // coordaintes for all towns
-                var marker = L.marker(coordinate).addTo(map);
-
-                let height = bounds[1][0]-bounds[0][0];
-                let width = bounds[1][1]-bounds[0][1];
-                let w = width/5.5
-                let k = w*Math.sqrt(3)/2
-
-                Object.keys(towns).map((key) => {
-                    L.marker(towns[key], {
-                        icon: L.divIcon({
-                            iconAnchor: [48,16],
-                            className: 'map-labels',   // Set class for CSS styling
-                            html: key
-                        }),
-                        zIndexOffset: 1000
-                    }).addTo(map);
-
-                    let item = towns[key]
-                    L.polygon([
-                        [item[0],item[1]-w/2],
-                        [item[0]+k/2,item[1]-w/4],
-                        [item[0]+k/2,item[1]+w/4],
-                        [item[0],item[1]+w/2],
-                        [item[0]-k/2,item[1]+w/4],
-                        [item[0]-k/2,item[1]-w/4],
-                    ],{
-                        color: 'grey',
-                        opacity: 0.3,
-                        fillColor: 'blue',
-                        fillOpacity: 0,
-                    }).addTo(map);
-                })
-
-                map.setView(coordinate,4);
-            </script>
-            
+            <div id="map" class="leaflet-map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" style="margin-top:24px;margin-bottom: 24px;"></div>
         {% endif %}
+
+        <b>
+            <p class="article-info">Region: {{ object.get_region_display }}</p>
+            <p class="article-info">Job Type: {{ object.get_jobtype_display }}</p>
+        </b>
 
         <!-- List of players who have accepted -->
         <div class="completions-list">
@@ -124,7 +82,7 @@
             </div>
         </div>
 
-        <!-- Slideshow script -->
+        <!-- SLIDESHOW SCRIPT -->
         <script>
             var slideIndex = 1;
             showDivs(slideIndex);
@@ -143,6 +101,54 @@
               }
               x[slideIndex-1].style.display = "block";  
             }
+        </script>
+
+        <!-- LEAFLET SCRIPT -->
+
+        {% load static %}
+        <script src="{% static 'js/leaflet_script.js' %}"></script>
+
+        <!-- CONTROLS THE MARKER AND MAP LOCATION -->
+        <input type="hidden" id="coordinate" name="variable" value="{{ object.get_coordinates }}">
+        <input type="hidden" id="towns" name="variable" value="{{ object.get_names }}">
+        <script type="text/javascript">
+
+            var coordinate = JSON.parse(document.getElementById("coordinate").value); // Coordinate for marker
+            var towns = JSON.parse(document.getElementById("towns").value); // coordaintes for all towns
+            var marker = L.marker(coordinate).addTo(map);
+
+            let height = bounds[1][0]-bounds[0][0];
+            let width = bounds[1][1]-bounds[0][1];
+            let w = width/5.5
+            let k = w*Math.sqrt(3)/2
+
+            Object.keys(towns).map((key) => {
+                L.marker(towns[key], {
+                    icon: L.divIcon({
+                        iconAnchor: [48,16],
+                        className: 'map-labels',   // Set class for CSS styling
+                        html: key
+                    }),
+                    zIndexOffset: 1000
+                }).addTo(map);
+
+                let item = towns[key]
+                L.polygon([
+                    [item[0],item[1]-w/2],
+                    [item[0]+k/2,item[1]-w/4],
+                    [item[0]+k/2,item[1]+w/4],
+                    [item[0],item[1]+w/2],
+                    [item[0]-k/2,item[1]+w/4],
+                    [item[0]-k/2,item[1]-w/4],
+                ],{
+                    color: 'grey',
+                    opacity: 0.3,
+                    fillColor: 'blue',
+                    fillOpacity: 0,
+                }).addTo(map);
+            })
+
+            map.setView(coordinate,4);
         </script>
 
     </article>

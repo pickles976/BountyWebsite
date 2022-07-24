@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "bounty.apps.BountyConfig",
     "crispy_forms",
     "django_filters",
+    "bootstrapform",
 ]
 
 MIDDLEWARE = [

@@ -5,4 +5,4 @@ class BountyFilter(django_filters.FilterSet):
 
     class Meta:
         model = Bounty
-        fields = ["job_type","region"]
+        fields = ["jobtype","region","is_completed"]

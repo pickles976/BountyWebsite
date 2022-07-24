@@ -15,7 +15,7 @@ class BountyForm(forms.ModelForm):
  
     class Meta:
         model = Bounty
-        fields = ['title', 'description', "job_type", "region", "coordinates"]
+        fields = ['title', 'description', "jobtype", "region", "coordinates"]
 
 class CompletionForm(forms.ModelForm):
 
