@@ -1,6 +1,7 @@
 from pyexpat import model
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Bounty, Completion, Images, Acceptance, War
+from django.urls import reverse
+from .models import Bounty, Completion, Images, Acceptance, Message, War
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -9,6 +10,8 @@ from django.forms import modelformset_factory
 from django.contrib import messages
 from .forms import ImageForm, BountyForm, CompletionForm, TextForm
 from .filters import BountyFilter
+
+BASE_URL = "https://FoxholeBounties.com"
 
 def about(request):
     return render(request,"bounty/about.html",{"title": "About"})
@@ -186,9 +189,10 @@ def postCompletionView(request,bounty):
     
     
         if completionForm.is_valid() and formset.is_valid():
+            bounty = Bounty.objects.get(pk=bounty)
             post_form = completionForm.save(commit=False)
             post_form.author = request.user
-            post_form.bounty = Bounty.objects.get(pk=bounty)
+            post_form.bounty = bounty
             post_form.save()
     
             for form in formset.cleaned_data:
@@ -198,6 +202,11 @@ def postCompletionView(request,bounty):
                     image = form['image']
                     photo = Images(completion=post_form, image=image, thumb=image)
                     photo.save()
+
+            # Create message
+            url = BASE_URL + reverse("completion-detail",args=[post_form.pk])
+            m = Message(user=bounty.author,text=f"{request.user.profile.discordname} submitted a completion for your bounty: {url}")
+            m.save()
 
             # use django messages framework
             messages.success(request,"Completion created successfully")
@@ -271,6 +280,11 @@ def completionAcceptView(request,pk,status):
         completion.is_completed = status
         completion.save()
 
+        # Create message
+        url = BASE_URL + reverse("completion-detail",args=[pk])
+        m = Message(user=completion.author,text=f"{request.user.profile.discordname} accepted your completion: {url}")
+        m.save()
+
         return redirect("bounty-detail",completion.bounty.pk)
 
     return redirect("rejection-reason",completion.pk)
@@ -278,15 +292,15 @@ def completionAcceptView(request,pk,status):
 @login_required
 def rejectionReasonView(request,pk):
 
+    completion = Completion.objects.get(pk=pk)
+
     if not request.user.profile.verified:
         messages.error(request,"You are unverified! Please verify to access the Bounty board!")
         return redirect("bounty-about")
 
     # Only the Bounty originator can close out completions
-    if not Completion.objects.get(pk=pk).bounty.author == request.user:
+    if not completion.bounty.author == request.user:
         return redirect("bounty-about")
-
-    completion = Completion.objects.get(pk=pk)
 
     if request.method == "POST":
 
@@ -320,5 +334,10 @@ def bountyAcceptView(request,pk):
 
     acceptance = Acceptance(bounty=bounty,user=user)
     acceptance.save()
+
+    # Create message
+    url = BASE_URL + reverse("bounty-detail",args=[pk])
+    m = Message(user=bounty.author,text=f"{user.profile.discordname} accepted your bounty: {url}")
+    m.save()
 
     return redirect("bounty-detail",pk)

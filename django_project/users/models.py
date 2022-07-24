@@ -13,6 +13,7 @@ class Profile(models.Model):
     team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
 
     discordname = models.CharField(max_length=40,null=True,blank=True)
+    discordid = models.CharField(max_length=64,null=True,blank=True)
     verified = models.BooleanField(null=False,default=False)
 
     def __str__(self):

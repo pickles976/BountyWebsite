@@ -23,16 +23,18 @@
                     (OPEN)
                 {% endif %}
         </h2>
-        <div class="image-grid">
-            {% for image in object.images_set.all %}
-                <div class="mySlides">
-                    <img class="detail-img" src="{{ image.image.url }}"/>
-                </div>
-            {% endfor %}
+        {% if object.images_set.count > 0 %}
+            <div class="image-grid">
+                {% for image in object.images_set.all %}
+                    <div class="mySlides">
+                        <img class="detail-img" src="{{ image.image.url }}"/>
+                    </div>
+                {% endfor %}
 
-            <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
-            <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
-        </div>
+                <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
+                <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
+            </div>
+        {% endif %}
 
         <p></p>
 
