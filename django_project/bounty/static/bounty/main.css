@@ -100,6 +100,7 @@ body {
     height: 65px;
     width: 65px;
     margin-right: 16px;
+    object-fit: cover;
   }
 
   .accepted-thumb {
@@ -137,6 +138,7 @@ body {
     width: 125px;
     margin-right: 20px;
     margin-bottom: 16px;
+    object-fit: cover;
   }
   
   .account-heading {

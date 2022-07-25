@@ -19,9 +19,12 @@
           <a href="{% url 'discord_register' %}">
             <button class="btn btn-primary">Link Discord</button>
           </a>
+        {% else %}
+          {% if not user.profile.verified %}
+            <!-- TODO ADD VERIFICATION -->
+            <button class="btn btn-secondary" type="submit">Verify</button>
+          {% endif %}
         {% endif %}
-        <!-- TODO ADD VERIFICATION -->
-        <button class="btn btn-secondary" type="submit">Verify</button>
       </div>
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
