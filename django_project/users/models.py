@@ -19,15 +19,15 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
 
-    def save(self,**kwargs):
-        max_w,max_h = 2048,2048
+    # def save(self,**kwargs):
+    #     max_w,max_h = 2048,2048
 
-        super().save() #save the parent class
+    #     super().save() #save the parent class
 
-        pathname = self.image.path
-        img = Image.open(pathname)
+    #     pathname = self.image.path
+    #     img = Image.open(pathname)
 
-        if img.height > max_h or img.width > max_w:
-            output_size = (max_w,max_h)
-            img.thumbnail(output_size)
-            img.save(pathname)
+    #     if img.height > max_h or img.width > max_w:
+    #         output_size = (max_w,max_h)
+    #         img.thumbnail(output_size)
+    #         img.save(pathname)

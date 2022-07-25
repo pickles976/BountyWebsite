@@ -153,26 +153,26 @@ class Images(models.Model):
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
     completion = models.ForeignKey(Completion,on_delete=models.CASCADE,null=True)
     image = models.ImageField(upload_to="bounty_images")
-    thumb = models.ImageField(upload_to="bounty_thumbs",null=True)
+    # thumb = models.ImageField(upload_to="bounty_thumbs",null=True)
 
-    def save(self,**kwargs):
+    # def save(self,**kwargs):
 
-        max_w,max_h = 400,400
+    #     max_w,max_h = 400,400
 
-        super().save() #save the parent class
+    #     super().save() #save the parent class
 
-        pathname = self.thumb.path
-        spl = pathname.split(".")
-        fullpath = spl[0] + "_thumb." + spl[-1]
+    #     pathname = self.thumb.path
+    #     spl = pathname.split(".")
+    #     fullpath = spl[0] + "_thumb." + spl[-1]
 
-        img = Image.open(pathname)
+    #     img = Image.open(pathname)
 
-        if img.height > max_h or img.width > max_w:
-            output_size = (max_w,max_h)
-            img.thumbnail(output_size)
-            img.save(fullpath)
-            self.thumb.name = fullpath
-            super().save()
+    #     if img.height > max_h or img.width > max_w:
+    #         output_size = (max_w,max_h)
+    #         img.thumbnail(output_size)
+    #         img.save(fullpath)
+    #         self.thumb.name = fullpath
+    #         super().save()
 
     def delete(self,*args,**kwargs):
         storage, path = self.image.storage, self.image.path
