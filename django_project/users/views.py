@@ -1,5 +1,3 @@
-from os import access
-from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -7,8 +5,11 @@ from django.contrib import messages
 import requests
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from users.models import Profile
+import os
 
 auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdiscord-register-redirect&response_type=code&scope=identify"
+CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
+CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
 
 # Create your views here.
 def register(request):
@@ -65,13 +66,14 @@ def profile(request):
 # MOVE THESE CREDENTIALS TO ENV
 def exchange_code(code):
     data = {
-        "client_id": "1000844725445726270",
-        "client_secret": "UrBzq3ViZ7Spg9ZkJ3BUIK_-dloW2FQP",
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
         "redirect_uri": "http://localhost:8000/discord-register-redirect",
         "scope": "identify"
     }
+    print(data)
     headers={
         "Content-Type": "application/x-www-form-urlencoded"
     }

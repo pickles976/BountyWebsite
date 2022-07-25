@@ -1,12 +1,13 @@
 from django.core.management.base import BaseCommand
 from bounty.models import Message
+import os
+
+DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
 
 def send_messages(users):
 
     import time
     import discord
-
-    token = "MTAwMDg0NDcyNTQ0NTcyNjI3MA.GkspoW.Vmm262Q5hmDZQgAJeh1SP_leKbwnFaAKzfIjEo"
 
     s = time.time()
     client = discord.Client()
@@ -31,7 +32,7 @@ def send_messages(users):
         except:
             print("Could not message user!")
 
-    client.run(token)
+    client.run(DISCORD_BOT_TOKEN)
 
 class Command(BaseCommand):
     help = "Gets all messages from database and sends them to users through Discord"
@@ -51,6 +52,5 @@ class Command(BaseCommand):
                 new_dict[discordid] = message.text
 
         Message.objects.all().delete()
-        print(new_dict)
         send_messages(new_dict)
 
