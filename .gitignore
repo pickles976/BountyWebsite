@@ -2,6 +2,5 @@
 *.jpg
 *.jpeg
 *.png
-*.txt
 *.sh
 .env
