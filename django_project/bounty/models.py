@@ -153,7 +153,7 @@ class Images(models.Model):
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
     completion = models.ForeignKey(Completion,on_delete=models.CASCADE,null=True)
     image = models.ImageField(upload_to="bounty_images")
-    # thumb = models.ImageField(upload_to="bounty_thumbs",null=True)
+    thumb = models.ImageField(upload_to="bounty_thumbs",null=True)
 
     # def save(self,**kwargs):
 

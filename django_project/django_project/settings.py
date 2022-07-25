@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django_filters",
     "bootstrapform",
     "storages",
+    "user_visit",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "user_visit.middleware.UserVisitMiddleware",
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -153,3 +155,7 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+
+# TRACKING USER VISITS
+# https://www.fullstackpython.com/blog/track-daily-user-data-django-user-visit.html
