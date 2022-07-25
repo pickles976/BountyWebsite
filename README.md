@@ -35,3 +35,6 @@ This will migrate the db and load fixtures. Good for a database reset in develop
     python manage.py loaddata .\bounty\fixtures\teams.json  
     python manage.py loaddata .\bounty\fixtures\wars.json  
 
+Bot permissions link: 
+
+    https://discord.com/oauth2/authorize?client_id=1000844725445726270&scope=bot&permissions=2048
