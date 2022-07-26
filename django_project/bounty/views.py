@@ -96,7 +96,6 @@ def postBountyView(request):
                 #do not upload all the photos
                 if form:
                     image = form['image']
-                    # photo = Images(bounty=post_form, image=image, thumb=image)
                     photo = Images(bounty=post_form,image=image)
                     photo.save()
 
@@ -201,7 +200,6 @@ def postCompletionView(request,bounty):
                 #do not upload all the photos
                 if form:
                     image = form['image']
-                    # photo = Images(completion=post_form, image=image, thumb=image)
                     photo = Images(completion=post_form,image=image)
                     photo.save()
 
