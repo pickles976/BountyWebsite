@@ -4,7 +4,6 @@ django-storages
 django-crispy-forms
 django-filter
 requests
-fcntl
 discord
 boto3
 celery
