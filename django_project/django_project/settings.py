@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "bootstrapform",
     "storages",
     "user_visit",
+    "sorl.thumbnail",
 ]
 
 MIDDLEWARE = [
@@ -159,3 +160,5 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # TRACKING USER VISITS
 # https://www.fullstackpython.com/blog/track-daily-user-data-django-user-visit.html
+
+THUMBNAIL_FORCE_OVERWRITE = True

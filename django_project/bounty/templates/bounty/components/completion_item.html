@@ -1,4 +1,8 @@
-<img class="rounded-circle article-thumb" src="{{ object.author.profile.image.url }}" />
+{% load thumbnail %}
+{% thumbnail object.author.profile.image "65x65" crop="center" as im %}
+    <img src="{{ im.url }}" class="rounded-circle article-thumb"/>
+{% endthumbnail %}
+<!-- <img class="rounded-circle article-thumb" src="{{ object.author.profile.image.url }}" /> -->
 <div class="media-body">
     <div class="article-metadata">
         <a class="mr-2" href="{% url 'user-bounties' object.bounty.author.username %}">{{ object.author }}</a>
@@ -11,7 +15,11 @@
         <!-- {% if image.thumb %}
             <img class="article-img" src="{{ image.thumb.url }}" />
         {% else %} -->
-            <img class="article-img" src="{{ image.image.url }}" />
+            <!-- <img class="article-img" src="{{ image.image.url }}" /> -->
+            {% load thumbnail %}
+            {% thumbnail image.image "128x128" crop="center" as im %}
+                <img src="{{ im.url }}" class="article-img"/>
+            {% endthumbnail %}
         <!-- {% endif %} -->
     {% endfor %}
     <p class="article-content">{{ object.description }}</p>

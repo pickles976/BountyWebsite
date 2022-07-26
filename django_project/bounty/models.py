@@ -13,6 +13,7 @@ from os import path
 from bounty.utils import get_region_mappings, get_names_with_coords, grid_to_coords
 from users.models import User
 import json
+from sorl.thumbnail import ImageField
 
 class Team(models.Model):
 
@@ -152,8 +153,9 @@ class Images(models.Model):
 
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE,null=True)
     completion = models.ForeignKey(Completion,on_delete=models.CASCADE,null=True)
-    image = models.ImageField(upload_to="bounty_images")
-    thumb = models.ImageField(upload_to="bounty_thumbs",null=True)
+    # image = models.ImageField(upload_to="bounty_images")
+    # thumb = models.ImageField(upload_to="bounty_thumbs",null=True)
+    image = ImageField(upload_to="bounty_images")
 
     # def save(self,**kwargs):
 

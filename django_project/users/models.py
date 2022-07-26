@@ -3,12 +3,14 @@ from django.contrib.auth.models import User
 from PIL import Image
 from os import path, remove
 from bounty.models import Team
+from sorl.thumbnail import ImageField
 
 # Create your models here.
 class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default="default.jpg",upload_to="profile_pics")
+    # image = models.ImageField(default="default.jpg",upload_to="profile_pics")
+    image = ImageField(upload_to="profile_pics")
 
     team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
 

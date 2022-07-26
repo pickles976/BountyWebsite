@@ -3,7 +3,11 @@
 {% block content %}
     <div class="content-section">
       <div class="media" style="margin-bottom:24px;">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <!-- <img class="rounded-circle account-img" src="{{ user.profile.image.url }}"> -->
+        {% load thumbnail %}
+        {% thumbnail user.profile.image "128x128" crop="center" as im %}
+            <img src="{{ im.url }}" class="rounded-circle account-img"/>
+        {% endthumbnail %}
         <div class="media-body">
           {% if user.profile.discordname %}
             <h2 class="account-heading">{{ user.profile.discordname }}</h2>
