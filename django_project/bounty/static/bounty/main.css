@@ -197,7 +197,6 @@ body {
   top: 40%;
   opacity: 50%;
   height: 25%;
-  /* transform: translateY(-50%) translateZ(0); */
 }
 
 .gallery-button-prev {
@@ -207,5 +206,4 @@ body {
   top: 40%;
   opacity: 50%;
   height: 25%;
-  /* transform: translateY(50%) translateZ(0); */
 }
