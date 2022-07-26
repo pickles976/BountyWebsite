@@ -1,17 +1,11 @@
 from cgitb import text
-from io import StringIO
+from pyexpat import model
 from secrets import choice
-from tkinter import CASCADE
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.core.files.uploadedfile import SimpleUploadedFile
-from PIL import Image
-from django.core.exceptions import ValidationError
-from os import path
 from bounty.utils import get_region_mappings, get_names_with_coords, grid_to_coords
-from users.models import User
 import json
 from sorl.thumbnail import ImageField
 

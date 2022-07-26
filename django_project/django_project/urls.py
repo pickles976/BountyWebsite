@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("register/",user_views.register,name="register"),
+    path("verify/",user_views.verify,name="verify"),
     path("discord-register/",user_views.discord_register,name="discord_register"),
     path("discord-register-redirect/",user_views.discord_register_redirect,name="discord_register_redirect"),
     path("profile/",user_views.profile,name="profile"),

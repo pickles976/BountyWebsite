@@ -4,9 +4,11 @@
     <div class="content-section">
       <div class="media" style="margin-bottom:24px;">
         {% load thumbnail %}
-        {% thumbnail user.profile.image "128x128" crop="center" as im %}
-            <img src="{{ im.url }}" class="rounded-circle account-img"/>
-        {% endthumbnail %}
+        {% for image in user.profile.profileimage_set.all %}
+          {% thumbnail image.image "128x128" crop="center" as im %}
+              <img src="{{ im.url }}" class="rounded-circle account-img"/>
+          {% endthumbnail %}
+        {% endfor %}
         <div class="media-body">
           {% if user.profile.discordname %}
             <h2 class="account-heading">{{ user.profile.discordname }}</h2>
@@ -25,7 +27,9 @@
         {% else %}
           {% if not user.profile.verified %}
             <!-- TODO ADD VERIFICATION -->
-            <button class="btn btn-secondary" type="submit">Verify</button>
+            <a href="{% url 'verify' %}">
+              <button class="btn btn-secondary" type="submit">Verify</button>
+            </a>
           {% endif %}
         {% endif %}
       </div>
@@ -34,6 +38,7 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Profile Info</legend>
             {{ u_form|crispy }}
+            {{ i_form|crispy }}
             {{ p_form|crispy }}
         </fieldset>
         <div class ="form-group">

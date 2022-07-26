@@ -45,11 +45,13 @@ class Command(BaseCommand):
 
         for message in all_messages.iterator():
             discordid = message.user.profile.discordid
+            
+            if message.user.profile.discordmessage:
 
-            if discordid in new_dict:
-                new_dict[discordid] += "\n" + message.text
-            else:
-                new_dict[discordid] = message.text
+                if discordid in new_dict:
+                    new_dict[discordid] += "\n" + message.text
+                else:
+                    new_dict[discordid] = message.text
 
         Message.objects.all().delete()
         send_messages(new_dict)

@@ -59,8 +59,8 @@ class UserBountyListView(LoginRequiredMixin, ListView):
             return Bounty.objects.none()
 
 
-        bounties = Bounty.objects.filter(author=user)
-        completions = Completion.objects.filter(author=user)
+        bounties = Bounty.objects.filter(author=user).prefetch_related("images_set")
+        completions = Completion.objects.filter(author=user).prefetch_related("images_set")
         combined = list(bounties) + list(completions)
         combined = sorted(combined,key=lambda x: x.date_posted)
         return combined
@@ -124,7 +124,7 @@ class BountyDetailView(LoginRequiredMixin, DetailView):
             return redirect("bounty-about")
 
         context = super().get_context_data(**kwargs)
-        context['completions'] = Completion.objects.filter(bounty=self.object)
+        context['completions'] = Completion.objects.filter(bounty=self.object).prefetch_related("images_set")
         return context
 
 #

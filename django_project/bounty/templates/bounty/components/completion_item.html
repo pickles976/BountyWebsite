@@ -1,7 +1,10 @@
 {% load thumbnail %}
-{% thumbnail object.author.profile.image "65x65" crop="center" as im %}
-    <img src="{{ im.url }}" class="rounded-circle article-thumb"/>
-{% endthumbnail %}
+{% load thumbnail %}
+{% for image in object.author.profile.profileimage_set.all %}
+    {% thumbnail image.image "65x65" crop="center" as im %}
+        <img src="{{ im.url }}" class="rounded-circle accepted-thumb lazyload"/>
+    {% endthumbnail %}
+{% endfor %}
 <div class="media-body">
     <div class="article-metadata">
         <a class="mr-2" href="{% url 'user-bounties' object.bounty.author.username %}">{{ object.author }}</a>
@@ -13,7 +16,7 @@
     {% for image in object.images_set.all %}
             {% load thumbnail %}
             {% thumbnail image.image "128x128" crop="center" as im %}
-                <img src="{{ im.url }}" class="article-img"/>
+                <img src="{{ im.url }}" class="article-img lazyload"/>
             {% endthumbnail %}
     {% endfor %}
     <p class="article-content">{{ object.description }}</p>

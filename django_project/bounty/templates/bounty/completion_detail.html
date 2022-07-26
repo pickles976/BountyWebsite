@@ -2,7 +2,12 @@
 {% block content %}
     <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'bounty-detail' object.bounty.id %}">Back</a>
     <article class="media content-section">
-        <img class="rounded-circle article-thumb" src="{{ object.author.profile.image.url }}" />
+        {% load thumbnail %}
+        {% for image in object.author.profile.profileimage_set.all %}
+            {% thumbnail image.image "65x65" crop="center" as im %}
+                <img src="{{ im.url }}" class="rounded-circle article-thumb lazyload"/>
+            {% endthumbnail %}
+        {% endfor %}
         <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'user-bounties' object.author.username %}">{{ object.author }}</a>
@@ -21,16 +26,18 @@
             {% endif %}
         </div>
 
-        <div class="image-grid">
-            {% for image in object.images_set.all %}
-                <div class="mySlides">
-                    <img class="detail-img" src="{{ image.image.url }}"/>
-                </div>
-            {% endfor %}
+        {% if object.images_set.count > 0 %}
+            <div class="image-grid">
+                {% for image in object.images_set.all %}
+                    <div class="mySlides">
+                        <img class="detail-img lazyload" src="{{ image.image.url }}"/>
+                    </div>
+                {% endfor %}
 
-            <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
-            <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
-        </div>
+                <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
+                <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
+            </div>
+        {% endif %}
 
         <h2 class="article-title" >{{ object.title }}</h2>
         <p class="article-content">{{ object.description }}</p>
