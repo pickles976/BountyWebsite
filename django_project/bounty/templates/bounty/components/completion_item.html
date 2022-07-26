@@ -8,7 +8,7 @@
 <div class="media-body">
     <div class="article-metadata">
         <a class="mr-2" href="{% url 'user-bounties' object.bounty.author.username %}">{{ object.author }}</a>
-        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+        <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
     </div>
     <h3>
         <a class="article-title" href="{% url 'completion-detail' object.id %}">{{ object.title }}</a>

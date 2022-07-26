@@ -69,15 +69,11 @@ body {
   }
 
   .detail-img {
-    margin-right: 16px;
+    /* margin-right: 16px; */
     border-radius: 16px;
     width: 90%;
     max-height: 600px;
     object-fit: cover;
-  }
-
-  .detail-img:hover {
-    color-adjust: #ffffff;
   }
 
   .snow {
@@ -157,6 +153,8 @@ body {
   .image-grid {
     display: flexbox;
     text-align: center;
+    position: relative;
+    margin-right: 16px;
   }
 
   .mySlides {
@@ -190,4 +188,24 @@ body {
     height: 400px;
     width: 400px;
     /* Use color, background, set margins for offset, etc */
+}
+
+.gallery-button-next {
+  right: 1.5%;
+  position: absolute;
+  z-index: 1;
+  top: 40%;
+  opacity: 50%;
+  height: 25%;
+  /* transform: translateY(-50%) translateZ(0); */
+}
+
+.gallery-button-prev {
+  left: 1.5%;
+  position: absolute;
+  z-index: 1;
+  top: 40%;
+  opacity: 50%;
+  height: 25%;
+  /* transform: translateY(50%) translateZ(0); */
 }

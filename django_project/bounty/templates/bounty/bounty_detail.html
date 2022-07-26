@@ -11,7 +11,7 @@
         <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="{% url 'user-bounties' object.author.username %}">{{ object.author }}</a>
-            <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+            <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
             {% if object.author == user %}
                 <div>
                     {% if object.is_completed != True %}
@@ -36,8 +36,8 @@
                     </div>
                 {% endfor %}
 
-                <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
-                <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
+                <button class="btn btn-info gallery-button-prev" onclick="plusDivs(-1)">&#10094;</button>
+                <button class="btn btn-info gallery-button-next" onclick="plusDivs(1)">&#10095;</button>
             </div>
         {% endif %}
 
