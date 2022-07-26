@@ -53,6 +53,7 @@ class Command(BaseCommand):
                 else:
                     new_dict[discordid] = message.text
 
-        Message.objects.all().delete()
+        all_messages.delete()
+        
         send_messages(new_dict)
 
