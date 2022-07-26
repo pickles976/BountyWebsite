@@ -10,8 +10,9 @@ from django.forms import modelformset_factory
 from django.contrib import messages
 from .forms import ImageForm, BountyForm, CompletionForm, TextForm
 from .filters import BountyFilter
+import os
 
-BASE_URL = "https://FoxholeBounties.com"
+BASE_URL = os.environ.get("BASE_URL")
 
 def about(request):
     return render(request,"bounty/about.html",{"title": "About"})
@@ -19,7 +20,7 @@ def about(request):
 # List view of Bounties
 class BountyListView(LoginRequiredMixin, ListView):
     model = Bounty
-    template_name = "bounty/home.html" # <app>/<model>_<viewtype>.html
+    template_name = "bounty/home.html"
     context_object_name = "bounties"
     ordering = ["-date_posted"]
     paginate_by = 10
