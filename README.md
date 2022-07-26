@@ -13,7 +13,7 @@ A few wars back (90) it was determined that a big weakness of Colonials was bein
 
 ## How do we know this website is safe?
 
-For now only Colonials are able to access the website. I plan to add Warden support but I need to get in touch with them first. First the app uses OAuth with Discord to link your Discord name to the app. Then it uses an API endpoint to check your verification status in Sigil. The app mass-unverifies everyone at the start of a new war. Once verified, Colonials can only view posts made my Colonials, and Wardens can only view posts made by Wardens. Unverified users can do neither.
+For now only Colonials are able to access the website. I plan to add Warden support but they dont yet have a third-party verification API set up. First the app uses OAuth with Discord to link your Discord name to the app. Then it uses an API endpoint to check your verification status in Sigil. The app mass-unverifies everyone at the start of a new war. Once verified, Colonials can only view posts made my Colonials, and Wardens can only view posts made by Wardens. Unverified users can do neither.
 
 ## What do points do?
 
@@ -27,6 +27,10 @@ Checks for a new war
 
     python manage.py check_war_status
 
+Sends a discord message to all users with recent relevant activity
+
+    python manage.py send_messages
+
 This will migrate the db and load fixtures. Good for a database reset in development  
 
     python manage.py makemigrations users  
@@ -37,4 +41,4 @@ This will migrate the db and load fixtures. Good for a database reset in develop
 
 Bot permissions link: 
 
-    https://discord.com/oauth2/authorize?client_id=1000844725445726270&scope=bot&permissions=2048
+    https://discord.com/oauth2/authorize?client_id=1000844725445726270&scope=bot&permissions=0

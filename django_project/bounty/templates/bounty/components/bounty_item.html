@@ -1,5 +1,4 @@
 {% load thumbnail %}
-{% load thumbnail %}
 {% for image in object.author.profile.profileimage_set.all %}
     {% thumbnail image.image "65x65" crop="center" as im %}
         <img src="{{ im.url }}" class="rounded-circle article-thumb lazyload"/>
