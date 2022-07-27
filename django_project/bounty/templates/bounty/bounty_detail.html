@@ -46,7 +46,7 @@
         <p class="article-content">{{ object.description }}</p>
 
         <!-- Draw map if coordinates exist-->
-        {% if object.coordinates %}
+        {% if object.coordinates and object.region != 'NONE' %}
             <!-- LEAFLET MAP HERE -->
             <div id="map" class="leaflet-map leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" style="margin-top:24px;margin-bottom: 24px;"></div>
         {% endif %}

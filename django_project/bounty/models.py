@@ -76,8 +76,9 @@ class Bounty(models.Model):
         VIPER = "VIPER", "Viper Pit"
         WEATHERED = "WEATHERED", "Weathered Expanse"
         WESTGATE = "WESTGATE", "Westgate"
+        NONE = "NONE", "None"
 
-    region = models.CharField(max_length=32,choices=Regions.choices,default=Regions.ASHFIELDS)
+    region = models.CharField(max_length=32,choices=Regions.choices,default=Regions.NONE)
 
     coordinates = models.CharField(max_length=3,null=True,blank=True)
 
@@ -102,14 +103,18 @@ class Bounty(models.Model):
     # Get the coordinates from the grid square
     def get_coordinates(self):
 
-        base_coords = get_region_mappings()[self.region]
+        if self.region != "NONE":
 
-        if self.coordinates and int(self.coordinates[1:]) < 16:
-            offset = grid_to_coords(self.coordinates)
-            base_coords[0] += offset[0]
-            base_coords[1] += offset[1]
+            base_coords = get_region_mappings()[self.region]
 
-        return json.dumps(base_coords)
+            if self.coordinates and int(self.coordinates[1:]) < 16:
+                offset = grid_to_coords(self.coordinates)
+                base_coords[0] += offset[0]
+                base_coords[1] += offset[1]
+
+            return json.dumps(base_coords)
+
+        return [0,0]
 
     # return a dictionary of hex names with coordinates
     def get_names(self):
