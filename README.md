@@ -19,8 +19,6 @@ For now only Colonials are able to access the website. I plan to add Warden supp
 
 Nothing!
 
-
-
 # Important Commands
 
 Checks for a new war  

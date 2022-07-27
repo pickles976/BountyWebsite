@@ -4,7 +4,10 @@ django-storages
 django-crispy-forms
 django-filter
 django-bootstrap-form
+django-user-visit
+sorl-thumbnail
 requests
 discord
 boto3
 celery
+redis

@@ -30,3 +30,19 @@
 
     kill -9 $(ps aux | grep celery | grep -v grep | awk '{print $2}' | tr '\n'  ' ') > /dev/null 2>&1
 
+
+# How to run in Docker:
+
+    docker-compose up
+
+Open the docker Terminal
+Copy over all environment variables
+
+    export ENVIRONMENT_VAR="myenvironmentvariable
+
+    sh setup.sh
+
+    python3 -m celery -A bounty beat -l info --logfile=celery.beat.log --max-interval 7200  --detach 
+    python3 -m celery -A bounty worker -l info --logfile=celery.log --detach
+
+    python3 manage.py runserver 0.0.0.0:8000
