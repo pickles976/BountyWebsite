@@ -75,7 +75,7 @@ def postBountyView(request):
         return redirect("bounty-about")
  
     ImageFormSet = modelformset_factory(Images,
-                                        form=ImageForm, extra=4)
+                                        form=ImageForm, extra=5)
     #'extra' means the number of photos that you can upload   ^
     if request.method == 'POST':
     

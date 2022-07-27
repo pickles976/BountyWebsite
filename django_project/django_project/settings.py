@@ -180,5 +180,5 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'  
 
 # LINUX ONLY
-from memcacheify import memcacheify
-CACHES = memcacheify()
+# from memcacheify import memcacheify
+# CACHES = memcacheify()
