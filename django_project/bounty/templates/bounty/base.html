@@ -60,18 +60,30 @@
 
     <main role="main" class="container">
 
-        {% if request.path == "/" %}
-            <div class="filter-form">
-                {% load bootstrap %}
-                <form method="GET">
-                {{ filter.form|bootstrap }}
-                <button type="submit" class="btn btn-primary">Filter</button>
-                </form>
-            </div>
-        {% endif %}
-
         <div class="row">
             <div class="col-md-12">
+                {% if request.path == "/" %}
+                <div style="margin-bottom: 2%;">
+                    {% load bootstrap %}
+                    <form method="GET">
+                        <div class="row">
+                            <div class="col-md-3">
+                                {{ filter.form.jobtype|bootstrap }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ filter.form.region|bootstrap }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ filter.form.is_completed|bootstrap }}
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary" style="position: absolute; bottom: 19%;">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+
                 {% if messages %}
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }}">
@@ -79,8 +91,9 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-            {% block content %}
-            {% endblock %}
+
+                {% block content %}
+                {% endblock %}
             </div>
 
         </div>
