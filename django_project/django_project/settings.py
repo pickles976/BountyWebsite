@@ -155,12 +155,11 @@ AWS_STORAGE_BUCKET_NAME=os.environ.get("AWS_STORAGE_BUCKET_NAME")
 # AWS CLOUDFRONT SETTINGS
 AWS_S3_CUSTOM_DOMAIN = os.environ.get("AWS_S3_CUSTOM_DOMAIN")
 
-
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 
 
 # TRACKING USER VISITS
@@ -171,6 +170,7 @@ THUMBNAIL_FORCE_OVERWRITE = True
 # CELERY CONFIG 
 # https://nickmccullum.com/celery-django-periodic-tasks/
 # Celery Broker - Redis  
+# WARNING: IN DOCKER "localhost" NEEDS TO BE CHANGED TO REDIS
 CELERY_BROKER_URL = 'redis://localhost:6379'  
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'  
 CELERY_ACCEPT_CONTENT = ['application/json']  

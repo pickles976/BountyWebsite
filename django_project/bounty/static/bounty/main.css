@@ -207,3 +207,12 @@ body {
   opacity: 50%;
   height: 25%;
 }
+
+.filter-form {
+  position: absolute;
+  left: 2.5%;
+  width: 15%;
+  margin-bottom: 15%; 
+  /* margin-left: 3% */
+}
+

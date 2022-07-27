@@ -25,7 +25,7 @@
             <button class="btn btn-primary">Link Discord</button>
           </a>
         {% else %}
-          {% if not user.profile.verified %}
+          {% if not user.profile.verified and user.profile.team.team == 'COLONIAL' %}
             <!-- TODO ADD VERIFICATION -->
             <a href="{% url 'verify' %}">
               <button class="btn btn-secondary" type="submit">Verify</button>

@@ -109,6 +109,7 @@ def verify(request):
             status = response.json()
 
             if status["isVerified"] == True:
+               messages.success(request,"You are now verified!")
                request.user.profile.verified=True
                request.user.profile.save()
             else:

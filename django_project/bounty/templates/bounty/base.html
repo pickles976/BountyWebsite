@@ -58,17 +58,17 @@
         </nav>
     </header>
 
-    {% if request.path == "/" %}
-        <div class="col-md-2" style="margin-bottom: -15%; margin-left: 2%;">
-            {% load bootstrap %}
-            <form method="GET">
-            {{ filter.form|bootstrap }}
-            <button type="submit" class="btn btn-primary">Filter</button>
-            </form>
-        </div>
-    {% endif %}
-
     <main role="main" class="container">
+
+        {% if request.path == "/" %}
+            <div class="filter-form">
+                {% load bootstrap %}
+                <form method="GET">
+                {{ filter.form|bootstrap }}
+                <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
+        {% endif %}
 
         <div class="row">
             <div class="col-md-12">
