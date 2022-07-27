@@ -6,4 +6,3 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py loaddata ./bounty/fixtures/teams.json
 python3 manage.py loaddata ./bounty/fixtures/wars.json
-python manage.py collectstatic --noinput
