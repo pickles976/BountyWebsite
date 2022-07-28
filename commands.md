@@ -24,18 +24,3 @@ If working, the beat logs should show successful dispatches and the worker logs 
     python manage.py loaddata .\bounty\fixtures\teams.json
     python manage.py loaddata .\bounty\fixtures\wars.json
 
-## CELERY BULLSHIT (WINDOWS LOCAL)
-
-### Run redis broker in docker
-    docker run -p 6379:6379 --name some-redis -d redis
-
-### Celery test
-    python3 -m celery -A bounty beat -l info
-    python3 -m celery -A bounty worker -l info
-
-### Run celery task workers and beat with logs
-    python3 -m celery -A bounty beat -l info --logfile=celery.beat.log --max-interval 7200
-    python3 -m celery -A bounty worker -l info --logfile=celery.log
-
-The Celery worker will fail because Shindows. You will need to run inside of a Docker container to fully test the workers.
-

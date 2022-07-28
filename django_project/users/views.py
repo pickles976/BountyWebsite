@@ -127,7 +127,6 @@ def verify(request):
     messages.error(request,"You must join a team to be verified!")
     return redirect("profile")
 
-# MOVE THESE CREDENTIALS TO ENV
 def exchange_code(code):
     data = {
         "client_id": CLIENT_ID,

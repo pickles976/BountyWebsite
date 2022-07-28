@@ -9,7 +9,6 @@ from .views import ( BountyListView,
                         CompletionDeleteView,
                         postBountyView,
                         postCompletionView,
-                        rejectionReasonView,
                         bountyAcceptView )
 from . import views
 

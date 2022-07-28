@@ -19,23 +19,7 @@ For now only Colonials are able to access the website. I plan to add Warden supp
 
 Nothing!
 
-# Important Commands
-
-Checks for a new war  
-
-    python manage.py check_war_status
-
-Sends a discord message to all users with recent relevant activity
-
-    python manage.py send_messages
-
-This will migrate the db and load fixtures. Good for a database reset in development  
-
-    python manage.py makemigrations users  
-    python manage.py makemigrations bounty  
-    python manage.py migrate  
-    python manage.py loaddata .\bounty\fixtures\teams.json  
-    python manage.py loaddata .\bounty\fixtures\wars.json  
+# Info
 
 Bot permissions link: 
 
