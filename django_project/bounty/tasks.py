@@ -48,7 +48,8 @@ def close_old_bounties():
             if (timezone.now() - bounty.date_posted) > age:
                 bounty.is_completed = True
                 bounty.save()
-  
+
+# CHANGE TO LAMBDA FUNCTION
 @shared_task(name='discord_messages')
 def discord_messages():
   

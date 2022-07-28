@@ -4,6 +4,8 @@
 
 Open the docker Terminal  
 
+    cd django_project
+
 Run Celery beat and workers with:  
 
     python3 -m celery -A bounty beat -l info --logfile=celery.beat.log --max-interval 7200  --detach 
@@ -32,7 +34,6 @@ If working, the beat logs should show successful dispatches and the worker logs 
     python3 -m celery -A bounty worker -l info
 
 ### Run celery task workers and beat with logs
-    pkill -f "celery worker"  
     python3 -m celery -A bounty beat -l info --logfile=celery.beat.log --max-interval 7200
     python3 -m celery -A bounty worker -l info --logfile=celery.log
 
