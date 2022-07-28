@@ -19,3 +19,4 @@ sqlparse==0.4
 redis
 pillow
 gunicorn==20.1.0
+django-heroku==0.3.1
