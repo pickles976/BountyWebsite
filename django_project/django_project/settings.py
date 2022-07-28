@@ -124,6 +124,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+# Heroku config
+STATIC_ROOT = os.path.join(BASE_DIR,"static_files")
+
 MEDIA_ROOT = os.path.join(BASE_DIR,"media") # where media files live on the file system 
 MEDIA_URL = "/media/" # route for accessing media via browser
 
