@@ -16,3 +16,6 @@ Running manage.py commands in Heroku:
 Open shell:
 
     heroku run bash
+
+    python manage.py loaddata ./bounty/fixtures/teams.json
+    python manage.py loaddata ./bounty/fixtures/wars.json
