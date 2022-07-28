@@ -1,0 +1,1 @@
+web: cd django_project && gunicorn django_project.wsgi
