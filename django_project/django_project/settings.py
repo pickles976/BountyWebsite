@@ -21,12 +21,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
-SECRET_KEY="django-insecure-08)*$!sbpr2mrh=w@w7ymq9bn#=*op6rq=f(=mzm&g-$ms(9#h"
+SECRET_KEY=os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "foxhole-bounties.herokuapp.com",
+    "foxholebounties.com"
+]
 
 
 # Application definition
