@@ -29,7 +29,7 @@ app.conf.beat_schedule = {
         # Task Name (Name Specified in Decorator)
         'task': 'discord_messages',  
         # Schedule      
-        'schedule': 60.0,
+        'schedule': 120.0,
         # Function Arguments 
         # 'args': ("Hello",) 
     },
