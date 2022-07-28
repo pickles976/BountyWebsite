@@ -18,3 +18,4 @@ sorl-thumbnail==12.8
 sqlparse==0.4
 redis
 pillow
+gunicorn==20.1.0

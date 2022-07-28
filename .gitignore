@@ -6,3 +6,5 @@ test.sh
 .env
 .devcontainer
 Dockerfile
+__pycache__/
+*.pyc
