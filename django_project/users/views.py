@@ -133,7 +133,7 @@ def exchange_code(code):
         "client_secret": CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": "http://localhost:8000/discord-register-redirect",
+        "redirect_uri": os.environ.get("DISCORD_REDIRECT_URL") + "/discord-register-redirect",
         "scope": "identify"
     }
     headers={
