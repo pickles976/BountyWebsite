@@ -10,7 +10,14 @@ import os
 from django.forms import modelformset_factory
 
 sigil_url = "https://sigilhq.com/room-auth/check-is-verified/"
+
+# LOCAL
 auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdiscord-register-redirect&response_type=code&scope=identify"
+
+# HEROKU
+if os.environ.get("DEBUG") == False:
+    auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=http%3A%2F%2Ffoxhole-bounties.herokuapp.com%2Fdiscord-register-redirect&response_type=code&scope=identify"
+
 CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
 SIGIL_TOKEN = os.environ.get("SIGIL_TOKEN")
