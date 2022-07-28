@@ -6,6 +6,10 @@ from users.models import Profile
 from django.utils import timezone
 from datetime import timedelta
 import os
+import json
+
+LAMBDA_URL=os.environ.get("LAMBDA_URL")
+LAMBDA_API_KEY=os.environ.get("LAMBDA_API_KEY")
 
 @shared_task(name = "check_war_status")
 def check_war_status():
@@ -53,52 +57,36 @@ def close_old_bounties():
 @shared_task(name='discord_messages')
 def discord_messages():
   
+    # GET ALL MESSAGES FROM DB AND FORMAT INTO MESSAGES
     all_messages = Message.objects.all()
 
-    new_dict = {}
+    message_dict = {}
 
     for message in all_messages.iterator():
         discordid = message.user.profile.discordid
         
         if message.user.profile.discordmessage:
 
-            if discordid in new_dict:
-                new_dict[discordid] += "\n" + message.text
+            if discordid in message_dict:
+                message_dict[discordid] += "\n" + message.text
             else:
-                new_dict[discordid] = message.text
+                message_dict[discordid] = message.text
 
-    all_messages.delete()
+    # SEND MESSAGES TO LAMBDA HANDLER
+    data = { "messages" : message_dict }
 
-    DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
+    print(data)
 
-    def send_messages(users):
+    headers = { 
+        'Accept':'application/json', 
+        "X-API-Key" : LAMBDA_API_KEY, 
+        "Connection": "keep-alive"}
 
-        import time
-        import discord
+    data_string = json.dumps(data)
 
-        s = time.time()
-        client = discord.Client()
+    print(data_string)
 
-        @client.event
-        async def on_ready():
+    r = requests.post(url=LAMBDA_URL,json=data_string,headers=headers)
 
-            print(f'We have logged in as {client.user}')
-            print(f"{(time.time() - s)*1000}ms elapsed")
-
-            start = time.time()
-            for user in users:
-                await send_message(user,users[user])
-            print(f"{(time.time() - start)*1000}ms elapsed")
-
-            await client.close()
-
-        async def send_message(target,payload):
-            try:
-                user = await client.fetch_user(target)
-                await user.send(payload)
-            except:
-                print("Could not message user!")
-
-        client.run(DISCORD_BOT_TOKEN)
-
-    send_messages(new_dict)
+    if (r.status_code == 200):
+        all_messages.delete()

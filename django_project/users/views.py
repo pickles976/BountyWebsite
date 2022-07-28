@@ -103,7 +103,6 @@ def verify(request):
         # send user ID to endpoint
         endpoint = sigil_url+request.user.profile.discordid
         response = requests.get(endpoint,headers=headers)
-        print(endpoint, response)
         if response.status_code == 200:
 
             status = response.json()
@@ -138,7 +137,6 @@ def exchange_code(code):
         "redirect_uri": "http://localhost:8000/discord-register-redirect",
         "scope": "identify"
     }
-    print(data)
     headers={
         "Content-Type": "application/x-www-form-urlencoded"
     }

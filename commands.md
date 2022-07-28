@@ -24,7 +24,7 @@ If working, the beat logs should show successful dispatches and the worker logs 
     python manage.py loaddata .\bounty\fixtures\teams.json
     python manage.py loaddata .\bounty\fixtures\wars.json
 
-## CELERY BULLSHIT (WINDOWS)
+## CELERY BULLSHIT (WINDOWS LOCAL)
 
 ### Run redis broker in docker
     docker run -p 6379:6379 --name some-redis -d redis
