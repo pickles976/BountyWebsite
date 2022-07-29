@@ -197,9 +197,9 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'  
 
 # LINUX ONLY
-# if not DEBUG:
-#     from memcacheify import memcacheify
-#     CACHES = memcacheify()
+if DEBUG == False:
+    from memcacheify import memcacheify
+    CACHES = memcacheify()
 
 
 # auto-handles Heroku configuration for PostgreSQL

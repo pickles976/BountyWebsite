@@ -1,74 +1,45 @@
-import os 
-import json
-import time
+import os
+import requests
 import discord
-import asyncio
+from discord.ext import tasks
 
-PATH = "/tmp/"
+URL = "http://foxhole-bounties.herokuapp.com/get_messages"
 
-def send_messages(users):
+def request_messages():
+    
+    headers= { "secret" : os.environ.get("MESSAGE_KEY") }
 
-    s = time.time()
-    client = discord.Client()
+    r = requests.get(url=URL,headers=headers)
 
-    @client.event
-    async def on_ready():
+    print(r.json())
 
-        print(f'We have logged in as {client.user}')
-        print(f"{(time.time() - s)*1000}ms elapsed")
+    data = r.json()["messages"]
 
-        start = time.time()
-        for user in users:
-            await send_message(user,users[user])
-        print(f"{(time.time() - start)*1000}ms elapsed")
+    return data
 
-        await client.close()
+client = discord.Client()
 
-    async def send_message(target,payload):
-        try:
-            user = await client.fetch_user(target)
-            await user.send(payload)
-        except:
-            print("Could not message user!")
+@client.event
+async def on_ready():
 
-    DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
-    client.run(DISCORD_BOT_TOKEN)
+    print(f'We have logged in as {client.user}')
 
-def lambda_handler(event,context):
+    get_messages.start()
 
-    # this weird double-deserialization is done because of how API-Gateway handles
-    # json strings from Python
-    print(event)
-    data_string=json.loads(event["body"])
-    data = json.loads(data_string)["messages"]
+@tasks.loop(seconds=30)
+async def get_messages(self):
+    
+    messages = request_messages()
 
+    for user in messages:
+        await send_message(user,messages[user])
+
+async def send_message(target,payload):
     try:
-    
-        send_messages(data)
-
-        # Hackily reset the asyncio event loop for the next Lambda invocation
-        asyncio.set_event_loop(asyncio.new_event_loop())
-
+        user = await client.fetch_user(target)
+        await user.send(payload)
     except:
+        print("Could not message user!")
 
-        return  {
-        'statusCode': 424,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET' 
-        },
-        'body': "ASYNC ERROR"
-    }
-    
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Headers': 'Content-Type',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET' 
-        },
-        'body': "SUCCESS"
-    }
+DISCORD_BOT_TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
+client.run(DISCORD_BOT_TOKEN)

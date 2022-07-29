@@ -17,6 +17,8 @@ Open shell:
 
     heroku run bash
 
+    cd django_project
+
     python manage.py loaddata ./bounty/fixtures/teams.json
     python manage.py loaddata ./bounty/fixtures/wars.json
 
