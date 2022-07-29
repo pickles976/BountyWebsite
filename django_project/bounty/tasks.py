@@ -8,27 +8,34 @@ from datetime import timedelta
 
 @shared_task(name = "check_war_status")
 def check_war_status():
-    r = requests.get("https://war-service-live.foxholeservices.com/api/worldconquest/war")
-    data = r.json()
 
-    warNumber = data["warNumber"]
+    try:
 
-    # if the warNumber is greater than the warnumber of the most current war
-    currentWar = War.objects.all().latest("pk")
-    if warNumber > currentWar.warNumber:
+        r = requests.get("https://war-service-live.foxholeservices.com/api/worldconquest/war")
+        data = r.json()
 
-        # unverify all user profiles
-        Profile.objects.all().update(verified=False)
+        warNumber = data["warNumber"]
 
-        # save the winner and times of this war
-        currentWar.winner = data["winner"]
-        currentWar.startTime = data["conquestStartTime"]
-        currentWar.endTime = data["conquestEndTime"]
-        currentWar.save()
+        # if the warNumber is greater than the warnumber of the most current war
+        currentWar = War.objects.all().latest("pk")
+        if warNumber > currentWar.warNumber:
 
-        # create new war object with data
-        war = War(warNumber=warNumber,winner="NONE")
-        war.save()
+            # unverify all user profiles
+            Profile.objects.all().update(verified=False)
+
+            # save the winner and times of this war
+            currentWar.winner = data["winner"]
+            currentWar.startTime = data["conquestStartTime"]
+            currentWar.endTime = data["conquestEndTime"]
+            currentWar.save()
+
+            # create new war object with data
+            war = War(warNumber=warNumber,winner="NONE")
+            war.save()
+
+    except:
+        
+        print("Failed to reach server!")
 
 @shared_task(name = "close_old_bounties")
 def close_old_bounties():
