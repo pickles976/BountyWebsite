@@ -21,3 +21,4 @@ pillow
 gunicorn==20.1.0
 django-heroku==0.3.1
 django-heroku-memcacheify
+django-cors-headers

@@ -1,6 +1,22 @@
 # Deployment commands for silly billys
 
+## Subsequent changes:
+
+Push Changes:
+
     git push heroku main
+
+Run Celery:
+
+    heroku run bash
+
+    cd django_project
+
+    python3 -m celery -A bounty beat -l info --logfile=celery.beat.log --max-interval 7200  --detach 
+    python3 -m celery -A bounty worker -l info --logfile=celery.log --detach
+
+
+## First-Time setup:
 
 Generate random key for Django:
 
@@ -20,15 +36,3 @@ Connecting to Redis in Heroku:
 Refreshing Redis Credentials:
 
     heroku redis:credentials HEROKU_REDIS_GRAY_URL --reset
-
-Open shell:
-
-    heroku run bash
-
-    cd django_project
-
-    python manage.py loaddata ./bounty/fixtures/teams.json
-    python manage.py loaddata ./bounty/fixtures/wars.json
-
-    python3 -m celery -A bounty beat -l info --logfile=celery.beat.log --max-interval 7200  --detach 
-    python3 -m celery -A bounty worker -l info --logfile=celery.log --detach
