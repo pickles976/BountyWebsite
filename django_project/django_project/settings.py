@@ -219,26 +219,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 
 # LINUX ONLY
 if DEBUG == False:
-
-    # from memcacheify import memcacheify
-    # CACHES = memcacheify()
+    from memcacheify import memcacheify
+    CACHES = memcacheify()
 
     # auto-handles Heroku configuration for PostgreSQL
-    # django_heroku.settings(locals())
-
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django_db_geventpool.backends.postgresql_psycopg2',
-        'NAME': 'db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '',
-        'PORT': '',
-        'ATOMIC_REQUESTS': False,
-        'CONN_MAX_AGE': 0,
-        'OPTIONS': {
-            'MAX_CONNS': 20,
-            'REUSE_CONNS': 10
-        }
-    }
-}
+    django_heroku.settings(locals())
