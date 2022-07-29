@@ -80,10 +80,10 @@
                         {% endthumbnail %}
                     {% endfor %}
                     <a href="{% url 'user-bounties' accepted.user.username %}">
-                        {% if user.profile.discordname %}
-                            {{ object.author.profile.discordname }}
+                        {% if accepted.user.profile.discordname %}
+                            {{ accepted.user.profile.discordname }}
                         {% else %}
-                            {{ object.author }}
+                            {{ accepted.user }}
                         {% endif %}
                     </a>
                 </h4>
