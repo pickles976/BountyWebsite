@@ -141,7 +141,7 @@ def exchange_code(code):
         "client_secret": CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": "http://foxhole-bounties.herokuapp.com/discord-register-redirect",
+        "redirect_uri": "https://foxholebounties.com/discord-register-redirect",
         "scope": "identify"
     }
     headers={
