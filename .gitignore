@@ -8,3 +8,4 @@ test.sh
 Dockerfile
 __pycache__/
 *.pyc
+*.cpython-37.pyc

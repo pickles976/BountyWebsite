@@ -348,27 +348,26 @@ def bountyAcceptView(request,pk):
 def getMessages(request):
 
     # CHECK HEADERS
-    print(request)
-    print(request.headers)
+    if "secret" in request.headers and request.headers["secret"] == os.environ.get("MESSAGE_KEY"):
 
-    # GET ALL MESSAGES FROM DB AND FORMAT INTO MESSAGES
-    all_messages = Message.objects.all()
+        # GET ALL MESSAGES FROM DB AND FORMAT INTO MESSAGES
+        all_messages = Message.objects.all()
 
-    message_dict = {}
+        message_dict = {}
 
-    for message in all_messages.iterator():
-        discordid = message.user.profile.discordid
-        
-        if message.user.profile.discordmessage:
+        for message in all_messages.iterator():
+            discordid = message.user.profile.discordid
+            
+            if message.user.profile.discordmessage:
 
-            if discordid in message_dict:
-                message_dict[discordid] += "\n" + message.text
-            else:
-                message_dict[discordid] = message.text
+                if discordid in message_dict:
+                    message_dict[discordid] += "\n" + message.text
+                else:
+                    message_dict[discordid] = message.text
 
-    # SEND MESSAGES TO LAMBDA HANDLER
-    data = { "messages" : message_dict }
+        # RETURN MESSAGES
+        data = { "messages" : message_dict }
 
-    print(data)
+        return JsonResponse(data=data)
 
-    return JsonResponse(data=data)
+    return redirect("bounty-detail")
