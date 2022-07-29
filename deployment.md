@@ -13,6 +13,14 @@ Running manage.py commands in Heroku:
 
     heroku run python django_project/manage.py migrate
 
+Connecting to Redis in Heroku:
+
+    heroku redis:credentials REDIS_URL
+
+Refreshing Redis Credentials:
+
+    heroku redis:credentials HEROKU_REDIS_GRAY_URL --reset
+
 Open shell:
 
     heroku run bash

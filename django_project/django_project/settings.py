@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+from distutils.log import debug
 import os
 from pathlib import Path
 import django_heroku
@@ -25,11 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY=os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ("True" == os.environ.get("DEBUG"))
+DEBUG = (os.environ.get("DJANGO_DEBUG") == "True")
 
 ALLOWED_HOSTS = [
     "foxhole-bounties.herokuapp.com",
-    "foxholebounties.com"
+    "foxholebounties.com",
+    "localhost"
 ]
 
 
@@ -201,6 +203,5 @@ if DEBUG == False:
     from memcacheify import memcacheify
     CACHES = memcacheify()
 
-
-# auto-handles Heroku configuration for PostgreSQL
-django_heroku.settings(locals())
+    # auto-handles Heroku configuration for PostgreSQL
+    django_heroku.settings(locals())
