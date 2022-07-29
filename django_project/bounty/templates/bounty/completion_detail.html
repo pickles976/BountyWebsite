@@ -10,7 +10,12 @@
         {% endfor %}
         <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-bounties' object.author.username %}">{{ object.author }}</a>
+            <a class="mr-2" href="{% url 'user-bounties' object.author.username %}">
+            {% if user.profile.discordname %}
+                {{ object.author.profile.discordname }}
+            {% else %}
+                {{ object.author }}
+            {% endif %}</a>
             <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
             {% if object.author == user %}
                 <div>
