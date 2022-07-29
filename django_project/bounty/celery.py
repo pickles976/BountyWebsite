@@ -25,15 +25,6 @@ def debug_task(self):
 # Schedule tasks on a beat
 app.conf.beat_schedule = {
     #Scheduler Name
-    'send_messages_minute': {
-        # Task Name (Name Specified in Decorator)
-        'task': 'discord_messages',  
-        # Schedule      
-        'schedule': 120.0,
-        # Function Arguments 
-        # 'args': ("Hello",) 
-    },
-    #Scheduler Name
     'check_war_ten_minutes': {
         # Task Name (Name Specified in Decorator)
         'task': 'check_war_status',  

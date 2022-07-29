@@ -27,4 +27,5 @@ urlpatterns = [
     path("completion/<int:pk>/<str:status>/", views.completionAcceptView,name="completion-accept"),
     path("reject/<int:pk>/", views.rejectionReasonView,name="rejection-reason"),
     path("accept/<int:pk>/", bountyAcceptView,name="bounty-accept"),
+    path("get_messages", views.getMessages, name="messages-get"),
 ]

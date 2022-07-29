@@ -1,15 +1,10 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 import requests
-from bounty.models import War, Bounty, Message
+from bounty.models import War, Bounty
 from users.models import Profile
 from django.utils import timezone
 from datetime import timedelta
-import os
-import json
-
-LAMBDA_URL=os.environ.get("LAMBDA_URL")
-LAMBDA_API_KEY=os.environ.get("LAMBDA_API_KEY")
 
 @shared_task(name = "check_war_status")
 def check_war_status():
@@ -52,41 +47,3 @@ def close_old_bounties():
             if (timezone.now() - bounty.date_posted) > age:
                 bounty.is_completed = True
                 bounty.save()
-
-# CHANGE TO LAMBDA FUNCTION
-@shared_task(name='discord_messages')
-def discord_messages():
-  
-    # GET ALL MESSAGES FROM DB AND FORMAT INTO MESSAGES
-    all_messages = Message.objects.all()
-
-    message_dict = {}
-
-    for message in all_messages.iterator():
-        discordid = message.user.profile.discordid
-        
-        if message.user.profile.discordmessage:
-
-            if discordid in message_dict:
-                message_dict[discordid] += "\n" + message.text
-            else:
-                message_dict[discordid] = message.text
-
-    # SEND MESSAGES TO LAMBDA HANDLER
-    data = { "messages" : message_dict }
-
-    print(data)
-
-    headers = { 
-        'Accept':'application/json', 
-        "X-API-Key" : LAMBDA_API_KEY, 
-        "Connection": "keep-alive"}
-
-    data_string = json.dumps(data)
-
-    print(data_string)
-
-    r = requests.post(url=LAMBDA_URL,json=data_string,headers=headers)
-
-    if (r.status_code == 200):
-        all_messages.delete()

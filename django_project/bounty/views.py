@@ -1,4 +1,5 @@
 from pyexpat import model
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from .models import Bounty, Completion, Images, Acceptance, Message, War
@@ -342,3 +343,32 @@ def bountyAcceptView(request,pk):
     m.save()
 
     return redirect("bounty-detail",pk)
+
+# get all current messages
+def getMessages(request):
+
+    # CHECK HEADERS
+    print(request)
+    print(request.headers)
+
+    # GET ALL MESSAGES FROM DB AND FORMAT INTO MESSAGES
+    all_messages = Message.objects.all()
+
+    message_dict = {}
+
+    for message in all_messages.iterator():
+        discordid = message.user.profile.discordid
+        
+        if message.user.profile.discordmessage:
+
+            if discordid in message_dict:
+                message_dict[discordid] += "\n" + message.text
+            else:
+                message_dict[discordid] = message.text
+
+    # SEND MESSAGES TO LAMBDA HANDLER
+    data = { "messages" : message_dict }
+
+    print(data)
+
+    return JsonResponse(data=data)
