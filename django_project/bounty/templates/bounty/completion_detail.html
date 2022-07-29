@@ -39,10 +39,12 @@
                     </div>
                 {% endfor %}
 
-                <button class="btn btn-info" onclick="plusDivs(-1)">&#10094;</button>
-                <button class="btn btn-info" onclick="plusDivs(1)">&#10095;</button>
+                <button class="btn btn-info gallery-button-prev" onclick="plusDivs(-1)">&#10094;</button>
+                <button class="btn btn-info gallery-button-next" onclick="plusDivs(1)">&#10095;</button>
             </div>
         {% endif %}
+
+        <p></p>
 
         <h2 class="article-title" >{{ object.title }}</h2>
         <p class="article-content">{{ object.description }}</p>
