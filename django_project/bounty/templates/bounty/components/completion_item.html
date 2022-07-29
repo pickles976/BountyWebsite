@@ -7,18 +7,26 @@
 {% endfor %}
 <div class="media-body">
     <div class="article-metadata">
-        <a class="mr-2" href="{% url 'user-bounties' object.bounty.author.username %}">{{ object.author }}</a>
+        <a class="mr-2" href="{% url 'user-bounties' object.bounty.author.username %}">
+            {% if user.profile.discordname %}
+                {{ object.author.profile.discordname }}
+            {% else %}
+                {{ object.author }}
+            {% endif %}
+        </a>
         <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
     </div>
     <h3>
         <a class="article-title" href="{% url 'completion-detail' object.id %}">{{ object.title }}</a>
     </h3>
-    {% for image in object.images_set.all %}
-            {% load thumbnail %}
-            {% thumbnail image.image "128x128" crop="center" as im %}
-                <img src="{{ im.url }}" class="article-img lazyload"/>
-            {% endthumbnail %}
-    {% endfor %}
+    <div style="margin-bottom: 16px;">
+        {% for image in object.images_set.all %}
+                {% load thumbnail %}
+                {% thumbnail image.image "128x128" crop="center" as im %}
+                    <img src="{{ im.url }}" class="article-img lazyload"/>
+                {% endthumbnail %}
+        {% endfor %}
+    </div>
     <p class="article-content">{{ object.description }}</p>
     <p class="article-info">{{ object.is_completed }}</p>
 </div>

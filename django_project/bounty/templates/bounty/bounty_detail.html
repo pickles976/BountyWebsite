@@ -10,7 +10,13 @@
         {% endfor %}
         <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="{% url 'user-bounties' object.author.username %}">{{ object.author }}</a>
+            <a class="mr-2" href="{% url 'user-bounties' object.author.username %}">
+                {% if user.profile.discordname %}
+                    {{ object.author.profile.discordname }}
+                {% else %}
+                    {{ object.author }}
+                {% endif %}
+            </a>
             <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
             {% if object.author == user %}
                 <div>
@@ -73,7 +79,13 @@
                             <img src="{{ im.url }}" class="rounded-circle accepted-thumb lazyload"/>
                         {% endthumbnail %}
                     {% endfor %}
-                    <a href="{% url 'user-bounties' accepted.user.username %}">{{ accepted.user.username }}</a>
+                    <a href="{% url 'user-bounties' accepted.user.username %}">
+                        {% if user.profile.discordname %}
+                            {{ object.author.profile.discordname }}
+                        {% else %}
+                            {{ object.author }}
+                        {% endif %}
+                    </a>
                 </h4>
             {% endfor %}
         </div>
