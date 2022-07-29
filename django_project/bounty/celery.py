@@ -29,7 +29,7 @@ app.conf.beat_schedule = {
         # Task Name (Name Specified in Decorator)
         'task': 'check_war_status',  
         # Schedule      
-        'schedule': 600.0, 
+        'schedule': 60.0, 
     },
     #Scheduler Name
     'check_bounties_hourly': {

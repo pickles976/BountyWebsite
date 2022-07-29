@@ -24,8 +24,8 @@ class War(models.Model):
 
     warNumber = models.IntegerField()
     winner = models.CharField(max_length=32,null=True)
-    startTime = models.IntegerField(null=True,blank=True)
-    endTime = models.IntegerField(null=True,blank=True)
+    startTime = models.BigIntegerField(null=True,blank=True)
+    endTime = models.BigIntegerField(null=True,blank=True)
 
 # Create your models here.
 class Bounty(models.Model):
