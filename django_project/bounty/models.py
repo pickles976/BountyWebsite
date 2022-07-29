@@ -84,7 +84,7 @@ class Bounty(models.Model):
 
     class JobType(models.TextChoices):
         LOGI = "LOGI", "Logistics"
-        DEMO = "DEMO", "Demolition"
+        DEMO = "DEMOLITION", "Demolition"
         PARTISAN = "PARTISAN", "Partisan"
         CONSTRUCTION = "CONSTRUCTION", "Construction"
         COMBAT = "COMBAT", "Combat"
