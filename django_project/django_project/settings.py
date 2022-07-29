@@ -69,8 +69,16 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://foxhole-bounty-bot.herokuapp.com",
+    "https://foxhole-bounty-bot.herokuapp.com",
     "http://localhost:8080"
 ]
+
+CORS_ORIGIN_WHITELIST = [
+    "https://foxhole-bounty-bot.herokuapp.com",
+    "https://foxhole-bounty-bot.herokuapp.com",
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOW_METHODS = [
 'GET',
