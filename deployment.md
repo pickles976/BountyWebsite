@@ -19,3 +19,6 @@ Open shell:
 
     python manage.py loaddata ./bounty/fixtures/teams.json
     python manage.py loaddata ./bounty/fixtures/wars.json
+
+    python3 -m celery -A bounty beat -l info --logfile=celery.beat.log --max-interval 7200  --detach 
+    python3 -m celery -A bounty worker -l info --logfile=celery.log --detach
