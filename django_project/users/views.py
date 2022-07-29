@@ -11,7 +11,7 @@ from django.forms import modelformset_factory
 
 sigil_url = "https://sigilhq.com/room-auth/check-is-verified/"
 
-auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=https%3A%2F%2Fwww.foxholebounties.com&response_type=code&scope=identify"
+auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=https%3A%2F%2Fwww.foxholebounties.com%2Fdiscord-register-redirect&response_type=code&scope=identify"
 
 # HEROKU
 if ("True" == os.environ.get("DJANGO_DEBUG")):
