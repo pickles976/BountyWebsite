@@ -19,7 +19,7 @@
         </a>
     </h2>
     <div class="row" style="width:100%;">
-        <div clas="col-md-8" style="margin-bottom:16px">
+        <div clas="col-md-8" style="margin-bottom:16px; margin-left:16px">
             {% for image in object.images_set.all %}
                 {% load thumbnail %}
                 {% thumbnail image.image "128x128" crop="center" as im %}
