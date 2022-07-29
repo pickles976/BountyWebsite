@@ -180,11 +180,18 @@ THUMBNAIL_FORCE_OVERWRITE = True
 # CELERY CONFIG 
 # https://nickmccullum.com/celery-django-periodic-tasks/
 # Celery Broker - Redis  
+
 # WARNING: IN DOCKER "localhost" NEEDS TO BE CHANGED TO REDIS
 # CELERY_BROKER_URL = 'redis://localhost:6379'  
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379'  
-CELERY_BROKER_URL = 'redis://redis:6379'  
-CELERY_RESULT_BACKEND = 'redis://redis:6379' 
+
+# DISCORD CELERY PROVISION
+# CELERY_BROKER_URL = 'redis://redis:6379'  
+# CELERY_RESULT_BACKEND = 'redis://redis:6379' 
+
+# HEROKUE CELERY PROVISION
+CELERY_BROKER_URL =  "redis://:pf09c8a6b09e327d71019db4bb04e19ba87c4d29d76ff35b4fc13aaad1e1b238f@ec2-34-192-190-27.compute-1.amazonaws.com:18440"
+CELERY_RESULT_BACKEND = "redis://:pf09c8a6b09e327d71019db4bb04e19ba87c4d29d76ff35b4fc13aaad1e1b238f@ec2-34-192-190-27.compute-1.amazonaws.com:18440"
 CELERY_ACCEPT_CONTENT = ['application/json']  
 CELERY_TASK_SERIALIZER = 'json'  
 CELERY_RESULT_SERIALIZER = 'json'  

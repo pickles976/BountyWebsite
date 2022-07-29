@@ -368,6 +368,8 @@ def getMessages(request):
         # RETURN MESSAGES
         data = { "messages" : message_dict }
 
+        all_messages.delete()
+
         return JsonResponse(data=data)
 
     return redirect("bounty-detail")
