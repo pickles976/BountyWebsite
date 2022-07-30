@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import ( BountyListView, 
-                        BountyDetailView, 
+from .views import (    BountyDetailView, 
                         UserBountyListView, 
                         BountyUpdateView, 
                         BountyDeleteView, 
@@ -9,12 +8,12 @@ from .views import ( BountyListView,
                         CompletionDeleteView,
                         postBountyView,
                         postCompletionView,
-                        bountyAcceptView )
+                        bountyAcceptView,
+                        bountyListView )
 from . import views
 
 urlpatterns = [
-    path('', BountyListView.as_view(),name="bounty-home"),
-    path('<str:status>/', BountyListView.as_view(),name="bounty-home"),
+    path('', bountyListView,name="bounty-home"),
     path("about", views.about, name="bounty-about"),
     path('user/<str:username>/', UserBountyListView.as_view(),name="user-bounties"),
     path("bounty/new/", postBountyView,name="bounty-create"),
