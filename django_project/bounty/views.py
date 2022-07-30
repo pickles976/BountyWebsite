@@ -2,6 +2,7 @@ from pyexpat import model
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
+from requests import request
 from .models import Bounty, Completion, Images, Acceptance, Message, War
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
@@ -12,6 +13,7 @@ from django.contrib import messages
 from .forms import ImageForm, BountyForm, CompletionForm, TextForm
 from .filters import BountyFilter
 import os
+from django.core.paginator import Paginator
 
 BASE_URL = os.environ.get("BASE_URL")
 
@@ -19,26 +21,52 @@ def about(request):
     return render(request,"bounty/about.html",{"title": "About"})
 
 # List view of Bounties
-class BountyListView(LoginRequiredMixin, ListView):
-    model = Bounty
-    template_name = "bounty/home.html"
-    context_object_name = "bounties"
-    ordering = ["-date_posted"]
-    paginate_by = 10
+# class BountyListView(LoginRequiredMixin, ListView):
+#     model = Bounty
+#     template_name = "bounty/home.html"
+#     context_object_name = "bounties"
+#     ordering = ["-date_posted"]
+#     paginate_by = 10
 
-    def get_queryset(self):
+#     def get_queryset(self):
 
-        if not self.request.user.profile.verified:
-            messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
-            return Bounty.objects.none()
+#         if not self.request.user.profile.verified:
+#             messages.error(self.request,"You are unverified! Please verify to access the Bounty board!")
+#             return Bounty.objects.none()
 
-        # filter bounties by user team
-        return Bounty.objects.filter(team=self.request.user.profile.team).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
+#         # filter bounties by user team
+#         return Bounty.objects.filter(team=self.request.user.profile.team).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["filter"] = BountyFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context["filter"] = BountyFilter(self.request.GET, queryset=self.get_queryset())
+#         return context
+
+@login_required
+def bountyListView(request):
+
+    if not request.user.profile.verified:
+        messages.error(request,"You are unverified! Please verify to access the Bounty board!")
+        return redirect("bounty-about")
+
+    context = {}
+
+    filtered_bounties = BountyFilter(
+        request.GET,
+        queryset=Bounty.objects.filter(team=request.user.profile.team).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
+    )
+
+    context["filter"] = filtered_bounties
+
+    paginated_filtered_persons = Paginator(filtered_bounties.qs, 10)
+
+    page_number = request.GET.get("page")
+    bounty_page_obj = paginated_filtered_persons.get_page(page_number)
+
+    context["bounty_page_obj"] = bounty_page_obj
+
+    return render(request,"bounty/home.html",context=context)
+
 
 
 # List view of bounties for currently authenticated user

@@ -1,10 +1,33 @@
 {% extends "bounty/base.html" %}
 {% block content %}
 
-    {% for object in filter.qs %}
+    {% for object in bounty_page_obj %}
         <article class="media content-section">
             {% include 'bounty/components/bounty_item.html' %}
         </article>
     {% endfor %}
-    {% include 'bounty/components/page_nav.html' %}
+
+    {% load bounty_extras %}
+    <div>
+        <span class="step-links">
+            {% if bounty_page_obj.has_previous %}
+                <a class="btn btn-outline-info mb-4" href="{% my_url 1  'page' request.GET.urlencode %}">First</a>
+                <a class="btn btn-outline-info mb-4" href="{% my_url bounty_page_obj.previous_page_number 'page' request.GET.urlencode %}">Previous</a>
+            {% endif %}
+
+            {% for num in bounty_page_obj.paginator.page_range %}
+                {% if bounty_page_obj.number == num %}
+                    <a class="btn btn-info mb-4" href="{% my_url num 'page' request.GET.urlencode %}">{{num}}</a>
+                {% elif num > bounty_page_obj.number|add:'-3' and num < bounty_page_obj.number|add:'+3' %}
+                    <a class="btn btn-outline-info mb-4" href="{% my_url num 'page' request.GET.urlencode %}">{{num}}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if bounty_page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="{% my_url bounty_page_obj.next_page_number 'page' request.GET.urlencode %}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="{% my_url bounty_page_obj.paginator.num_pages 'page' request.GET.urlencode %}">Last</a>
+            {% endif %}
+        </span>
+
+    </div>
 {% endblock content %}
