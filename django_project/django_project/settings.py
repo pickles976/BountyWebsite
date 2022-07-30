@@ -217,9 +217,6 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'  
 CELERY_RESULT_SERIALIZER = 'json'  
 
-# need this for DB migration
-DATABASE_URL = os.environ.get("DATABASE_URL")
-
 # LINUX ONLY
 if DEBUG == False:
     from memcacheify import memcacheify
@@ -227,3 +224,7 @@ if DEBUG == False:
 
     # auto-handles Heroku configuration for PostgreSQL
     django_heroku.settings(locals())
+
+    # need this for DB migration
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+    DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
