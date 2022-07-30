@@ -1,6 +1,7 @@
 from cgitb import text
 from pyexpat import model
 from secrets import choice
+from amqp import Channel
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -84,7 +85,7 @@ class Bounty(models.Model):
 
     class JobType(models.TextChoices):
         LOGI = "LOGI", "Logistics"
-        DEMO = "DEMOLITION", "Demolition"
+        DEMOLITION = "DEMOLITION", "Demolition"
         PARTISAN = "PARTISAN", "Partisan"
         CONSTRUCTION = "CONSTRUCTION", "Construction"
         COMBAT = "COMBAT", "Combat"
@@ -161,4 +162,23 @@ class Images(models.Model):
 class Message(models.Model):
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+    text = models.CharField(max_length=128)
+
+class Channel(models.Model):
+
+    name = models.CharField(max_length=64,null=False,default="None")
+    discordid = models.CharField(max_length=32,null=False,default="None")
+    types = models.IntegerField(default=0)
+
+    # Type Byte mappings
+    # 100000 LOGI
+    # 010000 DEMOLITION
+    # 001000 PARTISAN
+    # 000100 CONSTRUCTION
+    # 000010 COMBAT
+    # 000001 OTHER
+
+class BountyNotification(models.Model):
+
+    channel = models.ForeignKey(Channel,on_delete=models.CASCADE)
     text = models.CharField(max_length=128)
