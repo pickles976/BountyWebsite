@@ -119,6 +119,7 @@ def grid_to_coords(s):
 
     return [x,y]
 
+# Maps type to the nth bit 
 type_dict = {
     "LOGI" : 0,
     "DEMOLITION" : 1,
@@ -136,6 +137,7 @@ def shouldSendNotif(type, mask):
         shift = type_dict[type]
         type_byte = 2**shift
 
+        # check if bounty type is set in bitmask
         return 1 == ((type_byte & mask) >> (shift)) & 1
     return False
 

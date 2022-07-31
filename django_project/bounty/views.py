@@ -137,7 +137,7 @@ def postBountyView(request):
 
                 if shouldSendNotif(post_form.jobtype,channel.types):
                     url = BASE_URL + reverse("bounty-detail",args=[post_form.pk])
-                    notif = BountyNotification(channel=channel,text=f"{request.user.profile.discordname} posted a bounty: {url}")
+                    notif = BountyNotification(channel=channel,text=f"{request.user.profile.discordname} posted a {post_form.jobtype} bounty: {url}")
                     notif.save()
 
             # use django messages framework

@@ -164,11 +164,17 @@ class Message(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     text = models.CharField(max_length=128)
 
+    def __str__(self):
+        return f"{self.user} {self.text}"
+
 class Channel(models.Model):
 
     name = models.CharField(max_length=64,null=False,default="None")
     discordid = models.CharField(max_length=32,null=False,default="None")
     types = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
 
     # Type Byte mappings
     # 100000 LOGI
@@ -182,3 +188,6 @@ class BountyNotification(models.Model):
 
     channel = models.ForeignKey(Channel,on_delete=models.CASCADE)
     text = models.CharField(max_length=128)
+
+    def __str__(self):
+        return f"{self.channel.name} {self.text}"
