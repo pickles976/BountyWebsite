@@ -177,12 +177,12 @@ class Channel(models.Model):
         return self.name
 
     # Type Byte mappings
-    # 100000 LOGI
-    # 010000 DEMOLITION
-    # 001000 PARTISAN
-    # 000100 CONSTRUCTION
-    # 000010 COMBAT
-    # 000001 OTHER
+    # 1  100000 LOGI
+    # 2  010000 DEMOLITION
+    # 4  001000 PARTISAN
+    # 8  000100 CONSTRUCTION
+    # 16 000010 COMBAT
+    # 32 000001 OTHER
 
 class BountyNotification(models.Model):
 
