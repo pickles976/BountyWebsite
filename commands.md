@@ -24,3 +24,10 @@ If working, the beat logs should show successful dispatches and the worker logs 
     python manage.py loaddata .\bounty\fixtures\teams.json
     python manage.py loaddata .\bounty\fixtures\wars.json
 
+# SEND MESSAGE TO ALL VERIFIED USERS
+
+    heroku run bash
+    
+    cd django_project
+
+    python manage.py send_messages "Your Message"

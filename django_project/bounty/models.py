@@ -162,7 +162,7 @@ class Images(models.Model):
 class Message(models.Model):
 
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    text = models.CharField(max_length=128)
+    text = models.CharField(max_length=256)
 
     def __str__(self):
         return f"{self.user} {self.text}"
@@ -187,7 +187,7 @@ class Channel(models.Model):
 class BountyNotification(models.Model):
 
     channel = models.ForeignKey(Channel,on_delete=models.CASCADE)
-    text = models.CharField(max_length=128)
+    text = models.CharField(max_length=256)
 
     def __str__(self):
         return f"{self.channel.name} {self.text}"
