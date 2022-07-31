@@ -224,3 +224,7 @@ if DEBUG == False:
 
     # auto-handles Heroku configuration for PostgreSQL
     django_heroku.settings(locals())
+
+    # need this for DB migration
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+    DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")

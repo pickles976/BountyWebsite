@@ -1,9 +1,9 @@
-from pyexpat import model
+from cgitb import text
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from requests import request
-from .models import Bounty, Completion, Images, Acceptance, Message, War
+from .models import Bounty, Completion, Images, Acceptance, Message, War, Channel, BountyNotification
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -14,6 +14,7 @@ from .forms import ImageForm, BountyForm, CompletionForm, TextForm
 from .filters import BountyFilter
 import os
 from django.core.paginator import Paginator
+from bounty.utils import shouldSendNotif
 
 BASE_URL = os.environ.get("BASE_URL")
 
@@ -128,6 +129,16 @@ def postBountyView(request):
                     image = form['image']
                     photo = Images(bounty=post_form,image=image)
                     photo.save()
+
+            # send messages to all subscribed channels
+            all_channels = Channel.objects.all()
+
+            for channel in all_channels.iterator():
+
+                if shouldSendNotif(post_form.jobtype,channel.types):
+                    url = BASE_URL + reverse("bounty-detail",args=[post_form.pk])
+                    notif = BountyNotification(channel=channel,text=f"{request.user.profile.discordname} posted a bounty: {url}")
+                    notif.save()
 
             # use django messages framework
             messages.success(request,"Bounty created successfully")
@@ -393,10 +404,25 @@ def getMessages(request):
                 else:
                     message_dict[discordid] = message.text
 
+        channel_messages = BountyNotification.objects.all()
+
+        channel_dict = {}
+
+        for message in channel_messages.iterator():
+            discordid = message.channel.discordid
+            
+            if discordid in channel_dict:
+                channel_dict[discordid] += "\n" + message.text
+            else:
+                channel_dict[discordid] = message.text
+
         # RETURN MESSAGES
-        data = { "messages" : message_dict }
+        data = { 
+            "messages" : message_dict,
+            "channel_messages" : channel_dict }
 
         all_messages.delete()
+        channel_messages.delete()
 
         return JsonResponse(data=data)
 
