@@ -11,7 +11,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        message = options["message"]
+        message = options["message"][0]
+
         p = Profile.objects.filter(verified=True,discordmessage=True)
 
         for profile in p.iterator():
