@@ -120,7 +120,7 @@ def verify(request):
                request.user.profile.verified=True
                request.user.profile.save()
             else:
-                messages.error(request,"You are not verified on SIGIL!")
+                messages.error(request,"You are not verified on SIGIL! Visit https://discord.gg/rRmkN6S to verify!")
 
         else:
             messages.error(request,"Error connecting to SIGIL server")
