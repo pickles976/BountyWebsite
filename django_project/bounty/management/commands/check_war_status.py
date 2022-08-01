@@ -1,6 +1,6 @@
 import requests
 from django.core.management.base import BaseCommand, CommandError
-from bounty.models import War
+from bounty.models import War, Message
 from users.models import Profile
 
 class Command(BaseCommand):

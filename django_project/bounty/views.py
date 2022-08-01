@@ -135,7 +135,7 @@ def postBountyView(request):
 
             for channel in all_channels.iterator():
 
-                if shouldSendNotif(post_form.jobtype,channel.types):
+                if channel.team == post_form.team and shouldSendNotif(post_form.jobtype,channel.types):
                     url = BASE_URL + reverse("bounty-detail",args=[post_form.pk])
                     notif = BountyNotification(channel=channel,text=f"{request.user.profile.discordname} posted a {post_form.jobtype} bounty: {url}")
                     notif.save()

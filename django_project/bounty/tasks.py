@@ -1,7 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 import requests
-from bounty.models import War, Bounty
+from bounty.models import War, Bounty, Message
 from users.models import Profile
 from django.utils import timezone
 from datetime import timedelta
@@ -19,6 +19,15 @@ def check_war_status():
         # if the warNumber is greater than the warnumber of the most current war
         currentWar = War.objects.all().latest("pk")
         if warNumber > currentWar.warNumber:
+
+            # SEND MESSAGES ON NEW WAR START
+            p = Profile.objects.filter(verified=True,discordmessage=True)
+            message = "A new war has started! Visit https://www.foxholebounties.com/profile/ to re-verify with just a click!"
+
+            for profile in p.iterator():
+
+                m = Message(user=profile.user,text=message)
+                m.save()
 
             # unverify all user profiles
             Profile.objects.all().update(verified=False)

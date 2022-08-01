@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from bounty.models import Message
 from users.models import Profile
 from bounty.models import Message
+from bounty.utils import messageAll
 
 class Command(BaseCommand):
     help = "Checks the Foxhole WAR API for a new war. If new war has started, all players are un-verified"
@@ -12,10 +13,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
 
         message = options["message"][0]
-
-        p = Profile.objects.filter(verified=True,discordmessage=True)
-
-        for profile in p.iterator():
-
-            m = Message(user=profile.user,text=message)
-            m.save()
+        messageAll(message)

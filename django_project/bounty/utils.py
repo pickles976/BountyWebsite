@@ -140,4 +140,3 @@ def shouldSendNotif(type, mask):
         # check if bounty type is set in bitmask
         return 1 == ((type_byte & mask) >> (shift)) & 1
     return False
-

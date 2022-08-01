@@ -172,6 +172,7 @@ class Channel(models.Model):
     name = models.CharField(max_length=64,null=False,default="None")
     discordid = models.CharField(max_length=32,null=False,default="None")
     types = models.IntegerField(default=0)
+    team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return self.name
