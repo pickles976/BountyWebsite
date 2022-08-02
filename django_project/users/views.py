@@ -17,12 +17,13 @@ sigil_url = "https://sigilhq.com/room-auth/check-is-verified/"
 sigil_bot_url = "https://sigilhq.com/room-auth/check-is-verified-on-certified/"
 
 auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=https%3A%2F%2Fwww.foxholebounties.com%2Fdiscord-register-redirect&response_type=code&scope=guilds%20identify"
+REDIRECT_URI = "https://www.foxholebounties.com/discord-register-redirect"
 
-# HEROKU
+# LOCAL SETTINGS
 if ("True" == os.environ.get("DJANGO_DEBUG")):
     # LOCAL
     auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdiscord-register-redirect&response_type=code&scope=guilds%20identify"
-
+    REDIRECT_URI = "http://localhost:8000/discord-register-redirect"
 
 CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
@@ -158,14 +159,11 @@ def verify(request):
 
 def exchange_code(code):
 
-    REDIRECT_URI = "http://localhost:8000/discord-register-redirect"
-
     data = {
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        # "redirect_uri": "https://www.foxholebounties.com/discord-register-redirect",
         "redirect_uri": REDIRECT_URI,
         "scope": "identify guilds"
     }
