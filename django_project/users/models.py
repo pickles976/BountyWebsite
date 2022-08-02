@@ -12,8 +12,14 @@ class Profile(models.Model):
 
     discordname = models.CharField(max_length=40,null=True,blank=True)
     discordid = models.CharField(max_length=64,null=True,blank=True)
+
     verified = models.BooleanField(null=False,default=False)
     discordmessage = models.BooleanField(null=False,default=True)
+
+    # discord stuff
+    discordToken = models.CharField(max_length=32,null=True,blank=True)
+    refreshToken = models.CharField(max_length=32,null=True,blank=True)
+    dateAuthorized = models.DateTimeField(null=True,blank=True)
 
     def __str__(self):
         return f"{self.user.username} Profile"

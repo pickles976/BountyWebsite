@@ -5,6 +5,10 @@ from bounty.models import War, Bounty, Message
 from users.models import Profile
 from django.utils import timezone
 from datetime import timedelta
+import os
+
+CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
+CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
 
 @shared_task(name = "check_war_status")
 def check_war_status():
@@ -63,3 +67,42 @@ def close_old_bounties():
             if (timezone.now() - bounty.date_posted) > age:
                 bounty.is_completed = True
                 bounty.save()
+
+@shared_task(name = "refresh_tokens")
+def refresh_tokens():
+
+    profiles = Profile.objects.filter(discordToken__isnull=False)
+
+    age = timedelta(days=3)
+
+    for profile in profiles:
+
+        if (timezone.now() - profile.dateAuthorized) > age:
+
+            print(f"Refreshing token for {profile.discordname}")
+
+            try:
+                data = {
+                    'client_id': CLIENT_ID,
+                    'client_secret': CLIENT_SECRET,
+                    'grant_type': 'refresh_token',
+                    'refresh_token': profile.refreshToken
+                }
+                headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+                r = requests.post("https://discord.com/api/oauth2/token", data=data, headers=headers)
+                r.raise_for_status()
+                data = r.json()
+                newToken = data["access_token"]
+                refreshToken = data["refresh_token"]
+
+                print(data)
+                
+                profile.discordToken = newToken
+                profile.refreshToken = refreshToken
+                profile.save()
+            except:
+                profile.discordToken = None
+                profile.refreshToken = None
+                profile.save()

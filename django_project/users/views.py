@@ -1,4 +1,6 @@
-from email import message
+from distutils.log import info
+from email import header, message
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -8,15 +10,18 @@ from .forms import ProfileImageForm, UserRegisterForm, UserUpdateForm, ProfileUp
 from users.models import Profile, ProfileImage
 import os
 from django.forms import modelformset_factory
+from django.utils import timezone
+from users.utils import getUserInfoFromToken
 
 sigil_url = "https://sigilhq.com/room-auth/check-is-verified/"
+sigil_bot_url = "https://sigilhq.com/room-auth/check-is-verified-on-certified/"
 
-auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=https%3A%2F%2Fwww.foxholebounties.com%2Fdiscord-register-redirect&response_type=code&scope=identify"
+auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=https%3A%2F%2Fwww.foxholebounties.com%2Fdiscord-register-redirect&response_type=code&scope=guilds%20identify"
 
 # HEROKU
 if ("True" == os.environ.get("DJANGO_DEBUG")):
     # LOCAL
-    auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdiscord-register-redirect&response_type=code&scope=identify"
+    auth_url_discord = "https://discord.com/api/oauth2/authorize?client_id=1000844725445726270&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fdiscord-register-redirect&response_type=code&scope=guilds%20identify"
 
 
 CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
@@ -44,12 +49,22 @@ def discord_register(request):
 @login_required
 def discord_register_redirect(request):
     code = request.GET.get("code")
-    user = exchange_code(code)
+    infoDict = exchange_code(code)
+    
+    user = infoDict["user"]
+
+    token = infoDict["access_token"]
+    refresh_token = infoDict["refresh_token"]
 
     profile = Profile.objects.get(user=request.user)
     profile.discordname = user["username"] + "#" + user["discriminator"]
     profile.discordid = user["id"]
     profile.verified = False
+
+    # refresh token
+    profile.discordToken = token
+    profile.refreshToken = refresh_token
+    profile.dateAuthorized = timezone.now()
     profile.save()
     
     return redirect("profile")
@@ -103,28 +118,34 @@ def profile(request):
 @login_required
 def verify(request):
 
+    # USER IS COLONIAL
     if request.user.profile.team.team == "COLONIAL":
 
         headers = {
             "token": SIGIL_TOKEN
         }
-        # send user ID to endpoint
-        endpoint = sigil_url+request.user.profile.discordid
-        response = requests.get(endpoint,headers=headers)
+        
+        endpoint = sigil_bot_url+request.user.profile.discordid
+        guilds = getUserInfoFromToken(request.user.profile.discordToken)["guilds"]
+        body = {}
+        body["servers"] = [guild["id"] for guild in guilds]
+
+        response = requests.post(endpoint,headers=headers,data=body)
         if response.status_code == 200:
-
             status = response.json()
-
-            if status["isVerified"] == True:
-               messages.success(request,"You are now verified!")
-               request.user.profile.verified=True
-               request.user.profile.save()
-            else:
-                messages.error(request,"You are not verified on SIGIL! Visit https://discord.gg/rRmkN6S to verify!")
-
+            isVerified = status["isVerified"]
+            isSigilVerified = status["isSigilVerified"]
+            
+            if isSigilVerified or isVerified:
+                messages.success(request,"You are now verified!")
+                request.user.profile.verified=True
+                request.user.profile.save()
+                return redirect("profile")
         else:
             messages.error(request,"Error connecting to SIGIL server")
 
+        messages.error(request,"You are not verified on SIGIL or any SigilBot servers! Visit https://discord.gg/rRmkN6S to verify!")
+        
         return redirect("profile")
 
     elif request.user.profile.team.team == "WARDEN":
@@ -136,20 +157,30 @@ def verify(request):
     return redirect("profile")
 
 def exchange_code(code):
+
+    REDIRECT_URI = "http://localhost:8000/discord-register-redirect"
+
     data = {
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": "https://www.foxholebounties.com/discord-register-redirect",
-        "scope": "identify"
+        # "redirect_uri": "https://www.foxholebounties.com/discord-register-redirect",
+        "redirect_uri": REDIRECT_URI,
+        "scope": "identify guilds"
     }
     headers={
         "Content-Type": "application/x-www-form-urlencoded"
     }
     response = requests.post("https://discord.com/api/oauth2/token",data=data,headers=headers)
     credentials = response.json()
+
+    print(credentials)
+
     access_token = credentials["access_token"]
-    response = requests.get("https://discord.com/api/v6/users/@me", headers={"Authorization": f"Bearer {access_token}"})
-    user = response.json()
-    return user
+
+    infoDict = getUserInfoFromToken(access_token)
+    infoDict["refresh_token"] = credentials["refresh_token"]
+    infoDict["access_token"] = access_token
+
+    return infoDict

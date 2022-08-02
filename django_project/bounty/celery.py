@@ -40,4 +40,10 @@ app.conf.beat_schedule = {
         # Function Arguments 
         # 'args': (10,20) 
     },
+    'refresh_tokens_hourly': {
+        # Task Name (Name Specified in Decorator)
+        'task': 'refresh_tokens',  
+        # Schedule      
+        'schedule': 3600.0,
+    },
 }  
