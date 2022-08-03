@@ -62,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "user_visit.middleware.UserVisitMiddleware",
+    "django.middleware.gzip.GZipMiddleware",
 ]
 
 CORS_ALLOWED_ORIGINS = [
