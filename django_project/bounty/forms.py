@@ -6,16 +6,16 @@ class BountyForm(forms.ModelForm):
 
     title = forms.CharField(max_length=128)
 
-    coordinates = forms.CharField(max_length=3, required=False,
-    validators=[RegexValidator(
-        '^[A-Q][1-9]+$',
-        message ="Coordinates should be in form <A-Q><1-15>, ex: 'B13' \n" +
-        "Read about coordinates here: https://foxhole.fandom.com/wiki/Community_Guides/Map_Guide"
-    )])
+    # coordinates = forms.CharField(max_length=3, required=False,
+    # validators=[RegexValidator(
+    #     '^[A-Q][1-9]+$',
+    #     message ="Coordinates should be in form <A-Q><1-15>, ex: 'B13' \n" +
+    #     "Read about coordinates here: https://foxhole.fandom.com/wiki/Community_Guides/Map_Guide"
+    # )])
  
     class Meta:
         model = Bounty
-        fields = ['title', 'description', "jobtype", "region", "coordinates"]
+        fields = ['title', 'description', "jobtype", "region"]
 
 class CompletionForm(forms.ModelForm):
 
