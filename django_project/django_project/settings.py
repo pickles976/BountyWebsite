@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from distutils.log import debug
 import os
 from pathlib import Path
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "corsheaders",
     "users.apps.UsersConfig",
     "bounty.apps.BountyConfig",
     "crispy_forms",
@@ -64,7 +62,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "user_visit.middleware.UserVisitMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -210,21 +207,23 @@ THUMBNAIL_FORCE_OVERWRITE = True
 # CELERY_BROKER_URL = 'redis://redis:6379'  
 # CELERY_RESULT_BACKEND = 'redis://redis:6379' 
 
-# HEROKUE CELERY PROVISION
+# HEROKU CELERY PROVISION
 CELERY_BROKER_URL = os.environ.get("REDIS_URL")
 CELERY_RESULT_BACKEND = os.environ.get("REDIS_URL")
 CELERY_ACCEPT_CONTENT = ['application/json']  
 CELERY_TASK_SERIALIZER = 'json'  
 CELERY_RESULT_SERIALIZER = 'json'  
 
-# LINUX ONLY
+# HEROKU 
 if DEBUG == False:
     from memcacheify import memcacheify
     CACHES = memcacheify()
 
     # auto-handles Heroku configuration for PostgreSQL
+    import django_heroku
     django_heroku.settings(locals())
 
     # need this for DB migration
     DATABASE_URL = os.environ.get("DATABASE_URL")
     DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
+    

@@ -106,3 +106,14 @@ def refresh_tokens():
                 profile.discordToken = None
                 profile.refreshToken = None
                 profile.save()
+
+@shared_task(name = "test_celery")
+def test_celery():
+
+    p = Profile.objects.filter(verified=True,discordmessage=True)
+    message = "Celery beat is running"
+
+    for profile in p.iterator():
+
+        m = Message(user=profile.user,text=message)
+        m.save()
