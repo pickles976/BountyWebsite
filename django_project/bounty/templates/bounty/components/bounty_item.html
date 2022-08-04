@@ -1,9 +1,9 @@
 {% load thumbnail %}
-{% for image in object.author.profile.profileimage_set.all %}
+<!-- {% for image in object.author.profile.profileimage_set.all %}
     {% thumbnail image.image "65x65" crop="center" as im %}
         <img src="{{ im.url }}" class="rounded-circle article-thumb lazyload"/>
     {% endthumbnail %}
-{% endfor %}
+{% endfor %} -->
 <div class="media-body">
     <div class="article-metadata">
         <a class="mr-2" href="{% url 'user-bounties' object.author.username %}">
