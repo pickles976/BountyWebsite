@@ -13,7 +13,8 @@
                 {{ object.author }}
             {% endif %}
         </a>
-        <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
+        <!-- <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small> -->
+        <small class="text-muted">{{ object.get_age }}</small>
     </div>
     <h2>
         <a class="article-title" href="{% url 'bounty-detail' object.id %}">{{ object.title }}

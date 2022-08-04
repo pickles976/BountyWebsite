@@ -16,7 +16,7 @@
             {% else %}
                 {{ object.author }}
             {% endif %}</a>
-            <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
+            <small class="text-muted">{{ object.get_age }}</small>
             {% if object.author == user %}
                 <div>
                     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'completion-delete' object.id %}">Delete</a>

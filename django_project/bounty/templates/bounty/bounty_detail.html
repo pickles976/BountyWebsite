@@ -17,7 +17,7 @@
                     {{ object.author }}
                 {% endif %}
             </a>
-            <small class="text-muted">{{ object.date_posted|date:'Y-m-d H:i' }}</small>
+            <small class="text-muted">{{ object.get_age }}</small>
             {% if object.author == user %}
                 <div>
                     {% if object.is_completed != True %}

@@ -1,7 +1,3 @@
-from cgitb import text
-from dis import disco
-from pyexpat import model
-from secrets import choice
 from amqp import Channel
 from django.db import models
 from django.utils import timezone
@@ -122,6 +118,18 @@ class Bounty(models.Model):
     def get_names(self):
         return json.dumps(get_names_with_coords())
 
+    def get_age(self):
+        
+        diff = timezone.now() - self.date_posted
+
+        if diff.days > 0:
+            return f"Posted {diff.days} days ago "
+        elif diff.seconds > 3600:
+            return f"Posted {int(diff.seconds / 3600)} hours ago"
+        elif diff.seconds > 60:
+            return f"Posted {int(diff.seconds/60)} minutes ago"
+        return "Posted just now"
+
 # Acceptance object tying a user to a bounty
 class Acceptance(models.Model):
 
@@ -149,6 +157,18 @@ class Completion(models.Model):
 
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.bounty.id})
+
+    def get_age(self):
+        
+        diff = timezone.now() - self.date_posted
+
+        if diff.days > 0:
+            return f"Posted {diff.days} days ago "
+        elif diff.seconds > 3600:
+            return f"Posted {int(diff.seconds / 3600)} hours ago"
+        elif diff.seconds > 60:
+            return f"Posted {int(diff.seconds/60)} minutes ago"
+        return "Posted just now"
 
 class Images(models.Model):
 
