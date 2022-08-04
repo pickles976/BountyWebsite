@@ -52,10 +52,20 @@ def bountyListView(request):
 
     context = {}
 
-    filtered_bounties = BountyFilter(
-        request.GET,
-        queryset=Bounty.objects.filter(team=request.user.profile.team).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
-    )
+    filtered_bounties = BountyFilter()
+
+    # initial page load
+    if len(request.GET) == 0:
+        filtered_bounties = BountyFilter(
+            request.GET,
+            queryset=Bounty.objects.filter(team=request.user.profile.team,is_completed=False).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
+        )
+    else:
+        filtered_bounties = BountyFilter(
+            request.GET,
+            queryset=Bounty.objects.filter(team=request.user.profile.team).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
+        )
+
 
     context["filter"] = filtered_bounties
 
