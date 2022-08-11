@@ -101,10 +101,12 @@ def refresh_tokens():
                 
                 profile.discordToken = newToken
                 profile.refreshToken = refreshToken
+                profile.dateAuthorized = timezone.now()
                 profile.save()
             except:
                 profile.discordToken = None
                 profile.refreshToken = None
+                profile.dateAuthorized = timezone.now()
                 profile.save()
 
 @shared_task(name = "test_celery")
