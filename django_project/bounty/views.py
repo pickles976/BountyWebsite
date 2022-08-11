@@ -58,7 +58,7 @@ def bountyListView(request):
     if len(request.GET) == 0:
         filtered_bounties = BountyFilter(
             request.GET,
-            queryset=Bounty.objects.filter(team=request.user.profile.team,is_completed=False).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
+            queryset=Bounty.objects.filter(team=request.user.profile.team).filter(is_completed=False).prefetch_related("images_set","completion_set","acceptance_set").order_by("-date_posted")
         )
     else:
         filtered_bounties = BountyFilter(
@@ -230,7 +230,7 @@ def postCompletionView(request,bounty):
     #'extra' means the number of photos that you can upload   ^
     if request.method == 'POST':
 
-        if len(Completion.objects.filter(author=request.user,bounty=bounty)) > 0:
+        if len(Completion.objects.filter(author=request.user).filter(bounty=bounty)) > 0:
             messages.error(request,"You have already created a completion for this bounty!")
             return redirect("bounty-detail",bounty)
     
@@ -376,7 +376,7 @@ def bountyAcceptView(request,pk):
     if not Bounty.objects.get(pk=pk).team == request.user.profile.team:
         return redirect("bounty-about")
 
-    if len(Acceptance.objects.filter(user=request.user,bounty=pk)) > 0:
+    if len(Acceptance.objects.filter(user=request.user).filter(bounty=pk)) > 0:
             messages.error(request,"You have already accepted this bounty!")
             return redirect("bounty-detail",pk)
 

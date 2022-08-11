@@ -25,7 +25,7 @@ def check_war_status():
         if warNumber > currentWar.warNumber:
 
             # SEND MESSAGES ON NEW WAR START
-            p = Profile.objects.filter(verified=True,discordmessage=True)
+            p = Profile.objects.filter(discordmessage=True)
             message = "A new war has started! Visit https://www.foxholebounties.com/profile/ to re-verify with just a click!"
 
             for profile in p.iterator():
@@ -112,7 +112,7 @@ def refresh_tokens():
 @shared_task(name = "test_celery")
 def test_celery():
 
-    p = Profile.objects.filter(verified=True,discordmessage=True)
+    p = Profile.objects.filter(verified=True).filter(discordmessage=True)
     message = "Celery beat is running"
 
     for profile in p.iterator():
