@@ -121,12 +121,13 @@ def grid_to_coords(s):
 
 # Maps type to the nth bit 
 type_dict = {
-    "LOGI" : 0,
-    "DEMOLITION" : 1,
-    "PARTISAN" : 2,
-    "CONSTRUCTION" : 3,
-    "COMBAT" : 4,
-    "OTHER" : 5
+    "LOGI" : 0, # 1
+    "DEMOLITION" : 1, # 2
+    "PARTISAN" : 2, # 4
+    "CONSTRUCTION" : 3, # 8
+    "COMBAT" : 4, # 16
+    "REFUEL" : 5, # 32
+    "OTHER" : 6, #64
 }
 
 # takes in a bounty type and bitmask, returns a boolean

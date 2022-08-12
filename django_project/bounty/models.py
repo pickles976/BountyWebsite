@@ -86,6 +86,7 @@ class Bounty(models.Model):
         PARTISAN = "PARTISAN", "Partisan"
         CONSTRUCTION = "CONSTRUCTION", "Construction"
         COMBAT = "COMBAT", "Combat"
+        REFUEL = "REFUEL", "Refuel"
         OTHER = "OTHER", "Other"
 
     jobtype = models.CharField(max_length=12,choices=JobType.choices,default=JobType.OTHER)
@@ -199,12 +200,13 @@ class Channel(models.Model):
         return self.name
 
     # Type Byte mappings
-    # 1  100000 LOGI
-    # 2  010000 DEMOLITION
-    # 4  001000 PARTISAN
-    # 8  000100 CONSTRUCTION
-    # 16 000010 COMBAT
-    # 32 000001 OTHER
+    # 1  1000000 LOGI
+    # 2  0100000 DEMOLITION
+    # 4  0010000 PARTISAN
+    # 8  0001000 CONSTRUCTION
+    # 16 0000100 COMBAT
+    # 32 0000010 REFUEL
+    # 64 0000001 OTHER
 
 class BountyNotification(models.Model):
 
