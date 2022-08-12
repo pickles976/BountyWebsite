@@ -29,14 +29,14 @@ app.conf.beat_schedule = {
         # Task Name (Name Specified in Decorator)
         'task': 'check_war_status',  
         # Schedule      
-        'schedule': 600.0, 
+        'schedule': 3600.0, 
     },
     #Scheduler Name
     'check_bounties_hourly': {
         # Task Name (Name Specified in Decorator)
         'task': 'close_old_bounties',  
         # Schedule      
-        'schedule': 1800.0,
+        'schedule': 3600.0,
         # Function Arguments 
         # 'args': (10,20) 
     },
@@ -44,7 +44,7 @@ app.conf.beat_schedule = {
         # Task Name (Name Specified in Decorator)
         'task': 'refresh_tokens',  
         # Schedule      
-        'schedule': 1800.0,
+        'schedule': 3600.0,
     },
     # 'test_celery': {
     #     # Task Name (Name Specified in Decorator)
