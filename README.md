@@ -24,3 +24,9 @@ Nothing!
 Bot permissions link: 
 
     https://discord.com/oauth2/authorize?client_id=1000844725445726270&scope=bot&permissions=0
+
+# Requests
+
+    https://www.FoxholeBounties.com/get_verified
+
+    https://www.FoxholeBounties.com/get_visits
