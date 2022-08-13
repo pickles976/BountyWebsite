@@ -6,6 +6,9 @@ from users.models import Profile
 from django.utils import timezone
 from datetime import timedelta
 import os
+from users.models import DailyVisit
+from user_visit.models import UserVisit
+
 
 CLIENT_ID = os.environ.get("DISCORD_CLIENT_ID")
 CLIENT_SECRET = os.environ.get("DISCORD_CLIENT_SECRET")
@@ -108,6 +111,33 @@ def refresh_tokens():
                 profile.refreshToken = None
                 profile.dateAuthorized = timezone.now()
                 profile.save()
+
+@shared_task(name = "log_visits")
+def log_visits():
+
+    age = timedelta(days=3)
+
+    visits = UserVisit.objects.filter(created_at__lte=timezone.now()-age)
+
+    visitsDict = {}
+
+    for visit in visits.iterator():
+
+            date = visit.created_at.date()
+            
+            if date in visitsDict:
+                visitsDict[date] += 1
+            else:
+                visitsDict[date] = 1
+
+    visits.delete()
+
+    print(visitsDict)
+
+    for date in visitsDict:
+
+        v = DailyVisit(date=date,numVisits=visitsDict[date])
+        v.save()
 
 @shared_task(name = "test_celery")
 def test_celery():

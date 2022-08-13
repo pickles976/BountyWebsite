@@ -32,3 +32,11 @@ class ProfileImage(models.Model):
     def delete(self,*args,**kwargs):
         storage, path = self.image.storage, self.image.path
         storage.delete(path)
+
+class DailyVisit(models.Model):
+
+    date = models.DateField(null=True,blank=True)
+    numVisits = models.IntegerField(null=True)
+
+    def __str__(self):
+        return f"DATE: {self.date}  VISITS: {self.numVisits}"

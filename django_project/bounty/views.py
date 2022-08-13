@@ -15,6 +15,7 @@ from .filters import BountyFilter
 import os
 from django.core.paginator import Paginator
 from bounty.utils import shouldSendNotif
+from users.models import Profile
 
 BASE_URL = os.environ.get("BASE_URL")
 
@@ -433,6 +434,24 @@ def getMessages(request):
 
         all_messages.delete()
         channel_messages.delete()
+
+        return JsonResponse(data=data)
+
+    return redirect("bounty-detail")
+
+# get all current messages
+def getVerified(request):
+
+    # CHECK HEADERS
+    if "secret" in request.headers and request.headers["secret"] == os.environ.get("MESSAGE_KEY"):
+
+        # GET ALL VERIFIED USERS
+        p = Profile.objects.filter(verified=True)
+
+        profiles = [profile.discordname for profile in p.iterator()]
+
+        # RETURN MESSAGES
+        data = { "verifiedUsers" : profiles }
 
         return JsonResponse(data=data)
 

@@ -25,7 +25,7 @@ def debug_task(self):
 # Schedule tasks on a beat
 app.conf.beat_schedule = {
     #Scheduler Name
-    'check_war_ten_minutes': {
+    'check_war_hourly': {
         # Task Name (Name Specified in Decorator)
         'task': 'check_war_status',  
         # Schedule      
@@ -46,10 +46,10 @@ app.conf.beat_schedule = {
         # Schedule      
         'schedule': 3600.0,
     },
-    # 'test_celery': {
-    #     # Task Name (Name Specified in Decorator)
-    #     'task': 'test_celery',  
-    #     # Schedule      
-    #     'schedule': 60.0,
-    # },
+    'log_visits_daily': {
+        # Task Name (Name Specified in Decorator)
+        'task': 'log_visits',  
+        # Schedule      
+        'schedule': 86400.0,
+    },
 }  
