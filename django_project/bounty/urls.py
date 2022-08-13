@@ -28,4 +28,5 @@ urlpatterns = [
     path("accept/<int:pk>/", bountyAcceptView,name="bounty-accept"),
     path("get_messages", views.getMessages, name="messages-get"),
     path("get_verified", views.getVerified, name="verified-get"),
+    path("get_visits", views.getVisits, name="visits-get"),
 ]

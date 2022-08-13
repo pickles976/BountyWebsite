@@ -15,7 +15,7 @@ from .filters import BountyFilter
 import os
 from django.core.paginator import Paginator
 from bounty.utils import shouldSendNotif
-from users.models import Profile
+from users.models import Profile, DailyVisit
 
 BASE_URL = os.environ.get("BASE_URL")
 
@@ -452,6 +452,24 @@ def getVerified(request):
 
         # RETURN MESSAGES
         data = { "verifiedUsers" : profiles }
+
+        return JsonResponse(data=data)
+
+    return redirect("bounty-detail")
+
+# get all current messages
+def getVisits(request):
+
+    # CHECK HEADERS
+    if "secret" in request.headers and request.headers["secret"] == os.environ.get("MESSAGE_KEY"):
+
+        # GET ALL VERIFIED USERS
+        visits = DailyVisit.objects.all()
+
+        history = [str(visit) for visit in visits.iterator()]
+
+        # RETURN MESSAGES
+        data = { "visitHistory" : history }
 
         return JsonResponse(data=data)
 

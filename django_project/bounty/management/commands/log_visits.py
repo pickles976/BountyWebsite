@@ -30,6 +30,11 @@ class Command(BaseCommand):
 
         for date in visitsDict:
 
-            v = DailyVisit(date=date,numVisits=visitsDict[date])
-            v.save()
+            try:
+                d = DailyVisit.objects.get(date=date)
+                d.numVisits += visitsDict[date]
+                d.save()
+            except:
+                v = DailyVisit(date=date,numVisits=visitsDict[date])
+                v.save()
 
