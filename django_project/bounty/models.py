@@ -131,11 +131,28 @@ class Bounty(models.Model):
             return f"Posted {int(diff.seconds/60)} minutes ago"
         return "Posted just now"
 
+    def get_info(self):
+        return {
+            "pk" : self.pk,
+            "title" : self.title,
+            "description" : self.description,
+            "date_posted" : self.date_posted,
+            "status" : self.is_completed,
+            "region" : self.region,
+            "job_type" : self.jobtype,
+            "war" : str(self.war),
+        }
+
 # Acceptance object tying a user to a bounty
 class Acceptance(models.Model):
 
     bounty = models.ForeignKey(Bounty,on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_info(self):
+        return {
+            "pk" : self.pk,
+        }
 
 class Completion(models.Model):
 
@@ -144,7 +161,6 @@ class Completion(models.Model):
     title = models.CharField(max_length=128)
     description = models.TextField()
     rejection_reason = models.TextField(null=True)
-    image = models.ImageField(default="default.jpg",upload_to="bounty_images")
     date_posted = models.DateTimeField(default=timezone.now)
 
     team = models.ForeignKey(Team,on_delete=models.CASCADE,null=True)
@@ -158,6 +174,15 @@ class Completion(models.Model):
 
     def get_absolute_url(self):
         return reverse("bounty-detail",kwargs={"pk": self.bounty.id})
+
+    def get_info(self):
+        return {
+            "pk" : self.pk,
+            "title" : self.title,
+            "description" : self.description,
+            "date_posted" : self.date_posted,
+            "status" : self.is_completed,
+        }
 
     def get_age(self):
         

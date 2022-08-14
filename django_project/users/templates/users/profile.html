@@ -38,6 +38,8 @@
             </a>
           {% endif %}
         {% endif %}
+        <a href="{% url 'download_user_data'%}"><button class="btn btn-secondary" type="submit">Download User Data</button></a>
+        <a href="{% url 'profile_delete' user.profile.pk %}"><button class="btn btn-danger" type="submit">Delete</button></a>
       </div>
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}

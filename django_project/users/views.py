@@ -8,10 +8,14 @@ from django.contrib import messages
 import requests
 from .forms import ProfileImageForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from users.models import Profile, ProfileImage
+from django.contrib.auth.models import User
 import os
 from django.forms import modelformset_factory
 from django.utils import timezone
 from users.utils import getUserInfoFromToken
+from django.views.generic import DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from bounty.models import Acceptance, Completion, Bounty
 
 sigil_url = "https://sigilhq.com/room-auth/check-is-verified/"
 sigil_bot_url = "https://sigilhq.com/room-auth/check-is-verified-on-certified/"
@@ -182,3 +186,45 @@ def exchange_code(code):
     infoDict["access_token"] = access_token
 
     return infoDict
+
+class ProfileDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+
+    model = Profile
+    success_url = "/"
+
+    def test_func(self):
+
+        user = self.get_object().user
+        if self.request.user == user:
+            return True
+        return False
+
+@login_required
+def downloadUserData(request):
+
+    user = request.user
+    profile = user.profile
+
+    bounties = [bounty.get_info() for bounty in Bounty.objects.filter(author=user).iterator()]
+    completions = [completion.get_info() for completion in Completion.objects.filter(author=user).iterator()]
+    acceptances = [acceptance.get_info() for acceptance in Acceptance.objects.filter(user=user).iterator()]
+
+    data = {
+        "username" : user.username,
+        "email" : user.email,
+        "last_login" : user.last_login,
+        "date_joined" : user.date_joined,
+        "team" : str(profile.team),
+        "discord_name" : profile.discordname,
+        "discord_id" : profile.discordid,
+        "is_verified" : profile.verified,
+        "receive_messages" : profile.discordmessage,
+        "discord_token" : profile.discordToken,
+        "refresh_token" : profile.refreshToken,
+        "date_authorized" : profile.dateAuthorized,
+        "bounties" : bounties,
+        "completions" : completions,
+        "acceptances" : acceptances,
+    }
+
+    return JsonResponse(data=data)
