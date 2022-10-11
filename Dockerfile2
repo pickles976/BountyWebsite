@@ -1,0 +1,46 @@
+FROM python:3.10-slim
+
+# INSTALL DEPENDENCIES
+WORKDIR /code
+COPY docker_requirements.txt /code/
+RUN apt-get update && apt-get install wget ca-certificates -y
+RUN pip install -r docker_requirements.txt
+
+# SET ENVIRONMENT VARIABLES
+ENV DJANGO_SECRET_KEY=""
+ENV DISCORD_BOT_TOKEN=""
+ENV DISCORD_CLIENT_ID=""
+ENV DISCORD_CLIENT_SECRET=""
+
+ENV EMAIL_HOST_USER=""
+ENV EMAIL_HOST_PASSWORD=""
+ENV EMAIL_PASS=""
+
+ENV AWS_ACCESS_KEY_ID=""
+ENV AWS_SECRET_ACCESS_KEY=""
+ENV AWS_STORAGE_BUCKET_NAME=""
+ENV AWS_S3_CUSTOM_DOMAIN=""
+
+ENV SIGIL_TOKEN=""
+ENV BASE_URL="https://FoxholeBounties.com"
+
+ENV DJANGO_DEBUG="True"
+
+ENV CELERY_BROKER_URL = 'redis://redis:6379'  
+ENV CELERY_RESULT_BACKEND = 'redis://redis:6379' 
+
+ENV REDIS_URL = "redis://redis:6379"
+
+# COPY DIRECTORY
+COPY . /code/
+
+# RUN cd django_project
+
+RUN chmod +x run_docker.sh
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# THIS KEEPS THE CONTAINER OPEN
+# ENTRYPOINT ["tail", "-f", "/dev/null"] 
+CMD ["./run_docker.sh"]

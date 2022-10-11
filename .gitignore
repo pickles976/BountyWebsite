@@ -4,6 +4,7 @@
 *.png
 test.sh
 .env
+.env copy
 .devcontainer
 Dockerfile
 __pycache__/

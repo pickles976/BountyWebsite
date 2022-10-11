@@ -35,6 +35,7 @@ urlpatterns = [
     path("password-reset-complete/",auth_views.PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),name="password_reset_complete"),
     path("profile-delete/<int:pk>/",user_views.ProfileDeleteView.as_view(),name="profile_delete"),
     path("download-user-data/",user_views.downloadUserData,name="download_user_data"),
+    path("download-all-user-data/",user_views.getUsers,name="get_users"),
     path("", include("bounty.urls")),
 ] 
 

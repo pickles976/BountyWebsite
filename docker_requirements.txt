@@ -15,6 +15,7 @@ requests==2.28
 s3transfer==0.6
 six==1.16
 sorl-thumbnail==12.8
+django-import-export==2.9.0
 sqlparse==0.4
 redis
 pillow

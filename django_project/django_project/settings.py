@@ -30,7 +30,8 @@ DEBUG = (os.environ.get("DJANGO_DEBUG") == "True")
 ALLOWED_HOSTS = [
     "foxhole-bounties.herokuapp.com",
     "foxholebounties.com",
-    "localhost"
+    "localhost",
+    "127.0.0.1",
 ]
 
 
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     "storages",
     "user_visit",
     "sorl.thumbnail",
+    "import_export",
 ]
 
 MIDDLEWARE = [
@@ -214,6 +216,9 @@ CELERY_RESULT_BACKEND = os.environ.get("REDIS_URL")
 CELERY_ACCEPT_CONTENT = ['application/json']  
 CELERY_TASK_SERIALIZER = 'json'  
 CELERY_RESULT_SERIALIZER = 'json'  
+
+# IMPORT EXPORT KEY
+IMPORT_EXPORT_EXPORT_PERMISSION_CODE = os.environ.get("MESSAGE_KEY")
 
 # HEROKU 
 if DEBUG == False:

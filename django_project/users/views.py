@@ -16,6 +16,7 @@ from users.utils import getUserInfoFromToken
 from django.views.generic import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from bounty.models import Acceptance, Completion, Bounty
+from django.core import serializers
 
 sigil_url = "https://sigilhq.com/room-auth/check-is-verified/"
 sigil_bot_url = "https://sigilhq.com/room-auth/check-is-verified-on-certified/"
@@ -228,3 +229,21 @@ def downloadUserData(request):
     }
 
     return JsonResponse(data=data)
+
+# get all current messages
+def getUsers(request):
+
+    # CHECK HEADERS
+    if "secret" in request.headers and request.headers["secret"] == os.environ.get("MESSAGE_KEY"):
+
+        # GET ALL VERIFIED USERS
+        u = User.objects.all().iterator()
+
+        serialized = serializers.serialize('json', u)
+
+        # RETURN MESSAGES
+        data = serialized
+
+        return JsonResponse(data=data, safe=False)
+
+    return redirect("bounty-detail")

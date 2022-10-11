@@ -1,0 +1,218 @@
+body {
+    background: #fafafa;
+    color: #333333;
+    margin-top: 5rem;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+  
+  ul {
+    margin: 0;
+  }
+  
+  .bg-steel {
+    background-color: #5f788a;
+  }
+
+  .bg-gunmetal {
+    background-color: #253237;
+    color: #fffafb;
+  }
+
+  .bg-metalgun {
+    background-color: #182125;
+    color: #fffafb;
+  }
+
+  .bg-magnolia {
+    background-color: #f3eff5;
+  }
+
+  .bg-carolina {
+    background-color: #1b98e0;
+  }
+
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #253237;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .article-title {
+    color: #fffafb;
+    margin-bottom: 24px;
+  }
+  
+  a.article-title:hover {
+    color: #1b98e0;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+    color: #fffafb;
+  }
+
+  .detail-img {
+    /* margin-right: 16px; */
+    border-radius: 16px;
+    width: 90%;
+    max-height: 600px;
+    object-fit: cover;
+  }
+
+  .snow {
+    color: #fffafb;
+  }
+  
+  .article-img {
+    /* min-height: 64px;
+    min-width: 64px;
+    max-height: 128px;
+    max-width: 128px; */
+    height: 128px;
+    width: 128px;
+    margin-right: 4px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .article-thumb {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+    object-fit: cover;
+  }
+
+  .accepted-thumb {
+    height: 48px;
+    width: 48px;
+    margin-right: 8px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #618594;
+    color: #618594;
+  }
+
+  .article-info {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+    object-fit: cover;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+    color: #fffafb
+  }
+
+  .mapouter {
+    position:relative;
+    text-align:center;
+    height:100%;
+    width: 100%;
+    width:max-content;
+  }
+
+  .image-grid {
+    display: flexbox;
+    text-align: center;
+    position: relative;
+    margin-right: 16px;
+  }
+
+  .mySlides {
+    display:none;
+  }
+
+  .completions-list {
+    margin-top: 5%;
+  }
+
+  .leaflet-map {
+    margin: auto;
+    width: 90%;
+    /* max-height: 600px; */
+    height: 600px;
+    object-fit: cover;
+  }
+
+  .align-center {
+    align-content: center;
+    text-align: center;
+  }
+
+  .map-labels {
+    font-size: 1.4em;
+    font-weight: 300;
+    color: black;
+    white-space: nowrap;
+    display: inline-block;
+    text-align: center;
+    height: 400px;
+    width: 400px;
+    /* Use color, background, set margins for offset, etc */
+}
+
+.gallery-button-next {
+  right: 1.5%;
+  position: absolute;
+  z-index: 1;
+  top: 40%;
+  opacity: 50%;
+  height: 25%;
+}
+
+.gallery-button-prev {
+  left: 1.5%;
+  position: absolute;
+  z-index: 1;
+  top: 40%;
+  opacity: 50%;
+  height: 25%;
+}
+
+.filter-form {
+  position: absolute;
+  left: 2.5%;
+  width: 15%;
+  margin-bottom: 15%; 
+  /* margin-left: 3% */
+}
+
