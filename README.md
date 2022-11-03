@@ -1,5 +1,5 @@
 
-# Foxhole Bounties
+# Foxhole Bounties (DEPRECATED)
 
 This is a website used for creating Bounties in Foxhole
 
